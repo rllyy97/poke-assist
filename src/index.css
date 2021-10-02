@@ -12,9 +12,15 @@ code {
     monospace;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
 div.flex {
   display: flex;
   gap: 8px;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }

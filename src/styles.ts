@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const SiteWrapper = styled('div')`
   max-width: 600px;
-  margin: 32px auto;
+  margin: 0 auto;
   padding: 32px;
   display: flex;
   flex-direction: column;

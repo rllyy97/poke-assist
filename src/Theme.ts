@@ -1,18 +1,22 @@
 import { createTheme } from "@mui/material"
+import { TypeData } from "./typeData"
 
 declare module '@mui/material/styles' {
     interface Palette {
-      strong: Palette['primary']
-      neutral: Palette['primary']
-      weak: Palette['primary']
-      immune: Palette['primary']
+        strong: Palette['primary']
+        neutral: Palette['primary']
+        weak: Palette['primary']
+        immune: Palette['primary']
+        ///
+        bug?: Palette['primary']
+        dark?: Palette['primary']
     }
   
     interface PaletteOptions {
-      strong?: PaletteOptions['primary']
-      neutral?: PaletteOptions['primary']
-      weak?: PaletteOptions['primary']
-      immune?: PaletteOptions['primary']
+        strong?: PaletteOptions['primary']
+        neutral?: PaletteOptions['primary']
+        weak?: PaletteOptions['primary']
+        immune?: PaletteOptions['primary']
     }
 }
   
@@ -24,6 +28,16 @@ declare module '@mui/material/Button' {
         immune: true
     }
 }
+
+declare module '@mui/material/Chip' {
+    interface ButtonPropsColorOverrides {
+        strong: true
+        neutral: true
+        weak: true
+        immune: true
+    }
+}
+
 
 export const theme = createTheme({
     palette: {
