@@ -5,7 +5,7 @@ import './App.css'
 import { PokeImg, SiteWrapper } from './styles'
 import { theme } from './Theme'
 
-import BugIcon from './icons/bug.svg'
+import AppIcon from './images/logo192.png'
 import { SvgIcon } from './GlobalComponents'
 import { TypeData } from './typeData'
 
@@ -163,7 +163,12 @@ function App() {
       <CssBaseline />
       <div className="App">
         <SiteWrapper>
-          <h1 style={{marginBottom: '0px'}}>PokeAssist</h1>
+          <div className='flex'>
+            <img src={AppIcon} style={{height: '52px'}} />
+            <h1 style={{marginBottom: '0px'}}>
+              PokeAssist
+            </h1>
+          </div>
           <TextField
             label="Pokemon Name"
             value={pokeName}

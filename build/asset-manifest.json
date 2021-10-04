@@ -1,20 +1,38 @@
 {
   "files": {
-    "main.css": "/poke-assist/static/css/main.b970b041.chunk.css",
-    "main.js": "/poke-assist/static/js/main.a4209167.chunk.js",
-    "main.js.map": "/poke-assist/static/js/main.a4209167.chunk.js.map",
+    "main.css": "/poke-assist/static/css/main.6e637770.chunk.css",
+    "main.js": "/poke-assist/static/js/main.10581bf8.chunk.js",
+    "main.js.map": "/poke-assist/static/js/main.10581bf8.chunk.js.map",
     "runtime-main.js": "/poke-assist/static/js/runtime-main.ef735731.js",
     "runtime-main.js.map": "/poke-assist/static/js/runtime-main.ef735731.js.map",
-    "static/js/2.dae9e4d5.chunk.js": "/poke-assist/static/js/2.dae9e4d5.chunk.js",
-    "static/js/2.dae9e4d5.chunk.js.map": "/poke-assist/static/js/2.dae9e4d5.chunk.js.map",
+    "static/js/2.da9d2790.chunk.js": "/poke-assist/static/js/2.da9d2790.chunk.js",
+    "static/js/2.da9d2790.chunk.js.map": "/poke-assist/static/js/2.da9d2790.chunk.js.map",
     "index.html": "/poke-assist/index.html",
-    "static/css/main.b970b041.chunk.css.map": "/poke-assist/static/css/main.b970b041.chunk.css.map",
-    "static/js/2.dae9e4d5.chunk.js.LICENSE.txt": "/poke-assist/static/js/2.dae9e4d5.chunk.js.LICENSE.txt"
+    "static/css/main.6e637770.chunk.css.map": "/poke-assist/static/css/main.6e637770.chunk.css.map",
+    "static/js/2.da9d2790.chunk.js.LICENSE.txt": "/poke-assist/static/js/2.da9d2790.chunk.js.LICENSE.txt",
+    "static/media/bug.svg": "/poke-assist/static/media/bug.204df919.svg",
+    "static/media/dark.svg": "/poke-assist/static/media/dark.27fdc7ed.svg",
+    "static/media/dragon.svg": "/poke-assist/static/media/dragon.9d32757b.svg",
+    "static/media/electric.svg": "/poke-assist/static/media/electric.bc35c5a3.svg",
+    "static/media/fairy.svg": "/poke-assist/static/media/fairy.767c2f56.svg",
+    "static/media/fighting.svg": "/poke-assist/static/media/fighting.f20d1bd2.svg",
+    "static/media/fire.svg": "/poke-assist/static/media/fire.e0bd7fca.svg",
+    "static/media/flying.svg": "/poke-assist/static/media/flying.d1778503.svg",
+    "static/media/ghost.svg": "/poke-assist/static/media/ghost.ddf26831.svg",
+    "static/media/grass.svg": "/poke-assist/static/media/grass.e09623e3.svg",
+    "static/media/ground.svg": "/poke-assist/static/media/ground.e567f4fc.svg",
+    "static/media/ice.svg": "/poke-assist/static/media/ice.cd2f9043.svg",
+    "static/media/normal.svg": "/poke-assist/static/media/normal.2ba66dd5.svg",
+    "static/media/poison.svg": "/poke-assist/static/media/poison.43956925.svg",
+    "static/media/psychic.svg": "/poke-assist/static/media/psychic.67439878.svg",
+    "static/media/rock.svg": "/poke-assist/static/media/rock.61a8428d.svg",
+    "static/media/steel.svg": "/poke-assist/static/media/steel.cb91a92a.svg",
+    "static/media/water.svg": "/poke-assist/static/media/water.b6d13329.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.ef735731.js",
-    "static/js/2.dae9e4d5.chunk.js",
-    "static/css/main.b970b041.chunk.css",
-    "static/js/main.a4209167.chunk.js"
+    "static/js/2.da9d2790.chunk.js",
+    "static/css/main.6e637770.chunk.css",
+    "static/js/main.10581bf8.chunk.js"
   ]
 }
