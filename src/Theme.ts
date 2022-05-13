@@ -7,9 +7,6 @@ declare module '@mui/material/styles' {
         neutral: Palette['primary']
         weak: Palette['primary']
         immune: Palette['primary']
-        ///
-        bug?: Palette['primary']
-        dark?: Palette['primary']
     }
   
     interface PaletteOptions {

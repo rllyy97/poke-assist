@@ -5,13 +5,14 @@ import './App.css'
 import { HistoryContainer, HistoryTile, PokeImg, SiteWrapper, StatBar } from './styles'
 import { theme } from './Theme'
 
-import AppIcon from './images/logo192.png'
-import { SvgIcon } from './GlobalComponents'
 import { TypeData } from './typeData'
 
 import { Pokemon, MainClient, Type, Ability, Types } from 'pokenode-ts'
 
 import statBarBackground from './images/stat_bars.png'
+import Header from './components/Header'
+import HeroCard from './components/HeroCard'
+import TypeChip from './components/TypeChip'
 
 function App() {
 
@@ -23,7 +24,6 @@ function App() {
       .then((r) => r.json())
       .then((data) => setAllNames(data.results.map(p => p.name)))
   }, [])
-
 
   const selectPokeByName = (name: string) => {
     api.pokemon.getPokemonByName(name).then((pokemon) => storePoke(pokemon))
@@ -40,7 +40,6 @@ function App() {
     newHistory.unshift(pokemon)
     if (newHistory.length > 6) newHistory.pop()
     setPokeHistory(newHistory)
-    setAbilities([])
     setType1(undefined)
     setType2(undefined)
   }
@@ -120,26 +119,6 @@ function App() {
   }, [type1, type2])
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
-  /// ABILITIES
-
-  const [abilities, setAbilities] = useState<Ability[]>([])
-
-  useEffect(() => {
-    const pokemon = pokeHistory?.[0]   
-    if (pokemon?.abilities?.[0]) {
-      const tempAbilities = []
-      Promise.all(pokemon?.abilities?.map(async (a) => {
-        const name = a.ability.name
-        await api.pokemon.getAbilityByName(name).then((ability) => tempAbilities.push(ability))
-      }))
-        .then(() => setAbilities(tempAbilities))
-    } else {
-      setAbilities([])
-    }
-    console.log(abilities)
-  }, [pokeHistory])
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////
   /// UI COMPONENTS
 
   const TypeRow = (props) => (
@@ -153,22 +132,8 @@ function App() {
     </>
   )
 
-  const TypeChip = (props) => {
-    const type = TypeData[props.type]
-    return (
-      <Chip 
-        icon={<SvgIcon src={type.icon} />} 
-        label={type.name}
-        style={{
-          background: type.color,
-          paddingLeft: '4px'
-        }}
-      />
-    )
-  }
-
   const StatRow = (props) => (
-    <div className="flex row" style={{gap: '12px'}}>
+    <div className="flex row" style={{gap: '12px', transition: '0.2s'}}>
       <h4 style={{width: '80px', textAlign: 'right'}}>{props.name.replace('special-attack', 'sp. atk').replace('special-defense', 'sp. def')}</h4>
       <h6 style={{width: '24px', height: '24px', lineHeight: '24px'}}>{props.value}</h6>
       <div style={{width: '260px', position: 'relative'}}>
@@ -192,12 +157,7 @@ function App() {
       <CssBaseline />
       <div className="App">
         <SiteWrapper>
-          <div className='flex' style={{marginBottom: '16px'}}>
-            <img src={AppIcon} style={{height: '52px'}} />
-            <h1 style={{marginBottom: '0px'}}>
-              PokeAssist
-            </h1>
-          </div>
+          <Header />
           <HistoryContainer>
             {pokeHistory?.slice(1, pokeHistory.length)?.map((p, i) => <HistoryPokemon pokemon={p} key={i} />)}
           </HistoryContainer>
@@ -209,21 +169,16 @@ function App() {
           />
           {pokeHistory?.[0] && (
             <>
-              <h2 style={{textTransform: 'capitalize', margin: '16px'}}>
+              {/* <h2 style={{textTransform: 'capitalize', margin: '16px'}}>
                 {pokeHistory?.[0].name}
-              </h2>
-              <div className="flex" style={{textTransform: 'capitalize'}}>
+              </h2> */}
+              {/* <div className="flex" style={{textTransform: 'capitalize'}}>
                 {type1 && <TypeChip type={type1.name} /> }
                 {type2 && <TypeChip type={type2.name} /> }
-              </div>
-              <PokeImg src={pokeHistory?.[0].sprites.other['official-artwork'].front_default} />
-              <div className="flex">
-                {abilities.map((a: Ability) => (
-                  <Tooltip title={a.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}>
-                    <Chip style={{textTransform: 'capitalize'}} label={a.name} />
-                  </Tooltip>
-                ))}
-              </div>
+              </div> */}
+              <HeroCard api={api} pokemon={pokeHistory?.[0]} />
+              {/* <PokeImg src={pokeHistory?.[0].sprites.other['official-artwork'].front_default} /> */}
+
               <Divider />
 
               {/* TYPES */}
