@@ -24,3 +24,12 @@ div.flex {
   justify-content: center;
   flex-wrap: wrap;
 }
+
+div.row { flex-direction: row; }
+div.column { flex-direction: column; }
+div.left { 
+  justify-content: flex-start; 
+  align-items: flex-start;
+  text-align: right;
+  text-transform: capitalize;  
+}

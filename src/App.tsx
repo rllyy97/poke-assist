@@ -1,49 +1,69 @@
 import { useEffect, useState } from 'react'
-import { Button, Chip, CssBaseline, Divider, TextField, ThemeProvider, Tooltip } from '@mui/material'
+import { Autocomplete, Button, Chip, CssBaseline, Divider, TextField, ThemeProvider, Tooltip } from '@mui/material'
 
 import './App.css'
-import { PokeImg, SiteWrapper } from './styles'
+import { HistoryContainer, HistoryTile, PokeImg, SiteWrapper, StatBar } from './styles'
 import { theme } from './Theme'
 
 import AppIcon from './images/logo192.png'
 import { SvgIcon } from './GlobalComponents'
 import { TypeData } from './typeData'
 
+import { Pokemon, MainClient, Type, Ability, Types } from 'pokenode-ts'
+
+import statBarBackground from './images/stat_bars.png'
+
 function App() {
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
-  /// STATS
+  const [api, setApi] = useState(new MainClient())
+  const [allNames, setAllNames] = useState([])
 
-  const [pokeName, setPokeName] = useState('')
-  const [pokeStats, setPokeStats] = useState<any>(undefined)
-
-  const requestPokeStats = () => {
-    fetch(`https://pokeapi.co/api/v2/pokemon/${pokeName.toLowerCase()}`)
+  useEffect(() => {
+    fetch(`https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0`)
       .then((r) => r.json())
-      .then((r) => setPokeStats(r), (e) => setPokeStats(undefined))
+      .then((data) => setAllNames(data.results.map(p => p.name)))
+  }, [])
+
+
+  const selectPokeByName = (name: string) => {
+    api.pokemon.getPokemonByName(name).then((pokemon) => storePoke(pokemon))
   }
 
-  useEffect(() => console.log("STATS", pokeStats), [pokeStats])
+  // useEffect(() => console.log("STATS", pokeStats), [pokeStats])
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /// HISTORY
+
+  const [pokeHistory, setPokeHistory] = useState<Pokemon[]>([])
+  const storePoke = (pokemon: Pokemon) => {
+    const newHistory = pokeHistory?.filter(p => p.name !== pokemon.name)
+    newHistory.unshift(pokemon)
+    if (newHistory.length > 6) newHistory.pop()
+    setPokeHistory(newHistory)
+    setAbilities([])
+    setType1(undefined)
+    setType2(undefined)
+  }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// TYPES
 
-  const [type1, setType1] = useState<any>()
-  const [type2, setType2] = useState<any>()
+  const [type1, setType1] = useState<Type>()
+  const [type2, setType2] = useState<Type>()
 
   useEffect(() => {
-    if (pokeStats) {
-      const t1 = pokeStats.types[0]
-      if (t1) fetch(t1.type.url).then(r => r.json()).then(r => setType1(r))
-      else setType1(undefined)
-      const t2 = pokeStats.types[1]
-      if (t2) fetch(t2.type.url).then(r => r.json()).then(r => setType2(r))
-      else setType2(undefined)
+    const pokemon = pokeHistory?.[0]
+    if (pokemon) {
+      api.pokemon.getTypeByName(pokemon?.types?.[0].type.name).then((type) => setType1(type))
+      if (pokemon?.types?.length > 1)
+        api.pokemon.getTypeByName(pokemon?.types?.[1].type.name).then((type) => setType2(type))
+      else 
+        setType2(undefined)
     } else {
       setType1(undefined)
       setType2(undefined)
     }
-  }, [pokeStats])
+  }, [pokeHistory])
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// EFFECTIVENESS
@@ -102,30 +122,22 @@ function App() {
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// ABILITIES
 
-  interface Ability {
-    name: string,
-    effect: string,
-  }
-
   const [abilities, setAbilities] = useState<Ability[]>([])
 
   useEffect(() => {
-    console.log(pokeStats)    
-    if (pokeStats && pokeStats?.abilities) {
+    const pokemon = pokeHistory?.[0]   
+    if (pokemon?.abilities?.[0]) {
       const tempAbilities = []
-      Promise.all(pokeStats?.abilities?.map(async (a) => {
+      Promise.all(pokemon?.abilities?.map(async (a) => {
         const name = a.ability.name
-        await fetch(a.ability.url).then(r => r.json()).then(r => { // TODO: this needs to wait before setAbilities
-          const effect = r.effect_entries[1].short_effect
-          tempAbilities.push({name, effect})
-        })
-      })).then(() => {
-        setAbilities(tempAbilities)
-      })
+        await api.pokemon.getAbilityByName(name).then((ability) => tempAbilities.push(ability))
+      }))
+        .then(() => setAbilities(tempAbilities))
     } else {
       setAbilities([])
     }
-  }, [pokeStats])
+    console.log(abilities)
+  }, [pokeHistory])
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// UI COMPONENTS
@@ -155,6 +167,23 @@ function App() {
     )
   }
 
+  const StatRow = (props) => (
+    <div className="flex row" style={{gap: '12px'}}>
+      <h4 style={{width: '80px', textAlign: 'right'}}>{props.name.replace('special-attack', 'sp. atk').replace('special-defense', 'sp. def')}</h4>
+      <h6 style={{width: '24px', height: '24px', lineHeight: '24px'}}>{props.value}</h6>
+      <div style={{width: '260px', position: 'relative'}}>
+        <img src={statBarBackground} alt='' style={{position: 'absolute', left: '0', zIndex: -1}} />
+        <StatBar style={{width: `${props.value}px`, backgroundColor: TypeData?.[type1?.name]?.color, color: 'white'}} />
+      </div>
+    </div>
+  )
+
+  const HistoryPokemon = (props) => (
+    <HistoryTile onClick={() => selectPokeByName(props.pokemon.name)}>
+      <img alt={props.pokemon.name} src={props.pokemon.sprites.front_default} />
+    </HistoryTile>
+  )
+
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// RENDER
 
@@ -163,46 +192,54 @@ function App() {
       <CssBaseline />
       <div className="App">
         <SiteWrapper>
-          <div className='flex'>
+          <div className='flex' style={{marginBottom: '16px'}}>
             <img src={AppIcon} style={{height: '52px'}} />
             <h1 style={{marginBottom: '0px'}}>
               PokeAssist
             </h1>
           </div>
-          <TextField
-            label="Pokemon Name"
-            value={pokeName}
-            onChange={(e) => setPokeName(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && requestPokeStats()}
+          <HistoryContainer>
+            {pokeHistory?.slice(1, pokeHistory.length)?.map((p, i) => <HistoryPokemon pokemon={p} key={i} />)}
+          </HistoryContainer>
+          <Autocomplete
+            options={allNames}
+            value={pokeHistory?.[0]?.name ?? null}
+            onChange={(e: any, newValue: string | null) => selectPokeByName(newValue)}
+            renderInput={(params) => <TextField {...params} label="Pokemon Name" />}
           />
-          <Button variant="outlined" onClick={requestPokeStats}>
-            Search Pokemon
-          </Button>
-          {pokeStats && (
+          {pokeHistory?.[0] && (
             <>
-              <Divider />
               <h2 style={{textTransform: 'capitalize', margin: '16px'}}>
-                {pokeStats.name}
+                {pokeHistory?.[0].name}
               </h2>
               <div className="flex" style={{textTransform: 'capitalize'}}>
                 {type1 && <TypeChip type={type1.name} /> }
                 {type2 && <TypeChip type={type2.name} /> }
               </div>
-              <PokeImg src={pokeStats.sprites.other['official-artwork'].front_default} />
+              <PokeImg src={pokeHistory?.[0].sprites.other['official-artwork'].front_default} />
               <div className="flex">
-                {abilities.map(a => (
-                  <Tooltip title={a.effect}>
+                {abilities.map((a: Ability) => (
+                  <Tooltip title={a.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}>
                     <Chip style={{textTransform: 'capitalize'}} label={a.name} />
                   </Tooltip>
                 ))}
               </div>
               <Divider />
+
+              {/* TYPES */}
               <TypeRow num='4' types={eff4} />
               <TypeRow num='2' types={eff2} />
               {/* <TypeRow num='1' types={eff1} /> */}
               <TypeRow num='½' types={effHalf} />
               <TypeRow num='¼' types={effQuarter} />
               <TypeRow num='0' types={eff0} />
+              <Divider />
+
+              {/* STATS */}
+              <div className="flex column" style={{gap: '2px'}}>
+                {pokeHistory?.[0]?.stats.map((stat) => <StatRow name={stat.stat.name} value={stat.base_stat} />)}
+              </div>
+              <Divider />
             </>
           )}
         </SiteWrapper>
