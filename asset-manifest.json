@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/poke-assist/static/css/main.b8cdfbb2.chunk.css",
-    "main.js": "/poke-assist/static/js/main.f46406d6.chunk.js",
-    "main.js.map": "/poke-assist/static/js/main.f46406d6.chunk.js.map",
+    "main.js": "/poke-assist/static/js/main.472d7cd1.chunk.js",
+    "main.js.map": "/poke-assist/static/js/main.472d7cd1.chunk.js.map",
     "runtime-main.js": "/poke-assist/static/js/runtime-main.ef735731.js",
     "runtime-main.js.map": "/poke-assist/static/js/runtime-main.ef735731.js.map",
     "static/js/2.d57d9227.chunk.js": "/poke-assist/static/js/2.d57d9227.chunk.js",
@@ -35,6 +35,6 @@
     "static/js/runtime-main.ef735731.js",
     "static/js/2.d57d9227.chunk.js",
     "static/css/main.b8cdfbb2.chunk.css",
-    "static/js/main.f46406d6.chunk.js"
+    "static/js/main.472d7cd1.chunk.js"
   ]
 }
