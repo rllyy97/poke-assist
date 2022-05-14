@@ -1,23 +1,24 @@
 import styled from "styled-components";
 
 export const SiteWrapper = styled('div')`
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 534px;
+  margin: 0px auto;
   padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 `
 
-export const PokemonWrapper = styled<any>('div')`
-  
-
-`
-
 export const PokeImg = styled('img')`
   max-width: 300px;
   width: -webkit-fill-available;
-  margin: auto;
+  margin: 0px auto;
+  filter: 
+    drop-shadow(1px 0px 1px #fff)
+    drop-shadow(0px 1px 1px #fff)
+    drop-shadow(-1px 0px 1px #fff)
+    drop-shadow(0px -1px 1px #fff)
+    ;
 `
 
 export const HistoryContainer = styled('div')`
@@ -38,11 +39,3 @@ export const HistoryTile = styled('div')`
     background-color: #ffffff10;
   }
 `;
-
-export const StatBar = styled('div')`
-  height: 20px;
-  border-radius: 4px;
-  text-align: left;
-  line-height: 20px;
-  padding-left: 4px;
-`

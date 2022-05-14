@@ -27,7 +27,7 @@ const AbilityGroup = (props: AbilityGroupProps) => {
   }, [pokemon])
 
   return (
-    <div className="flex column" style={{alignItems: 'flex-end'}}>
+    <div className="flex row" style={{alignItems: 'flex-start'}}>
       {abilities.map((a: Ability) => (
         <Tooltip title={a.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}>
           <Chip color="default" style={{textTransform: 'capitalize', backgroundColor: '#565656'}} label={a.name} />

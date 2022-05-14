@@ -1,29 +1,38 @@
 import styled from "styled-components";
 
 
+const cardPadding = '16px'
+
 export const HeroCardWrapper = styled<any>('div')`
   position: relative;
   margin: 32px auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
-  width: 360px;
-  /* height: 600px; */
-  padding: 24px 16px 48px;
+  align-items: start;
+  justify-content: flex-start;
+  gap: 12px;
+  max-width: 436px;
+  width: 100%;
+  /* min-height: 660px; */
+  padding: ${cardPadding};
   box-sizing: border-box;
-  /* overflow: hidden; */
+
   transform-style: preserve-3d;
-  transform: perspective(1000px);
+  & > *.float { transition: transform 0.3s; z-index: 1; }
+  &:hover > *.float { transform: translateZ(30px); }
+  &:hover > *.fMore { transform: translateZ(60px); }
 `
 
+const borderWidth = '12px'
 export const PsuedoBorder = styled.div<{c1: string, c2: string | undefined}>`
   position: absolute;
-  width: 100%;
-  height: 100%;
-  margin-top: -24px;
-  border-radius: 32px;
-  border: 12px solid transparent;
+  width: calc(100% + ${borderWidth}*2);
+  height: calc(100% + ${borderWidth}*2);
+  border-radius: 42px;
+  border: ${borderWidth} solid transparent;
+  align-self: center;
+  margin-top: -28px;
+  jusfity-content: center;
   background: linear-gradient(180deg, ${props => props.c1}, ${props => props?.c2 ?? props.c1}) border-box;
   -webkit-mask:
      linear-gradient(#fff 0 0) padding-box, 
@@ -35,21 +44,13 @@ export const PsuedoBorder = styled.div<{c1: string, c2: string | undefined}>`
 
 export const TypeContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: flex-end;
   gap: 8px;
 
   position: absolute;
-  left: -4px;
-  top: 82px;
+  right: ${cardPadding};
+  top: ${cardPadding};
   text-transform: capitalize;
-  padding: 8px 0px 16px;
-  transform: translateZ(50px);
-`
 
-export const AbilityContainer = styled.div`
-  position: absolute;
-  bottom: 32px;
-  right: -12px;
-  transform: translateZ(50px);
 `
