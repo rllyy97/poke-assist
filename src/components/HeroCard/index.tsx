@@ -28,7 +28,7 @@ const HeroCard = (props: HeroCardProps) => {
       // glare: true,
       // "max-glare": 0.3,
       // "full-page-listening": true,
-      gyroscope: true,
+      // gyroscope: true,
     })
   }, [])
 
