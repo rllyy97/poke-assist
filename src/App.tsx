@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Autocomplete, Button, CssBaseline, Divider, Tab, Tabs, TextField, ThemeProvider } from '@mui/material'
+import { Autocomplete, CssBaseline, Divider, Tab, Tabs, TextField, ThemeProvider } from '@mui/material'
 
 import './App.css'
 import { HistoryContainer, HistoryTile, SiteWrapper } from './styles'
@@ -15,10 +15,13 @@ import TypeEffGroup from './components/TypeEffGroup'
 import EffIcon from './icons/typeEffIcon.svg'
 import StatsIcon from './icons/stats.svg'
 import { SvgIcon } from './GlobalComponents'
+import SmogonGroup from './components/SmogonGroup'
+
+import FightIcon from '@mui/icons-material/SportsMma'
 
 function App() {
 
-  const [api, setApi] = useState(new MainClient())
+  const [api] = useState(new MainClient())
   const [apiStatus, setApiStatus] = useState<'loading' | 'connected' | 'disconnected'>('loading')
   const [allNames, setAllNames] = useState([])
 
@@ -38,8 +41,6 @@ function App() {
   const selectPokeByName = (name: string) => {
     api.pokemon.getPokemonByName(name).then((pokemon) => storePoke(pokemon))
   }
-
-  // useEffect(() => console.log("STATS", pokeStats), [pokeStats])
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// HISTORY
@@ -90,6 +91,7 @@ function App() {
               <Tabs value={tabIndex} onChange={handleTabChange} style={{marginTop: '-12px'}}>
                 <Tab icon={<SvgIcon src={EffIcon} />} aria-label="types-effectiveness" />
                 <Tab icon={<SvgIcon src={StatsIcon} />} aria-label="stats" />
+                <Tab icon={<FightIcon style={{fill: 'white'}} />} aria-label="smogon-data" />
               </Tabs>
               
               <div style={{display: tabIndex === 0 ? 'contents' : 'none'}}>
@@ -97,6 +99,9 @@ function App() {
               </div>
               <div style={{display: tabIndex === 1 ? 'contents' : 'none'}}>
                 <StatGroup pokemon={pokemon} />
+              </div>
+              <div style={{display: tabIndex === 2 ? 'contents' : 'none'}}>
+                <SmogonGroup api={api} pokemon={pokemon} />
               </div>
               <Divider style={{width: '100%'}} />
             </>

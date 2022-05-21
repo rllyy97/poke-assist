@@ -1,4 +1,4 @@
-import { Pokemon } from "pokenode-ts"
+import { Pokemon, PokemonAbility } from "pokenode-ts"
 import { PokeImg } from "../../styles"
 import { TypeData } from "../../typeData"
 import { HeroCardWrapper, PsuedoBorder, TypeContainer } from "./styles"
@@ -7,8 +7,9 @@ import { MainClient } from 'pokenode-ts'
 import VanillaTilt from 'vanilla-tilt'
 
 import { useEffect, useRef } from "react"
-import AbilityGroup from "../AbilityGroup"
 import TypeDot from "../TypeDot"
+import AbilityChip from "../AbilityChip"
+import ChipRow from "../ChipRow"
 
 interface HeroCardProps {
   api: MainClient
@@ -50,9 +51,11 @@ const HeroCard = (props: HeroCardProps) => {
         {pokemon.types?.[1] && <TypeDot type={pokemon.types?.[1]?.type.name} /> }
       </TypeContainer>
       <PokeImg className="float fMore" src={pokemon.sprites.other['official-artwork'].front_default} />
-      <div className={"flex row float"}>
-        <AbilityGroup api={api} pokemon={pokemon} />
-      </div>
+      <ChipRow>
+        {pokemon?.abilities?.map((a: PokemonAbility) => (
+          <AbilityChip api={api} name={a.ability.name} />
+        ))}
+      </ChipRow>
 
       {content}
     </HeroCardWrapper>

@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material"
-import { TypeData } from "./typeData"
 
 declare module '@mui/material/styles' {
     interface Palette {

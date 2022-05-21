@@ -89,7 +89,7 @@ const TypeEffGroup = (props: any) => {
         <div className="flex" style={{margin: '4px 0px'}}>
           <h3 style={{width: '40px'}}>{props.num} ×</h3>
           <div className="flex left" style={{flex: '1 1 0%'}}>
-            {props.types.map((t) => <TypeDot type={t} />)}
+            {props.types.map((t) => <TypeDot key={t} type={t} />)}
           </div>
         </div>
       }

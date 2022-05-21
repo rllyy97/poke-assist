@@ -1,7 +1,5 @@
-import { Chip } from "@mui/material"
 import { SvgIcon } from "../../GlobalComponents"
 import { TypeData } from "../../typeData"
-
 
 const TypeDot = (props) => {
   const type = TypeData[props.type]
@@ -9,10 +7,11 @@ const TypeDot = (props) => {
     <div
       className={"flex"}
       style={{
-        background: type.color,
+        background: type?.color,
         height: '32px',
         width: '32px',
-        borderRadius: '16px'
+        borderRadius: '16px',
+        ...props.style
       }}
     >
       <SvgIcon src={type.icon} />

@@ -7,9 +7,13 @@ const CustomImg = styled('img')`
     padding: 2px;
 `
 
-interface IconProps { src: string }
+interface IconProps {
+    src: string,
+    color?: "inherit" | "action" | "disabled" | "primary" | "secondary" | "error" | "info" | "success" | "warning"
+
+}
 export const SvgIcon = (props: IconProps) => (
-    <CustomIcon>
+    <CustomIcon color={props.color}>
         <CustomImg alt="" src={props.src} />
     </CustomIcon>
 )
