@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/poke-assist/static/css/main.b8cdfbb2.chunk.css",
-    "main.js": "/poke-assist/static/js/main.131ba716.chunk.js",
-    "main.js.map": "/poke-assist/static/js/main.131ba716.chunk.js.map",
+    "main.css": "/poke-assist/static/css/main.3aa94dd7.chunk.css",
+    "main.js": "/poke-assist/static/js/main.60afe61d.chunk.js",
+    "main.js.map": "/poke-assist/static/js/main.60afe61d.chunk.js.map",
     "runtime-main.js": "/poke-assist/static/js/runtime-main.ef735731.js",
     "runtime-main.js.map": "/poke-assist/static/js/runtime-main.ef735731.js.map",
-    "static/js/2.d57d9227.chunk.js": "/poke-assist/static/js/2.d57d9227.chunk.js",
-    "static/js/2.d57d9227.chunk.js.map": "/poke-assist/static/js/2.d57d9227.chunk.js.map",
+    "static/js/2.2a43e31c.chunk.js": "/poke-assist/static/js/2.2a43e31c.chunk.js",
+    "static/js/2.2a43e31c.chunk.js.map": "/poke-assist/static/js/2.2a43e31c.chunk.js.map",
     "index.html": "/poke-assist/index.html",
-    "static/css/main.b8cdfbb2.chunk.css.map": "/poke-assist/static/css/main.b8cdfbb2.chunk.css.map",
-    "static/js/2.d57d9227.chunk.js.LICENSE.txt": "/poke-assist/static/js/2.d57d9227.chunk.js.LICENSE.txt",
+    "static/css/main.3aa94dd7.chunk.css.map": "/poke-assist/static/css/main.3aa94dd7.chunk.css.map",
+    "static/js/2.2a43e31c.chunk.js.LICENSE.txt": "/poke-assist/static/js/2.2a43e31c.chunk.js.LICENSE.txt",
     "static/media/bug.svg": "/poke-assist/static/media/bug.204df919.svg",
     "static/media/dark.svg": "/poke-assist/static/media/dark.27fdc7ed.svg",
     "static/media/dragon.svg": "/poke-assist/static/media/dragon.9d32757b.svg",
@@ -23,18 +23,21 @@
     "static/media/ground.svg": "/poke-assist/static/media/ground.e567f4fc.svg",
     "static/media/ice.svg": "/poke-assist/static/media/ice.cd2f9043.svg",
     "static/media/normal.svg": "/poke-assist/static/media/normal.2ba66dd5.svg",
+    "static/media/physical-move.5372db94.svg": "/poke-assist/static/media/physical-move.5372db94.svg",
     "static/media/poison.svg": "/poke-assist/static/media/poison.43956925.svg",
     "static/media/psychic.svg": "/poke-assist/static/media/psychic.67439878.svg",
     "static/media/rock.svg": "/poke-assist/static/media/rock.61a8428d.svg",
+    "static/media/special-move.762b0503.svg": "/poke-assist/static/media/special-move.762b0503.svg",
     "static/media/stats.196c4a4f.svg": "/poke-assist/static/media/stats.196c4a4f.svg",
+    "static/media/status-move.4c727874.svg": "/poke-assist/static/media/status-move.4c727874.svg",
     "static/media/steel.svg": "/poke-assist/static/media/steel.cb91a92a.svg",
     "static/media/typeEffIcon.1e8c7306.svg": "/poke-assist/static/media/typeEffIcon.1e8c7306.svg",
     "static/media/water.svg": "/poke-assist/static/media/water.b6d13329.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.ef735731.js",
-    "static/js/2.d57d9227.chunk.js",
-    "static/css/main.b8cdfbb2.chunk.css",
-    "static/js/main.131ba716.chunk.js"
+    "static/js/2.2a43e31c.chunk.js",
+    "static/css/main.3aa94dd7.chunk.css",
+    "static/js/main.60afe61d.chunk.js"
   ]
 }
