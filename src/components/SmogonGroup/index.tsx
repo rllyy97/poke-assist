@@ -52,7 +52,7 @@ const SmogonGroup = (props: SmogonGroupProps) => {
               set.ability = [pokemon.abilities[0].ability.name]
 
             return (
-              <Paper variant="outlined" className="flex column left" style={{gap: '8px', padding: '16px', width: '100%', position: 'relative'}}>
+              <Paper key={set.setName} variant="outlined" className="flex column left" style={{gap: '8px', padding: '16px', width: '100%', position: 'relative'}}>
                 <ChipRow orIcon style={{position: 'absolute', right: '16px'}}>
                   {set?.item?.map((i) => <ItemTile key={i} api={api} name={i} />)}
                 </ChipRow>
@@ -73,7 +73,7 @@ const SmogonGroup = (props: SmogonGroupProps) => {
                   {Object.keys(STATS)?.map((stat) => {
                     const val = set?.evs[stat] ?? 0
                     return (
-                      <div style={{opacity: val !== 0 ? 1 : 0.1, }}>
+                      <div key={STATS[stat].short} style={{opacity: val !== 0 ? 1 : 0.1, }}>
                         <h5 style={{textAlign: 'center'}}>
                           {STATS[stat].short}
                         </h5>
