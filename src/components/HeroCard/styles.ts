@@ -5,7 +5,7 @@ const cardPadding = '16px'
 
 export const HeroCardWrapper = styled<any>('div')`
   position: relative;
-  margin: 32px auto;
+  margin: 16px auto;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -13,7 +13,7 @@ export const HeroCardWrapper = styled<any>('div')`
   gap: 12px;
   max-width: 436px;
   width: 100%;
-  /* min-height: 660px; */
+  min-height: 436px;
   padding: ${cardPadding};
   box-sizing: border-box;
 
@@ -53,4 +53,17 @@ export const TypeContainer = styled.div`
   top: ${cardPadding};
   text-transform: capitalize;
 
+`
+
+export const SpeciesName = styled.h1`
+  text-transform: capitalize;
+  padding: 0px 8px;
+  max-width: calc(100% - 160px);
+`
+
+export const VariantName = styled.h4`
+  position: absolute;
+  top: 64px;
+  left: 24px;
+  text-transform: capitalize;
 `

@@ -16,14 +16,14 @@ import MoveTile from "../MoveTile"
 
 interface SmogonGroupProps {
   api?: MainClient,
-  pokemon: Pokemon
+  pokemon?: Pokemon
 }
 
 const SmogonGroup = (props: SmogonGroupProps) => {
 
   const { api, pokemon } = props
 
-  const color = TYPE_DATA[pokemon.types[0].type.name].color
+  const color = TYPE_DATA[pokemon?.types[0]?.type?.name]?.color
 
   const [genNum, setGenNum] = useState<7 | 8>(8)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -49,7 +49,7 @@ const SmogonGroup = (props: SmogonGroupProps) => {
 
           {smogonData?.map((set: SmogonSet) => {
             if ((set?.ability?.length ?? 0) === 0 && pokemon?.abilities?.length === 1)
-              set.ability = [pokemon.abilities[0].ability.name]
+              set.ability = [pokemon?.abilities[0].ability.name]
 
             return (
               <Paper key={set.setName} variant="outlined" className="flex column left" style={{gap: '8px', padding: '16px', width: '100%', position: 'relative'}}>
@@ -104,7 +104,7 @@ const SmogonGroup = (props: SmogonGroupProps) => {
           <Button
             startIcon={<LaunchIcon />}
             color="info"
-            href={`https://www.smogon.com/dex/ss/pokemon/${pokemon.name}/`}
+            href={`https://www.smogon.com/dex/ss/pokemon/${pokemon?.name}/`}
             target="_blank" rel="noopener noreferrer"
           >
             Read more on Smogon

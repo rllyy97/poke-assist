@@ -17,10 +17,13 @@ const StatRow = (props) => (
   </div>
 )
 
+interface StatGroupProps {
+  pokemon: Pokemon
+}
 
-const StatGroup = (props) => {
+const StatGroup = (props: StatGroupProps) => {
 
-  const { pokemon }: {pokemon: Pokemon} = props
+  const { pokemon } = props
 
   const color = TYPE_DATA?.[pokemon?.types?.[0].type.name]?.color
 

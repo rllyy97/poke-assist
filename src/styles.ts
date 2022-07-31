@@ -1,3 +1,4 @@
+import { Chip } from "@mui/material";
 import styled from "styled-components";
 
 export const SiteWrapper = styled('div')`
@@ -46,3 +47,7 @@ export const AutocompleteImg = styled('img')`
   height: 32px;
   margin: -8px 4px;
 ` 
+
+export const VariantChip = styled(Chip)`
+  transition: background-color 0.3s;
+`

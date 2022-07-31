@@ -1,7 +1,7 @@
 import { Pokemon, PokemonAbility } from "pokenode-ts"
 import { PokeImg } from "../../styles"
 import { TYPE_DATA } from "../../typeData"
-import { HeroCardWrapper, PsuedoBorder, TypeContainer } from "./styles"
+import { HeroCardWrapper, PsuedoBorder, SpeciesName, TypeContainer, VariantName } from "./styles"
 
 import { MainClient } from 'pokenode-ts'
 import VanillaTilt from 'vanilla-tilt'
@@ -15,10 +15,11 @@ interface HeroCardProps {
   api: MainClient
   pokemon: Pokemon
   content?: any
+  speciesName?: string
 }
 
 const HeroCard = (props: HeroCardProps) => {
-  const { api, pokemon, content } = props
+  const { api, pokemon, content, speciesName } = props
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -36,15 +37,20 @@ const HeroCard = (props: HeroCardProps) => {
 
   if (!pokemon) return <></>
 
+  const variantName = pokemon.name.split(`${speciesName}-`)[1]
+  
   return (
     <HeroCardWrapper ref={ref}>
       <PsuedoBorder
         c1={TYPE_DATA?.[pokemon.types?.[0]?.type?.name]?.color}
         c2={TYPE_DATA?.[pokemon.types?.[1]?.type?.name]?.color}
       />
-      <h1 className="float" style={{textTransform: 'capitalize', padding: '0px 8px', maxWidth: 'calc(100%-160px)'}}>
-        {pokemon.name}
-      </h1>
+      <SpeciesName className="float">
+        {speciesName}
+      </SpeciesName>
+      <VariantName>
+        {variantName}
+      </VariantName>
       {/* <Divider style={{width: '100%'}} /> */}
       <TypeContainer className="float">
         {pokemon.types?.[0] && <TypeDot type={pokemon.types?.[0]?.type.name} /> }

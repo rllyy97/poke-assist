@@ -1,9 +1,13 @@
-import { Type } from "pokenode-ts"
+import { MainClient, Pokemon, Type } from "pokenode-ts"
 import { useState, useEffect } from "react"
 import TypeDot from "../TypeDot"
 
+interface TypeEffGroupProps {
+  api: MainClient
+  pokemon: Pokemon
+}
 
-const TypeEffGroup = (props: any) => {
+const TypeEffGroup = (props: TypeEffGroupProps) => {
 
   const { api, pokemon } = props
 

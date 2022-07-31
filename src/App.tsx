@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Autocomplete, CssBaseline, Divider, Tab, Tabs, TextField, ThemeProvider } from '@mui/material'
+import { Autocomplete, Avatar, CssBaseline, Divider, Tab, Tabs, TextField, ThemeProvider } from '@mui/material'
 
 import './App.css'
-import { AutocompleteImg, HistoryContainer, HistoryTile, SiteWrapper } from './styles'
+import { AutocompleteImg, HistoryContainer, HistoryTile, SiteWrapper, VariantChip } from './styles'
 import { theme } from './Theme'
 
-import { Pokemon, MainClient } from 'pokenode-ts'
-import LazyLoad from 'react-lazy-load';
+import { Pokemon, MainClient, PokemonSpecies } from 'pokenode-ts'
 
 import Header from './components/Header'
 import HeroCard from './components/HeroCard'
@@ -19,9 +18,9 @@ import { SvgIcon } from './GlobalComponents'
 import SmogonGroup from './components/SmogonGroup'
 
 import FightIcon from '@mui/icons-material/SportsMma'
-import { CapitalizeFirstLetter } from './utilities/stringManipulation'
+import { CapitalizeFirstLetter, IdFromPokemonUrl, IdFromSpeciesUrl, SpriteUrlFromId } from './utilities/stringManipulation'
+import { TYPE_DATA } from './typeData'
 
-const IGNORED_NAMES = ['-mega', '-gmax', '-alola', '-galar','-hisui']
 
 function App() {
 
@@ -30,13 +29,12 @@ function App() {
   const [allNames, setAllNames] = useState<{name: string, id: string}[]>([])
 
   useEffect(() => {
-    fetch(`https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0`)
+    fetch(`https://pokeapi.co/api/v2/pokemon-species?limit=10000`)
       .then((r) => r.json())
       .then((data) => {
         setApiStatus('connected')
         setAllNames(data.results
-          .map((p) => ({ name: p.name, id: p.url.split('https://pokeapi.co/api/v2/pokemon/')[1].split('/')[0] }))
-          // .filter(p => !IGNORED_NAMES.some(el => p.name.indexOf(el) !== -1))
+          .map((p) => ({ name: p.name, id: IdFromSpeciesUrl(p.url) }))
         )
       })
       .catch((e) => {
@@ -46,26 +44,39 @@ function App() {
   }, [])
 
   const selectPokeByName = (name: string) => {
-    api.pokemon.getPokemonByName(name).then((pokemon) => storePoke(pokemon))
+    api.pokemon.getPokemonSpeciesByName(name).then((pokemon) => storePoke(pokemon))
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// HISTORY
 
-  const [pokeHistory, setPokeHistory] = useState<Pokemon[]>([])
-  const storePoke = (pokemon: Pokemon) => {
+  const [pokeHistory, setPokeHistory] = useState<PokemonSpecies[]>([])
+  const storePoke = (pokemon: PokemonSpecies) => {
     const newHistory = pokeHistory?.filter(p => p.name !== pokemon.name)
     newHistory.unshift(pokemon)
     if (newHistory.length > 9) newHistory.pop()
     setPokeHistory(newHistory)
   }
 
+  const pokemon = pokeHistory?.[0]
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /// POKEMON VARIANTS
+
+  const [pokemonVariant, setPokemonVariant] = useState<Pokemon>()
+  useEffect(() => {
+    api.pokemon.getPokemonByName(
+      pokemon?.varieties.find((p) => p.is_default).pokemon.name)
+        .then((pokemon) => setPokemonVariant(pokemon)
+    )
+  }, [pokeHistory])
+
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// UI COMPONENTS
 
-  const HistoryPokemon = (props) => (
-    <HistoryTile onClick={() => selectPokeByName(props.pokemon.name)}>
-      <img alt={props.pokemon.name} src={props.pokemon.sprites.front_default} />
+  const HistoryPokemon = (props: {pokemonSpecies: PokemonSpecies}) => (
+    <HistoryTile onClick={() => selectPokeByName(props.pokemonSpecies.name)}>
+      <img alt={props.pokemonSpecies.name} src={SpriteUrlFromId(props.pokemonSpecies.id)} />
     </HistoryTile>
   )
 
@@ -74,8 +85,6 @@ function App() {
 
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (_e: any, i: number) => setTabIndex(i)
-
-  const pokemon = pokeHistory?.[0]
 
   return (
     <ThemeProvider theme={theme}>
@@ -86,7 +95,7 @@ function App() {
           <Autocomplete
             disabled={apiStatus !== 'connected'}
             options={allNames}
-            value={{name: pokeHistory?.[0]?.name ?? null, id: pokeHistory?.[0]?.id}}
+            value={{name: pokemon?.name, id: pokemon?.id}}
             onChange={(e: any, newValue: any) => selectPokeByName(newValue?.name)}
             getOptionLabel={(option) => CapitalizeFirstLetter(option?.name)}
             renderInput={(params) => (
@@ -95,10 +104,10 @@ function App() {
                 label="Pokemon Name"
                 InputProps={{
                   ...params.InputProps,
-                  startAdornment: pokeHistory?.[0]?.id && (
+                  startAdornment: pokemon?.id && (
                     <AutocompleteImg
                     alt={''}
-                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeHistory?.[0]?.id}.png`}
+                    src={SpriteUrlFromId(pokemon?.id)}
                     />
                   )
                 }}
@@ -108,7 +117,7 @@ function App() {
               <li {...props} style={{textTransform: 'capitalize'}}>
                 <AutocompleteImg
                   alt={''}
-                  src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${option?.id}.png`}
+                  src={SpriteUrlFromId(option?.id)}
                   style={{marginLeft: '-4px', marginRight: '8px'}}
                 />
                 {option?.name}
@@ -118,7 +127,26 @@ function App() {
 
           {pokemon && (
             <>
-              <HeroCard api={api} pokemon={pokeHistory?.[0]} />
+              <HeroCard api={api} pokemon={pokemonVariant} speciesName={pokemon.name} />
+
+              {pokemon.varieties.length > 1 && (
+                <div style={{display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
+                  {pokemon.varieties.map((v) => {
+                    const selected = v.pokemon?.name === pokemonVariant?.name
+                    return (
+                      <VariantChip
+                        clickable={!selected}
+                        key={v.pokemon?.name}
+                        avatar={<Avatar alt={v.pokemon.name} src={SpriteUrlFromId(IdFromPokemonUrl(v.pokemon.url))} />}
+                        label={CapitalizeFirstLetter(v.pokemon.name.split(`${pokemon.name}-`)[1] ?? 'Default')}
+                        // color={selected ? 'primary' : 'default'}
+                        onClick={() => api.pokemon.getPokemonByName(v.pokemon.name).then((p) => setPokemonVariant(p))}
+                        style={selected ? {backgroundColor: TYPE_DATA[pokemonVariant?.types[0].type.name]?.color} : {}}
+                      />
+                    )
+                  })}
+                </div>
+              )}
 
               <Divider style={{width: '100%'}} />
               <Tabs value={tabIndex} onChange={handleTabChange} style={{marginTop: '-12px'}}>
@@ -128,20 +156,20 @@ function App() {
               </Tabs>
               
               <div style={{display: tabIndex === 0 ? 'contents' : 'none'}}>
-                <TypeEffGroup api={api} pokemon={pokemon} />
+                <TypeEffGroup api={api} pokemon={pokemonVariant} />
               </div>
               <div style={{display: tabIndex === 1 ? 'contents' : 'none'}}>
-                <StatGroup pokemon={pokemon} />
+                <StatGroup pokemon={pokemonVariant} />
               </div>
               <div style={{display: tabIndex === 2 ? 'contents' : 'none'}}>
-                <SmogonGroup api={api} pokemon={pokemon} />
+                <SmogonGroup api={api} pokemon={pokemonVariant} />
               </div>
               <Divider style={{width: '100%'}} />
             </>
           )}
 
           <HistoryContainer>
-            {pokeHistory?.slice(1, pokeHistory.length)?.map((p, i) => <HistoryPokemon pokemon={p} key={i} />)}
+            {pokeHistory?.slice(1, pokeHistory.length)?.map((p, i) => <HistoryPokemon pokemonSpecies={p} key={i} />)}
           </HistoryContainer>
 
         </SiteWrapper>
