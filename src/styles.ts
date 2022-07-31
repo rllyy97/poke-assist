@@ -40,3 +40,9 @@ export const HistoryTile = styled('div')`
     background-color: #ffffff10;
   }
 `;
+
+export const AutocompleteImg = styled('img')`
+  width: 32px;
+  height: 32px;
+  margin: -8px 4px;
+` 

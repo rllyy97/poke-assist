@@ -14,3 +14,5 @@ export const FormatStatString = (stat: string): string => {
 
   return statDict[alpha]
 }
+
+export const CapitalizeFirstLetter = (s: string) => s ? s.charAt(0).toUpperCase() + s.slice(1) : ''

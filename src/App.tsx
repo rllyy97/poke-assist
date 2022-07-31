@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import { Autocomplete, CssBaseline, Divider, Tab, Tabs, TextField, ThemeProvider } from '@mui/material'
 
 import './App.css'
-import { HistoryContainer, HistoryTile, SiteWrapper } from './styles'
+import { AutocompleteImg, HistoryContainer, HistoryTile, SiteWrapper } from './styles'
 import { theme } from './Theme'
 
 import { Pokemon, MainClient } from 'pokenode-ts'
+import LazyLoad from 'react-lazy-load';
 
 import Header from './components/Header'
 import HeroCard from './components/HeroCard'
@@ -18,19 +19,25 @@ import { SvgIcon } from './GlobalComponents'
 import SmogonGroup from './components/SmogonGroup'
 
 import FightIcon from '@mui/icons-material/SportsMma'
+import { CapitalizeFirstLetter } from './utilities/stringManipulation'
+
+const IGNORED_NAMES = ['-mega', '-gmax', '-alola', '-galar','-hisui']
 
 function App() {
 
   const [api] = useState(new MainClient())
   const [apiStatus, setApiStatus] = useState<'loading' | 'connected' | 'disconnected'>('loading')
-  const [allNames, setAllNames] = useState([])
+  const [allNames, setAllNames] = useState<{name: string, id: string}[]>([])
 
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0`)
       .then((r) => r.json())
       .then((data) => {
         setApiStatus('connected')
-        setAllNames(data.results.map(p => p.name))
+        setAllNames(data.results
+          .map((p) => ({ name: p.name, id: p.url.split('https://pokeapi.co/api/v2/pokemon/')[1].split('/')[0] }))
+          // .filter(p => !IGNORED_NAMES.some(el => p.name.indexOf(el) !== -1))
+        )
       })
       .catch((e) => {
         console.error(e)
@@ -79,10 +86,36 @@ function App() {
           <Autocomplete
             disabled={apiStatus !== 'connected'}
             options={allNames}
-            value={pokeHistory?.[0]?.name ?? null}
-            onChange={(e: any, newValue: string | null) => selectPokeByName(newValue)}
-            renderInput={(params) => <TextField {...params} label="Pokemon Name" />}
+            value={{name: pokeHistory?.[0]?.name ?? null, id: pokeHistory?.[0]?.id}}
+            onChange={(e: any, newValue: any) => selectPokeByName(newValue?.name)}
+            getOptionLabel={(option) => CapitalizeFirstLetter(option?.name)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Pokemon Name"
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: pokeHistory?.[0]?.id && (
+                    <AutocompleteImg
+                    alt={''}
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeHistory?.[0]?.id}.png`}
+                    />
+                  )
+                }}
+              />
+            )}
+            renderOption={(props, option) => (
+              <li {...props} style={{textTransform: 'capitalize'}}>
+                <AutocompleteImg
+                  alt={''}
+                  src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${option?.id}.png`}
+                  style={{marginLeft: '-4px', marginRight: '8px'}}
+                />
+                {option?.name}
+              </li>
+            )}
           />
+
           {pokemon && (
             <>
               <HeroCard api={api} pokemon={pokeHistory?.[0]} />

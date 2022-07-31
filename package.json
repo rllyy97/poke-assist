@@ -1,7 +1,7 @@
 {
   "homepage": "http://rllyy97.github.io/poke-assist",
   "name": "poke-assist",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.4.1",
@@ -21,6 +21,7 @@
     "pokenode-ts": "^1.13.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-lazy-load": "^3.1.14",
     "react-redux": "^8.0.2",
     "react-scripts": "4.0.3",
     "styled-components": "^5.3.1",

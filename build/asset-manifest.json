@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/poke-assist/static/css/main.3aa94dd7.chunk.css",
-    "main.js": "/poke-assist/static/js/main.a1423cab.chunk.js",
-    "main.js.map": "/poke-assist/static/js/main.a1423cab.chunk.js.map",
+    "main.js": "/poke-assist/static/js/main.2cc3311a.chunk.js",
+    "main.js.map": "/poke-assist/static/js/main.2cc3311a.chunk.js.map",
     "runtime-main.js": "/poke-assist/static/js/runtime-main.ef735731.js",
     "runtime-main.js.map": "/poke-assist/static/js/runtime-main.ef735731.js.map",
-    "static/js/2.2a43e31c.chunk.js": "/poke-assist/static/js/2.2a43e31c.chunk.js",
-    "static/js/2.2a43e31c.chunk.js.map": "/poke-assist/static/js/2.2a43e31c.chunk.js.map",
+    "static/js/2.5245a768.chunk.js": "/poke-assist/static/js/2.5245a768.chunk.js",
+    "static/js/2.5245a768.chunk.js.map": "/poke-assist/static/js/2.5245a768.chunk.js.map",
     "index.html": "/poke-assist/index.html",
     "static/css/main.3aa94dd7.chunk.css.map": "/poke-assist/static/css/main.3aa94dd7.chunk.css.map",
-    "static/js/2.2a43e31c.chunk.js.LICENSE.txt": "/poke-assist/static/js/2.2a43e31c.chunk.js.LICENSE.txt",
+    "static/js/2.5245a768.chunk.js.LICENSE.txt": "/poke-assist/static/js/2.5245a768.chunk.js.LICENSE.txt",
     "static/media/bug.svg": "/poke-assist/static/media/bug.204df919.svg",
     "static/media/dark.svg": "/poke-assist/static/media/dark.27fdc7ed.svg",
     "static/media/dragon.svg": "/poke-assist/static/media/dragon.9d32757b.svg",
@@ -36,8 +36,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.ef735731.js",
-    "static/js/2.2a43e31c.chunk.js",
+    "static/js/2.5245a768.chunk.js",
     "static/css/main.3aa94dd7.chunk.css",
-    "static/js/main.a1423cab.chunk.js"
+    "static/js/main.2cc3311a.chunk.js"
   ]
 }
