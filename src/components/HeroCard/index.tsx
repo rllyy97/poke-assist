@@ -1,6 +1,6 @@
 import { Pokemon, PokemonAbility } from "pokenode-ts"
 import { PokeImg } from "../../styles"
-import { TypeData } from "../../typeData"
+import { TYPE_DATA } from "../../typeData"
 import { HeroCardWrapper, PsuedoBorder, TypeContainer } from "./styles"
 
 import { MainClient } from 'pokenode-ts'
@@ -39,8 +39,8 @@ const HeroCard = (props: HeroCardProps) => {
   return (
     <HeroCardWrapper ref={ref}>
       <PsuedoBorder
-        c1={TypeData?.[pokemon.types?.[0]?.type?.name]?.color}
-        c2={TypeData?.[pokemon.types?.[1]?.type?.name]?.color}
+        c1={TYPE_DATA?.[pokemon.types?.[0]?.type?.name]?.color}
+        c2={TYPE_DATA?.[pokemon.types?.[1]?.type?.name]?.color}
       />
       <h1 className="float" style={{textTransform: 'capitalize', padding: '0px 8px', maxWidth: 'calc(100%-160px)'}}>
         {pokemon.name}

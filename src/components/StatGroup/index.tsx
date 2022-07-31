@@ -2,7 +2,7 @@
 
 import { Pokemon } from 'pokenode-ts'
 import statBarBackground from '../../images/stat_bars.png'
-import { TypeData } from '../../typeData'
+import { TYPE_DATA } from '../../typeData'
 import { StatBar } from './styles'
 
 
@@ -22,7 +22,7 @@ const StatGroup = (props) => {
 
   const { pokemon }: {pokemon: Pokemon} = props
 
-  const color = TypeData?.[pokemon?.types?.[0].type.name]?.color
+  const color = TYPE_DATA?.[pokemon?.types?.[0].type.name]?.color
 
   return (
     <div className="flex column" style={{gap: '2px'}}>

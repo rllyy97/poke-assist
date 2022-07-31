@@ -9,7 +9,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import AddIcon from '@mui/icons-material/Add'
 
 import ItemTile from "../ItemTile"
-import { TypeData } from "../../typeData"
+import { TYPE_DATA } from "../../typeData"
 import NatureChip from "../NatureChip"
 import ChipRow from "../ChipRow"
 import MoveTile from "../MoveTile"
@@ -23,7 +23,7 @@ const SmogonGroup = (props: SmogonGroupProps) => {
 
   const { api, pokemon } = props
 
-  const color = TypeData[pokemon.types[0].type.name].color
+  const color = TYPE_DATA[pokemon.types[0].type.name].color
 
   const [genNum, setGenNum] = useState<7 | 8>(8)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

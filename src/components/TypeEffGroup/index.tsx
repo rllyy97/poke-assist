@@ -1,6 +1,5 @@
 import { Type } from "pokenode-ts"
 import { useState, useEffect } from "react"
-import TypeChip from "../TypeChip"
 import TypeDot from "../TypeDot"
 
 

@@ -11,6 +11,7 @@ export const SiteWrapper = styled('div')`
 
 export const PokeImg = styled('img')`
   max-width: 300px;
+  height: 300px;
   width: -webkit-fill-available;
   margin: 0px auto;
   filter: 

@@ -1,20 +1,25 @@
 import { SvgIcon } from "../../GlobalComponents"
-import { TypeData } from "../../typeData"
+import { TYPE_DATA } from "../../typeData"
 
 const TypeDot = (props) => {
-  const type = TypeData[props.type]
+
+  const { size = 'medium' } = props
+  
+  const type = TYPE_DATA[props.type]
+  const pxSize = props.size !== 'small' ? '32px' : '20px';
+  
   return (
     <div
       className={"flex"}
       style={{
         background: type?.color,
-        height: '32px',
-        width: '32px',
-        borderRadius: '16px',
+        width: pxSize,
+        height: pxSize,
+        borderRadius: '50%',
         ...props.style
       }}
     >
-      <SvgIcon src={type.icon} />
+      <SvgIcon src={type.icon} size={size} />
     </div>
   )
 }
