@@ -20,6 +20,7 @@ export const TypeGridContainer = styled.div`
   border-radius: 8px;
   padding: 8px;
 `
+
 export const TypeGridArrow = styled.div`
   background: ${backgroundColor};
   /* background: red; */

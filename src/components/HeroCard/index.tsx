@@ -59,7 +59,7 @@ const HeroCard = (props: HeroCardProps) => {
       <PokeImg className="float fMore" src={pokemon.sprites.other['official-artwork'].front_default} />
       <ChipRow>
         {pokemon?.abilities?.map((a: PokemonAbility) => (
-          <AbilityChip key={a.ability.name} api={api} name={a.ability.name} />
+          <AbilityChip key={a.ability.name} api={api} name={a.ability.name} isHiddenAbility={a.is_hidden} />
         ))}
       </ChipRow>
 

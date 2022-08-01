@@ -1,11 +1,11 @@
-import { Tooltip, Chip } from "@mui/material"
+import { Tooltip, Chip, Badge } from "@mui/material"
 import { Ability, PokemonClient } from "pokenode-ts"
 import { useEffect, useState } from "react"
 
 
 const AbilityChip = (props: any) => {
 
-  const { api, name } = props
+  const { api, name, isHiddenAbility = false } = props
 
   const [ability, setAbility] = useState<Ability>()
 
@@ -17,8 +17,14 @@ const AbilityChip = (props: any) => {
   if (!ability) return null
 
   return (
-    <Tooltip arrow title={ability.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}>
-      <Chip key={ability.id} style={{textTransform: 'capitalize'}} label={ability.name} />
+    <Tooltip
+      arrow
+      title={ability.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}
+    >
+
+      <Badge color="primary" variant="dot" invisible={!isHiddenAbility}>
+        <Chip key={ability.id} style={{textTransform: 'capitalize'}} label={ability.name} />
+      </Badge>
     </Tooltip>
   )
 }

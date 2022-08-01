@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Autocomplete, Avatar, CssBaseline, Divider, Tab, Tabs, TextField, ThemeProvider } from '@mui/material'
 
-import './App.css'
 import { AutocompleteImg, HistoryContainer, HistoryTile, SiteWrapper, VariantChip } from './styles'
 import { theme } from './Theme'
 
@@ -10,16 +9,17 @@ import { Pokemon, MainClient, PokemonSpecies } from 'pokenode-ts'
 import Header from './components/Header'
 import HeroCard from './components/HeroCard'
 import StatGroup from './components/StatGroup'
-import TypeEffGroup from './components/TypeEffGroup'
 
-import EffIcon from './icons/typeEffIcon.svg'
+import SwordIcon from './icons/sword.svg'
 import StatsIcon from './icons/stats.svg'
 import { SvgIcon } from './GlobalComponents'
 import SmogonGroup from './components/SmogonGroup'
 
+import ShieldIcon from '@mui/icons-material/Shield';
 import FightIcon from '@mui/icons-material/SportsMma'
 import { CapitalizeFirstLetter, IdFromPokemonUrl, IdFromSpeciesUrl, SpriteUrlFromId } from './utilities/stringManipulation'
 import { TYPE_DATA } from './typeData'
+import TypeEffGroup from './components/TypeEffGroup'
 
 
 function App() {
@@ -44,6 +44,7 @@ function App() {
   }, [])
 
   const selectPokeByName = (name: string) => {
+    setPokemonVariant(undefined)
     api.pokemon.getPokemonSpeciesByName(name).then((pokemon) => storePoke(pokemon))
   }
 
@@ -149,19 +150,23 @@ function App() {
               )}
 
               <Divider style={{width: '100%'}} />
-              <Tabs value={tabIndex} onChange={handleTabChange} style={{marginTop: '-12px'}}>
-                <Tab icon={<SvgIcon src={EffIcon} />} aria-label="types-effectiveness" />
+              <Tabs value={tabIndex} onChange={handleTabChange} style={{marginTop: '-16px'}}>
+                <Tab icon={<SvgIcon src={SwordIcon} />} aria-label="types-effectiveness" />
+                <Tab icon={<ShieldIcon style={{fill: 'white'}} />} aria-label="types-def-effectiveness" />
                 <Tab icon={<SvgIcon src={StatsIcon} />} aria-label="stats" />
                 <Tab icon={<FightIcon style={{fill: 'white'}} />} aria-label="smogon-data" />
               </Tabs>
               
               <div style={{display: tabIndex === 0 ? 'contents' : 'none'}}>
-                <TypeEffGroup api={api} pokemon={pokemonVariant} />
+                <TypeEffGroup api={api} pokemon={pokemonVariant} direction={'att'} />
               </div>
               <div style={{display: tabIndex === 1 ? 'contents' : 'none'}}>
-                <StatGroup pokemon={pokemonVariant} />
+                <TypeEffGroup api={api} pokemon={pokemonVariant} direction={'def'} />
               </div>
               <div style={{display: tabIndex === 2 ? 'contents' : 'none'}}>
+                <StatGroup pokemon={pokemonVariant} />
+              </div>
+              <div style={{display: tabIndex === 3 ? 'contents' : 'none'}}>
                 <SmogonGroup api={api} pokemon={pokemonVariant} />
               </div>
               <Divider style={{width: '100%'}} />
