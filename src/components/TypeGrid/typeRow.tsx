@@ -25,8 +25,6 @@ const TypeRow = (props: TypeRowProps) => {
     fetch(`https://pokeapi.co/api/v2/type/${typeName}`)
       .then((r) => r.json())
       .then((data: Type) => {
-        console.log(data);
-        // setTypeData(data);
         const _typeEff: Record<string, TypeEffectiveness> = {}
         data.damage_relations.double_damage_to.forEach((type: NamedAPIResource) => _typeEff[type.name] = TYPE_EFF.STRONG )
         data.damage_relations.half_damage_to.forEach((type: NamedAPIResource) => _typeEff[type.name] = TYPE_EFF.WEAK )

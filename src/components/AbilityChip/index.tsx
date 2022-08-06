@@ -21,7 +21,6 @@ const AbilityChip = (props: any) => {
       arrow
       title={ability.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}
     >
-
       <Badge color="primary" variant="dot" invisible={!isHiddenAbility}>
         <Chip key={ability.id} style={{textTransform: 'capitalize'}} label={ability.name} />
       </Badge>

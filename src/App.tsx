@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Autocomplete, Avatar, CssBaseline, Divider, Tab, Tabs, TextField, ThemeProvider } from '@mui/material'
 
 import { AutocompleteImg, HistoryContainer, HistoryTile, SiteWrapper, VariantChip } from './styles'
@@ -17,12 +17,20 @@ import SmogonGroup from './components/SmogonGroup'
 
 import ShieldIcon from '@mui/icons-material/Shield';
 import FightIcon from '@mui/icons-material/SportsMma'
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+
 import { CapitalizeFirstLetter, IdFromPokemonUrl, IdFromSpeciesUrl, SpriteUrlFromId } from './utilities/stringManipulation'
 import { TYPE_DATA } from './typeData'
 import TypeEffGroup from './components/TypeEffGroup'
+import EvolutionGroup from './components/EvolutionGroup'
+import { getSelectedPokemonName } from './store/appStatus/appStatusSelectors'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSelectedPokemon } from './store/appStatus/appStatusSlice'
 
 
 function App() {
+
+  const dispatch = useDispatch()
 
   const [api] = useState(new MainClient())
   const [apiStatus, setApiStatus] = useState<'loading' | 'connected' | 'disconnected'>('loading')
@@ -43,23 +51,25 @@ function App() {
       })
   }, [])
 
-  const selectPokeByName = (name: string) => {
-    setPokemonVariant(undefined)
-    api.pokemon.getPokemonSpeciesByName(name).then((pokemon) => storePoke(pokemon))
-  }
-
+  
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// HISTORY
-
+  
   const [pokeHistory, setPokeHistory] = useState<PokemonSpecies[]>([])
-  const storePoke = (pokemon: PokemonSpecies) => {
-    const newHistory = pokeHistory?.filter(p => p.name !== pokemon.name)
-    newHistory.unshift(pokemon)
-    if (newHistory.length > 9) newHistory.pop()
-    setPokeHistory(newHistory)
-  }
-
+  
+  const selectPokeByName = useCallback((name: string) => {
+    setPokemonVariant(undefined)
+    api.pokemon.getPokemonSpeciesByName(name).then((pokemon) => {
+      const newHistory = pokeHistory?.filter(p => p.name !== pokemon.name)
+      newHistory.unshift(pokemon)
+      if (newHistory.length > 9) newHistory.pop()
+      setPokeHistory(newHistory)
+    })
+  }, [api.pokemon, pokeHistory])
+  
   const pokemon = pokeHistory?.[0]
+  const selectedPokemon = useSelector(getSelectedPokemonName);
+  useEffect(() => selectPokeByName(selectedPokemon), [selectedPokemon])
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// POKEMON VARIANTS
@@ -67,16 +77,16 @@ function App() {
   const [pokemonVariant, setPokemonVariant] = useState<Pokemon>()
   useEffect(() => {
     api.pokemon.getPokemonByName(
-      pokemon?.varieties.find((p) => p.is_default).pokemon.name)
+      pokemon?.varieties?.find((p) => p.is_default).pokemon.name)
         .then((pokemon) => setPokemonVariant(pokemon)
     )
-  }, [pokeHistory])
+  }, [api.pokemon, pokeHistory, pokemon?.varieties])
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// UI COMPONENTS
 
   const HistoryPokemon = (props: {pokemonSpecies: PokemonSpecies}) => (
-    <HistoryTile onClick={() => selectPokeByName(props.pokemonSpecies.name)}>
+    <HistoryTile onClick={() => dispatch(setSelectedPokemon(props.pokemonSpecies.name))}>
       <img alt={props.pokemonSpecies.name} src={SpriteUrlFromId(props.pokemonSpecies.id)} />
     </HistoryTile>
   )
@@ -96,8 +106,8 @@ function App() {
           <Autocomplete
             disabled={apiStatus !== 'connected'}
             options={allNames}
-            value={{name: pokemon?.name, id: pokemon?.id}}
-            onChange={(e: any, newValue: any) => selectPokeByName(newValue?.name)}
+            // value={{name: pokemon?.name, id: pokemon?.id}}
+            onChange={(e: any, newValue: any) => dispatch(setSelectedPokemon(newValue?.name))}
             getOptionLabel={(option) => CapitalizeFirstLetter(option?.name)}
             renderInput={(params) => (
               <TextField
@@ -106,10 +116,7 @@ function App() {
                 InputProps={{
                   ...params.InputProps,
                   startAdornment: pokemon?.id && (
-                    <AutocompleteImg
-                    alt={''}
-                    src={SpriteUrlFromId(pokemon?.id)}
-                    />
+                    <AutocompleteImg alt={''} src={SpriteUrlFromId(pokemon?.id)} />
                   )
                 }}
               />
@@ -130,7 +137,7 @@ function App() {
             <>
               <HeroCard api={api} pokemon={pokemonVariant} speciesName={pokemon.name} />
 
-              {pokemon.varieties.length > 1 && (
+              {pokemon.varieties?.length > 1 && (
                 <div style={{display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
                   {pokemon.varieties.map((v) => {
                     const selected = v.pokemon?.name === pokemonVariant?.name
@@ -151,24 +158,22 @@ function App() {
 
               <Divider style={{width: '100%'}} />
               <Tabs value={tabIndex} onChange={handleTabChange} style={{marginTop: '-16px'}}>
-                <Tab icon={<SvgIcon src={SwordIcon} />} aria-label="types-effectiveness" />
+                <Tab icon={<SvgIcon src={SwordIcon} />} />
                 <Tab icon={<ShieldIcon style={{fill: 'white'}} />} aria-label="types-def-effectiveness" />
-                <Tab icon={<SvgIcon src={StatsIcon} />} aria-label="stats" />
-                <Tab icon={<FightIcon style={{fill: 'white'}} />} aria-label="smogon-data" />
+                <Tab icon={<SvgIcon src={StatsIcon} />} />
+                <Tab icon={<ArrowCircleUpIcon style={{fill: 'white'}} />} />
+                <Tab icon={<FightIcon style={{fill: 'white'}} />} />
               </Tabs>
-              
-              <div style={{display: tabIndex === 0 ? 'contents' : 'none'}}>
-                <TypeEffGroup api={api} pokemon={pokemonVariant} direction={'att'} />
-              </div>
-              <div style={{display: tabIndex === 1 ? 'contents' : 'none'}}>
-                <TypeEffGroup api={api} pokemon={pokemonVariant} direction={'def'} />
-              </div>
-              <div style={{display: tabIndex === 2 ? 'contents' : 'none'}}>
-                <StatGroup pokemon={pokemonVariant} />
-              </div>
-              <div style={{display: tabIndex === 3 ? 'contents' : 'none'}}>
-                <SmogonGroup api={api} pokemon={pokemonVariant} />
-              </div>
+
+              {[
+                <TypeEffGroup api={api} pokemon={pokemonVariant} direction={'att'} />,
+                <TypeEffGroup api={api} pokemon={pokemonVariant} direction={'def'} />,
+                <StatGroup pokemon={pokemonVariant} />,
+                <EvolutionGroup api={api} pokemon={pokemon} />,
+                <SmogonGroup api={api} pokemon={pokemonVariant} />,
+              ].map((c, i) => (
+                <div style={{display: tabIndex === i ? 'contents' : 'none'}}>{c}</div>
+              ))}
               <Divider style={{width: '100%'}} />
             </>
           )}

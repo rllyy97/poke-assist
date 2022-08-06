@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/poke-assist/static/css/main.3aa94dd7.chunk.css",
-    "main.js": "/poke-assist/static/js/main.1024de13.chunk.js",
-    "main.js.map": "/poke-assist/static/js/main.1024de13.chunk.js.map",
+    "main.css": "/poke-assist/static/css/main.a77c9069.chunk.css",
+    "main.js": "/poke-assist/static/js/main.611cde6a.chunk.js",
+    "main.js.map": "/poke-assist/static/js/main.611cde6a.chunk.js.map",
     "runtime-main.js": "/poke-assist/static/js/runtime-main.ef735731.js",
     "runtime-main.js.map": "/poke-assist/static/js/runtime-main.ef735731.js.map",
-    "static/js/2.9e10d5ce.chunk.js": "/poke-assist/static/js/2.9e10d5ce.chunk.js",
-    "static/js/2.9e10d5ce.chunk.js.map": "/poke-assist/static/js/2.9e10d5ce.chunk.js.map",
+    "static/js/2.ec5e15c5.chunk.js": "/poke-assist/static/js/2.ec5e15c5.chunk.js",
+    "static/js/2.ec5e15c5.chunk.js.map": "/poke-assist/static/js/2.ec5e15c5.chunk.js.map",
     "index.html": "/poke-assist/index.html",
-    "static/css/main.3aa94dd7.chunk.css.map": "/poke-assist/static/css/main.3aa94dd7.chunk.css.map",
-    "static/js/2.9e10d5ce.chunk.js.LICENSE.txt": "/poke-assist/static/js/2.9e10d5ce.chunk.js.LICENSE.txt",
+    "static/css/main.a77c9069.chunk.css.map": "/poke-assist/static/css/main.a77c9069.chunk.css.map",
+    "static/js/2.ec5e15c5.chunk.js.LICENSE.txt": "/poke-assist/static/js/2.ec5e15c5.chunk.js.LICENSE.txt",
     "static/media/bug.svg": "/poke-assist/static/media/bug.204df919.svg",
     "static/media/dark.svg": "/poke-assist/static/media/dark.27fdc7ed.svg",
     "static/media/dragon.svg": "/poke-assist/static/media/dragon.9d32757b.svg",
@@ -31,13 +31,13 @@
     "static/media/stats.196c4a4f.svg": "/poke-assist/static/media/stats.196c4a4f.svg",
     "static/media/status-move.4c727874.svg": "/poke-assist/static/media/status-move.4c727874.svg",
     "static/media/steel.svg": "/poke-assist/static/media/steel.cb91a92a.svg",
-    "static/media/typeEffIcon.1e8c7306.svg": "/poke-assist/static/media/typeEffIcon.1e8c7306.svg",
+    "static/media/sword.1bd9ca05.svg": "/poke-assist/static/media/sword.1bd9ca05.svg",
     "static/media/water.svg": "/poke-assist/static/media/water.b6d13329.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.ef735731.js",
-    "static/js/2.9e10d5ce.chunk.js",
-    "static/css/main.3aa94dd7.chunk.css",
-    "static/js/main.1024de13.chunk.js"
+    "static/js/2.ec5e15c5.chunk.js",
+    "static/css/main.a77c9069.chunk.css",
+    "static/js/main.611cde6a.chunk.js"
   ]
 }
