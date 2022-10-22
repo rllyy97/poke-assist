@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import { COLORS } from "../../colors"
-import TypeDot from "../TypeDot"
+import { COLORS } from "../../../colors"
+import TypeDot from "../../TypeDot"
 
 const DamageNumber = styled.h3`
   width: 28px;

@@ -1,6 +1,6 @@
 import { Type } from "pokenode-ts"
 import { useState, useEffect } from "react"
-import { getDoubleEffDef } from "../../utilities/typeCalc"
+import { getDoubleEffDef } from "../../../utilities/typeCalc"
 import TypeRow from "./TypeRow"
 
 interface TypeEffAttGroupProps {
@@ -17,7 +17,7 @@ const TypeEffAttGroup = (props: TypeEffAttGroupProps) => {
 
   const [eff4, setEff4] = useState<string[]>([])
   const [eff2, setEff2] = useState<string[]>([])
-  const [eff1, setEff1] = useState<string[]>([])
+  const [, setEff1] = useState<string[]>([])
   const [effHalf, setEffHalf] = useState<string[]>([])
   const [effQuarter, setEffQuarter] = useState<string[]>([])
   const [eff0, setEff0] = useState<string[]>([])

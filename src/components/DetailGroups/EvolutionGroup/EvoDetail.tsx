@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ScreenRotationIcon from '@mui/icons-material/ScreenRotation';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
@@ -11,17 +10,15 @@ import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import PlaceIcon from '@mui/icons-material/Place';
 import GroupIcon from '@mui/icons-material/Group';
 
-import ArrowBlock from "../../icons/arrow-block.svg"
-import TradeIcon from "../../icons/trade.svg"
-import RainIcon from "../../icons/rain.svg"
+import ArrowBlock from "../../../icons/arrow-block.svg"
+import TradeIcon from "../../../icons/trade.svg"
+import RainIcon from "../../../icons/rain.svg"
 
-import { Chip } from "@mui/material"
+import { ItemSpriteFromName, PokeSpriteFromUrl } from "../../../utilities/stringManipulation";
+import { SvgIcon } from "../../../GlobalComponents";
+import TypeDot from "../../TypeDot";
 
-
-import { ItemSpriteFromName, PokeSpriteFromUrl } from "../../utilities/stringManipulation";
-import { Tooltip } from "@mui/material";
-import { SvgIcon } from "../../GlobalComponents";
-import TypeDot from "../TypeDot";
+import { Chip, Tooltip } from "@mui/material"
 
 interface EvoDetailProps {
   detail: EvolutionDetail;

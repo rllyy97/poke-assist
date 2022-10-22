@@ -1,17 +1,20 @@
 import { Badge, Chip } from '@mui/material'
 import { Pokemon } from 'pokenode-ts'
-import { COLORS } from '../../colors'
-import statBarBackground from '../../images/stat_bars.png'
-import { TYPE_DATA } from '../../typeData'
+import { COLORS } from '../../../colors'
+import statBarBackground from '../../../images/stat_bars.png'
+import { TYPE_DATA } from '../../../typeData'
 import { StatBar } from './styles'
 
 import { HIGHEST_STATS } from './statData'
+import { useMemo } from 'react'
 
 
 const StatRow = (props) => {
   const { pokeName, statName, value, color } = props
 
-  const topPlace = Object.entries(HIGHEST_STATS?.[statName.replace('-', '')] ?? {}).find(([key, value]) => key === pokeName)?.[1]
+  const topPlace = useMemo(() => 
+    Object.entries(HIGHEST_STATS?.[statName.replace('-', '')] ?? {}).find(([key,]) => key === pokeName)?.[1]
+  , [pokeName, statName])
 
   return (
     <div className="flex row" style={{gap: '12px', transition: '0.2s', textTransform: 'capitalize'}}>
@@ -22,7 +25,7 @@ const StatRow = (props) => {
       <div style={{width: '260px', position: 'relative'}}>
         <img src={statBarBackground} alt='' style={{position: 'absolute', left: '0', zIndex: -1}} />
         <Badge color="primary" badgeContent={`#${topPlace}`} invisible={!topPlace}>
-          <StatBar style={{width: `${value}px`, backgroundColor: color, color: 'white'}} />
+          <StatBar style={{width: `${value}px`, backgroundColor: color}} />
         </Badge>
       </div>
     </div>
@@ -52,6 +55,7 @@ const StatGroup = (props: StatGroupProps) => {
       ))}
 
       <Chip
+        id="total-stat-count"
         label={pokemon?.stats.reduce((pv, cv) => pv + cv.base_stat, 0)}
         style={{
           margin: '16px auto 0px',

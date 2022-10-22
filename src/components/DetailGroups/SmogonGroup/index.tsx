@@ -1,18 +1,16 @@
 import { Chip, Paper, Button, Divider } from "@mui/material"
 import { MainClient, Pokemon } from "pokenode-ts"
-import { useEffect, useState } from "react"
-import { SmogonSet, STATS } from "../../data/sets/interfaces"
-import { FetchSmogonData } from "../../utilities/smogon"
-import AbilityChip from "../AbilityChip"
+import { SmogonSet, STATS } from "../../../data/interfaces"
+import AbilityChip from "../../AbilityChip"
 
 import LaunchIcon from '@mui/icons-material/Launch'
 import AddIcon from '@mui/icons-material/Add'
 
-import ItemTile from "../ItemTile"
-import { TYPE_DATA } from "../../typeData"
-import NatureChip from "../NatureChip"
-import ChipRow from "../ChipRow"
-import MoveTile from "../MoveTile"
+import ItemTile from "../../ItemTile"
+import { TYPE_DATA } from "../../../typeData"
+import NatureChip from "../../NatureChip"
+import ChipRow from "../../ChipRow"
+import MoveTile from "../../MoveTile"
 
 interface SmogonGroupProps {
   api?: MainClient,
@@ -25,27 +23,13 @@ const SmogonGroup = (props: SmogonGroupProps) => {
 
   const color = TYPE_DATA[pokemon?.types[0]?.type?.name]?.color
 
-  const [genNum, setGenNum] = useState<7 | 8>(8)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleGenSwitch = (_e: any) => setGenNum(genNum === 8 ? 7 : 8)
-
-  const [smogonData, setSmogonData] = useState<SmogonSet[]>([])
-
-  useEffect(() => {
-    if (pokemon) setSmogonData(FetchSmogonData(pokemon.name, genNum))
-  }, [pokemon, genNum])
+  const smogonData = []
 
   return (
     <div className="flex column left" style={{gap: '8px'}}>
       {smogonData && (
         <>
           {smogonData.length === 0 && <p>( No data )</p>}
-
-          {/* <Switch
-            checked={genNum === 8}
-            onChange={handleGenSwitch}
-            color="default"
-          /> */}
 
           {smogonData?.map((set: SmogonSet) => {
             if ((set?.ability?.length ?? 0) === 0 && pokemon?.abilities?.length === 1)
@@ -109,20 +93,6 @@ const SmogonGroup = (props: SmogonGroupProps) => {
           >
             Read more on Smogon
           </Button>
-
-          {/* <Link 
-            underline="none"
-            style={{marginTop: '8px',  alignSelf: 'center', textAlign: 'center'}}
-            href={`https://www.smogon.com/dex/ss/pokemon/${pokemon.name}/`}
-            target="_blank" rel="noopener noreferrer"
-          >
-            <p>Data sourced from: </p>
-            <img 
-              alt='smogon-logo'
-              src="https://i.imgur.com/zQDxeVv.png"
-              style={{height: '80px'}}
-            />
-          </Link> */}
         </>
       )}
     </div>

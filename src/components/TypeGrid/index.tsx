@@ -11,6 +11,7 @@ const TypeGrid = () => {
 
   const dispatch = useDispatch();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const hoverX = useSelector(getTypeGridHoverX);
   const hoverY = useSelector(getTypeGridHoverY);
   

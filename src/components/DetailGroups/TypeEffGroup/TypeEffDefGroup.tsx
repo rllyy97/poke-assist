@@ -1,7 +1,7 @@
 import { Type } from "pokenode-ts"
 import { useState, useEffect } from "react"
-import { EffGroupData, getEffAtt } from "../../utilities/typeCalc"
-import TypeDefCard from "../TypeEffGroup/TypeDefCard"
+import { EffGroupData, getEffAtt } from "../../../utilities/typeCalc"
+import TypeDefCard from "./TypeDefCard"
 
 interface TypeEffDefGroupProps {
   pokemonName: string

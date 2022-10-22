@@ -20,7 +20,7 @@ export const PokeImg = styled('img')`
     drop-shadow(0px 1px 1px #fff)
     drop-shadow(-1px 0px 1px #fff)
     drop-shadow(0px -1px 1px #fff)
-    ;
+  ;
 `
 
 export const HistoryContainer = styled('div')`

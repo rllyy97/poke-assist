@@ -30,7 +30,7 @@ const TypeEffGroup = (props: TypeEffGroupProps) => {
       setType1(undefined)
       setType2(undefined)
     }
-  }, [pokemon])
+  }, [api.pokemon, pokemon])
 
   return direction === 'att'
     ? <TypeEffAttGroup type1={type1} type2={type2} /> 

@@ -1,8 +1,8 @@
 import { ChainLink, EvolutionDetail, MainClient, PokemonSpecies } from "pokenode-ts";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSelectedPokemon } from "../../store/appStatus/appStatusSlice";
-import { IdFromSpeciesUrl, IdFromUrl, SpriteUrlFromId } from "../../utilities/stringManipulation";
+import { setSelectedPokemon } from "../../../store/appStatus/appStatusSlice";
+import { IdFromSpeciesUrl, IdFromUrl, SpriteUrlFromId } from "../../../utilities/stringManipulation";
 import EvoDetail from "./EvoDetail";
 import { EvolutionGroupWrapper, EvoSprite, Flex } from "./styles";
 
@@ -30,9 +30,9 @@ const EvolutionGroup = (props: EvolutionGroupProps) => {
     const name = evo.species.name
     const imgUrl = SpriteUrlFromId(id) 
     return (
-      <Flex dir='row'>
+      <Flex dir='row' key={evo.species.name}>
         <Flex dir='column'>
-          {(evo as any).evolution_details.map((d: EvolutionDetail) => <EvoDetail detail={d} />)}
+          {(evo as any).evolution_details.map((d: EvolutionDetail) => <EvoDetail detail={d} key={evo.species.name} />)}
         </Flex>
         <Flex dir='column'>
           <EvoSprite

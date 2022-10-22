@@ -6,4 +6,5 @@ export const StatBar = styled('div')`
   text-align: left;
   line-height: 20px;
   padding-left: 4px;
+  color: white;
 `

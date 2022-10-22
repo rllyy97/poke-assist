@@ -8,21 +8,19 @@ import { Pokemon, MainClient, PokemonSpecies } from 'pokenode-ts'
 
 import Header from './components/Header'
 import HeroCard from './components/HeroCard'
-import StatGroup from './components/StatGroup'
+import StatGroup from './components/DetailGroups/StatGroup'
 
 import SwordIcon from './icons/sword.svg'
 import StatsIcon from './icons/stats.svg'
 import { SvgIcon } from './GlobalComponents'
-import SmogonGroup from './components/SmogonGroup'
 
 import ShieldIcon from '@mui/icons-material/Shield';
-import FightIcon from '@mui/icons-material/SportsMma'
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 import { CapitalizeFirstLetter, IdFromPokemonUrl, IdFromSpeciesUrl, SpriteUrlFromId } from './utilities/stringManipulation'
 import { TYPE_DATA } from './typeData'
-import TypeEffGroup from './components/TypeEffGroup'
-import EvolutionGroup from './components/EvolutionGroup'
+import TypeEffGroup from './components/DetailGroups/TypeEffGroup'
+import EvolutionGroup from './components/DetailGroups/EvolutionGroup'
 import { getSelectedPokemonName } from './store/appStatus/appStatusSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedPokemon } from './store/appStatus/appStatusSlice'
@@ -69,6 +67,7 @@ function App() {
   
   const pokemon = pokeHistory?.[0]
   const selectedPokemon = useSelector(getSelectedPokemonName);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => selectPokeByName(selectedPokemon), [selectedPokemon])
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +106,9 @@ function App() {
             disabled={apiStatus !== 'connected'}
             options={allNames}
             // value={{name: pokemon?.name, id: pokemon?.id}}
-            onChange={(e: any, newValue: any) => dispatch(setSelectedPokemon(newValue?.name))}
+            onChange={(e: any, newValue: any) => {
+              if (newValue?.name) dispatch(setSelectedPokemon(newValue?.name))
+            }}
             getOptionLabel={(option) => CapitalizeFirstLetter(option?.name)}
             renderInput={(params) => (
               <TextField
@@ -162,7 +163,7 @@ function App() {
                 <Tab icon={<ShieldIcon style={{fill: 'white'}} />} aria-label="types-def-effectiveness" />
                 <Tab icon={<SvgIcon src={StatsIcon} />} />
                 <Tab icon={<ArrowCircleUpIcon style={{fill: 'white'}} />} />
-                <Tab icon={<FightIcon style={{fill: 'white'}} />} />
+                {/* <Tab icon={<FightIcon style={{fill: 'white'}} />} /> */}
               </Tabs>
 
               {[
@@ -170,9 +171,9 @@ function App() {
                 <TypeEffGroup api={api} pokemon={pokemonVariant} direction={'def'} />,
                 <StatGroup pokemon={pokemonVariant} />,
                 <EvolutionGroup api={api} pokemon={pokemon} />,
-                <SmogonGroup api={api} pokemon={pokemonVariant} />,
+                // <SmogonGroup api={api} pokemon={pokemonVariant} />,
               ].map((c, i) => (
-                <div style={{display: tabIndex === i ? 'contents' : 'none'}}>{c}</div>
+                <div key={i} style={{display: tabIndex === i ? 'contents' : 'none'}}>{c}</div>
               ))}
               <Divider style={{width: '100%'}} />
             </>

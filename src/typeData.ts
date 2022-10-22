@@ -114,5 +114,5 @@ export const TYPE_DATA: Record<string, TypeData> = {
         color: '#EF90E6',
         icon: require('./icons/types/fairy.svg').default,
         order: 17,
-    },
+    }
 }

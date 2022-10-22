@@ -1,3 +1,4 @@
+import { Fragment } from "react"
 
 
 const ChipRow = (props: React.PropsWithChildren<any>) => {
@@ -7,10 +8,10 @@ const ChipRow = (props: React.PropsWithChildren<any>) => {
   return (
     <div className="flex row" style={style}>
       {children.map((child, i) => (
-        <>
-          {orIcon && i !== 0 && <h6 key={`or-${i}`}>OR</h6>}
+        <Fragment key={i}>
+          {orIcon && i !== 0 && <h6>OR</h6>}
           {child}
-        </>
+        </Fragment>
       ))}
     </div>
   )

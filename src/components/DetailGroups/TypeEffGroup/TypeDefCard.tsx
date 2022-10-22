@@ -1,9 +1,9 @@
 import { Chip } from "@mui/material";
 import styled from "styled-components";
-import { COLORS } from "../../colors";
-import { TYPE_DATA } from "../../typeData";
-import { CapitalizeFirstLetter } from "../../utilities/stringManipulation";
-import TypeDot from "../TypeDot";
+import { COLORS } from "../../../colors";
+import { TYPE_DATA } from "../../../typeData";
+import { CapitalizeFirstLetter } from "../../../utilities/stringManipulation";
+import TypeDot from "../../TypeDot";
 import TypeRow from "./TypeRow";
 
 const DefCardContainer = styled.div`
