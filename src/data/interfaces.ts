@@ -1,12 +1,3 @@
-export interface SmogonSet {
-  setName: string;
-  moves: string[][];
-  ability: string[];
-  item: string[];
-  nature: string[];
-  evs: Evs;
-}
-
 export interface Evs {
   hp?: number;
   atk?: number;

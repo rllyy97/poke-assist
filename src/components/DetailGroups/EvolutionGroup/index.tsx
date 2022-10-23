@@ -1,6 +1,7 @@
-import { ChainLink, EvolutionDetail, MainClient, PokemonSpecies } from "pokenode-ts";
+import { ChainLink, EvolutionDetail, PokemonSpecies } from "pokenode-ts";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useApi } from "../../../store/api/apiSelectors";
 import { setSelectedPokemon } from "../../../store/appStatus/appStatusSlice";
 import { IdFromSpeciesUrl, IdFromUrl, SpriteUrlFromId } from "../../../utilities/stringManipulation";
 import EvoDetail from "./EvoDetail";
@@ -8,12 +9,13 @@ import { EvolutionGroupWrapper, EvoSprite, Flex } from "./styles";
 
 
 interface EvolutionGroupProps {
-  api: MainClient
   pokemon: PokemonSpecies
 }
 
 const EvolutionGroup = (props: EvolutionGroupProps) => {
-  const { api, pokemon } = props
+  const { pokemon } = props
+
+  const api = useApi()
 
   const dispatch = useDispatch();
 

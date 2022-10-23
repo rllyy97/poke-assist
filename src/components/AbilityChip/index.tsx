@@ -1,28 +1,39 @@
 import { Tooltip, Chip, Badge } from "@mui/material"
-import { Ability, PokemonClient } from "pokenode-ts"
-import { useEffect, useState } from "react"
+import { useQuery } from "react-query"
+import { useApi } from "../../store/api/apiSelectors"
 
 
 const AbilityChip = (props: any) => {
+  const { name, isHiddenAbility = false } = props
 
-  const { api, name, isHiddenAbility = false } = props
+  const api = useApi()
 
-  const [ability, setAbility] = useState<Ability>()
+  const abilityQuery = useQuery(
+    ['abilities', name],
+    () => api.pokemon.getAbilityByName(name.replace(' ', '-')),
+    { staleTime: 1000 * 60 * 60 * 24 }
+  )
 
-  useEffect(() => {
-    const abilityClient = api?.pokemon ?? new PokemonClient()
-    abilityClient.getAbilityByName(name.replace(' ', '-')).then((ability) => setAbility(ability))
-  }, [api, name])
-
-  if (!ability) return null
+  if (abilityQuery.isLoading)
+    return (
+      <Chip 
+        key={name} 
+        style={{textTransform: 'capitalize'}} 
+        label={name} 
+      />
+    )
 
   return (
     <Tooltip
       arrow
-      title={ability.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}
+      title={abilityQuery.data.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}
     >
       <Badge color="primary" variant="dot" invisible={!isHiddenAbility}>
-        <Chip key={ability.id} style={{textTransform: 'capitalize'}} label={ability.name} />
+        <Chip 
+          key={name} 
+          style={{textTransform: 'capitalize'}} 
+          label={abilityQuery.data.name} 
+        />
       </Badge>
     </Tooltip>
   )

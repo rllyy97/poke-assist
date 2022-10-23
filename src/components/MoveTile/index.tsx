@@ -1,36 +1,33 @@
-import { Chip, IconButton, SvgIcon, Tooltip } from "@mui/material"
-import { MainClient, Move, MoveClient } from "pokenode-ts"
-import { useEffect, useState } from "react"
+import { useMemo } from "react"
+import { useQuery } from "react-query";
+import styled from "styled-components";
+import { Chip, SvgIcon } from "@mui/material"
+
+import PercentIcon from '@mui/icons-material/Percent';
+import FastForwardIcon from '@mui/icons-material/FastForward';
+
 import TypeDot from "../TypeDot"
-
-import SwitchIcon from '@mui/icons-material/Autorenew'
-
 import { ReactComponent as PhysicalIcon } from '../../icons/moveTypes/physical-move.svg'
 import { ReactComponent as SpecialIcon } from '../../icons/moveTypes/special-move.svg'
 import { ReactComponent as StatusIcon } from '../../icons/moveTypes/status-move.svg'
+import { useApi } from "../../store/api/apiSelectors";
+import { Move } from "pokenode-ts";
 
+const MoveTileContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: flex-start;
+`
 
 interface MoveTileProps {
-  api: MainClient
-  nameArray: string[]
+  name: string
+  move: Move
+  style?: any
 }
 
 const MoveTile = (props: MoveTileProps) => {
-  const { api, nameArray } = props
-
-  const [moveIndex, setMoveIndex] = useState<number>(0)
-  const [move, setMove] = useState<Move>()
-
-  const name = nameArray[moveIndex]
-
-  const handleMoveSwitch = () => {
-    setMoveIndex((moveIndex + 1) % nameArray.length)
-  }
-
-  useEffect(() => {
-    const moveClient = (api as MainClient).move ?? new MoveClient()
-    moveClient.getMoveByName(name.replace(' ', '-')).then((m) => setMove(m))
-  }, [api, name])
+  const { name, move, style } = props
 
   if (!move) return <p>Could not find: {name}</p>
 
@@ -50,38 +47,31 @@ const MoveTile = (props: MoveTileProps) => {
     ? "error"
     : damage_class.name === 'special'
       ? "info"
-      : "action"
+      : "disabled"
+
+  const cStyle: any = {
+    textTransform: 'capitalize',
+    minWidth: '56px'
+  }
 
   return (
-    <div className="flex row" style={{gap: '12px'}}>
-      {nameArray.length > 1 && (
-        <IconButton size="small" color="info" onClick={handleMoveSwitch}>
-          <SwitchIcon />
-        </IconButton>
-      )}
-
-      <TypeDot type={move.type.name} />
-      <Tooltip
-        arrow
-        title={effectString}
-        placement="bottom-start"
-        enterDelay={500}
-      >
-        <h3 onClick={() => console.log(move)} style={{textTransform: 'capitalize'}}>
-          {move.name.replace('-', ' ')}
-        </h3>
-      </Tooltip>
+    <MoveTileContainer style={style}>
+      <TypeDot type={move.type.name} size={'24px'} />
+      <h4 onClick={() => console.log(move)} style={{textTransform: 'capitalize'}}>
+        {move.name.replace('-', ' ')}
+      </h4>
+       {/* Spacer */} <div style={{flexGrow: 1}} /> {/* Spacer */}
+      {move.priority !> 0 && <Chip size="small" icon={<FastForwardIcon />} label={move.priority} style={cStyle} />}
+      {move.power !> 0 && <Chip size="small" label={powerString} style={cStyle} />}
+      {move.accuracy !> 0 && <Chip size="small" icon={<PercentIcon />} label={move.accuracy} style={cStyle} />}
+      {/* {move?.pp !> 0 && <Chip size="small" label={move.pp + ' PP'} />} */}
       <SvgIcon component={moveCategoryIcon} color={moveCategoryColor} />
-      {move.power !> 0 && <Chip size="small" label={powerString} style={{textTransform: 'capitalize'}}/>}
-      {move.accuracy !> 0 && <Chip size="small" label={move.accuracy + '% Acc'} />}
-      {/* {move?.pp !> 0 && <Chip label={move.pp + ' PP'} />} */}
-      {move.priority !> 0 && <Chip size="small" label={'Priority ' + move.priority} />}
-      {move.effect_entries?.length > 0 && (
+      {/* {move.effect_entries?.length > 0 && (
         <p style={{fontSize: '12px'}}>
           
         </p>
-      )}
-    </div>
+      )} */}
+    </MoveTileContainer>
   )
 }
 

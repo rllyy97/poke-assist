@@ -2,8 +2,7 @@ import { Pokemon, PokemonAbility } from "pokenode-ts"
 import { PokeImg } from "../../styles"
 import { TYPE_DATA } from "../../typeData"
 import { HeroCardWrapper, PsuedoBorder, SpeciesName, TypeContainer, VariantName } from "./styles"
-
-import { MainClient } from 'pokenode-ts'
+import CircularProgress from '@mui/material/CircularProgress';
 
 import TypeDot from "../TypeDot"
 import AbilityChip from "../AbilityChip"
@@ -11,14 +10,14 @@ import ChipRow from "../ChipRow"
 import { IdFromUrl } from "../../utilities/stringManipulation"
 
 interface HeroCardProps {
-  api: MainClient
+  isLoading?: boolean
   pokemon: Pokemon
   content?: any
   speciesName?: string
 }
 
 const HeroCard = (props: HeroCardProps) => {
-  const { api, pokemon, content, speciesName } = props
+  const { isLoading, pokemon, content, speciesName } = props
 
   const variantName = pokemon?.name.split(`${speciesName}-`)[1] ?? ''
   
@@ -41,10 +40,12 @@ const HeroCard = (props: HeroCardProps) => {
             {pokemon.types?.[0] && <TypeDot type={pokemon.types?.[0]?.type.name} /> }
             {pokemon.types?.[1] && <TypeDot type={pokemon.types?.[1]?.type.name} /> }
           </TypeContainer>
+          {isLoading && <CircularProgress /> }
+          
           <PokeImg className="float fMore" src={pokemon.sprites.other['official-artwork'].front_default} />
           <ChipRow>
             {pokemon?.abilities?.map((a: PokemonAbility) => (
-              <AbilityChip key={a.ability.name} api={api} name={a.ability.name} isHiddenAbility={a.is_hidden} />
+              <AbilityChip key={a.ability.name} name={a.ability.name} isHiddenAbility={a.is_hidden} />
             ))}
           </ChipRow>
         </>

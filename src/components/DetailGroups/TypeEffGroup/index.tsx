@@ -1,17 +1,18 @@
-import { MainClient, Pokemon, Type } from "pokenode-ts"
+import { Pokemon, Type } from "pokenode-ts"
 import { useState, useEffect } from "react"
+import { useApi } from "../../../store/api/apiSelectors"
 import TypeEffAttGroup from "./TypeEffAttGroup"
 import TypeEffDefGroup from "./TypeEffDefGroup"
 
 interface TypeEffGroupProps {
-  api: MainClient
   pokemon: Pokemon
   direction?: 'att' | 'def'
 }
 
 const TypeEffGroup = (props: TypeEffGroupProps) => {
+  const { pokemon, direction = 'att' } = props
 
-  const { api, pokemon, direction = 'att' } = props
+  const api = useApi()
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// TYPES
