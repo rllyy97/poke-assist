@@ -4,7 +4,7 @@ import { Avatar, CssBaseline, Divider, ThemeProvider } from '@mui/material'
 import { HistoryContainer, HistoryTile, SiteWrapper, VariantChip } from './styles'
 import { theme } from './Theme'
 
-import { Pokemon, PokemonSpecies } from 'pokenode-ts'
+import { PokemonSpecies } from 'pokenode-ts'
 
 import Header from './components/Header'
 import HeroCard from './components/HeroCard'
@@ -24,8 +24,8 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import PokemonTabs from './components/PokemonTabs'
 import SpeciesSearchBox from './components/SpeciesSearchBox'
 import { useApi } from './store/api/apiSelectors'
-import { setCurrentPokemon } from './store/pokemonHistory/pokemonHistorySlice'
-import { useCurrentPokemon, usePokemonHistory } from './store/pokemonHistory/pokemonHistorySelectors'
+import { setCurrentPokemon, setCurrentVariant } from './store/pokemonHistory/pokemonHistorySlice'
+import { useCurrentPokemon, useCurrentPokemonVariant, usePokemonHistory } from './store/pokemonHistory/pokemonHistorySelectors'
 
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
   
   const selectPokeByName = useCallback((name: string) => {
     setIsLoading(true)
-    setPokemonVariant(undefined)
+    dispatch(setCurrentVariant(undefined))
     api.pokemon.getPokemonSpeciesByName(name).then((pokemon) => {
       dispatch(setCurrentPokemon(pokemon))
       setIsLoading(false)
@@ -58,13 +58,13 @@ function App() {
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// POKEMON VARIANTS
 
-  const [pokemonVariant, setPokemonVariant] = useState<Pokemon>()
+  // const [pokemonVariant, setPokemonVariant] = useState<Pokemon>()
+  const pokemonVariant = useCurrentPokemonVariant()
   useEffect(() => {
-    api.pokemon.getPokemonByName(
-      pokemon?.varieties?.find((p) => p.is_default).pokemon.name)
-        .then((pokemon) => setPokemonVariant(pokemon)
-    )
-  }, [api.pokemon, pokemonHistory, pokemon?.varieties])
+    console.log('pokemonVariant changed')
+    api.pokemon.getPokemonByName(pokemon?.varieties?.find((p) => p.is_default).pokemon.name)
+      .then((pokemon) => dispatch(setCurrentVariant(pokemon)))
+  }, [api.pokemon, dispatch, pokemon])
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   /// UI COMPONENTS
@@ -104,7 +104,7 @@ function App() {
                           avatar={<Avatar alt={v.pokemon.name} src={SpriteUrlFromId(IdFromPokemonUrl(v.pokemon.url))} />}
                           label={CapitalizeFirstLetter(v.pokemon.name.split(`${pokemon.name}-`)[1] ?? 'Default')}
                           // color={selected ? 'primary' : 'default'}
-                          onClick={() => api.pokemon.getPokemonByName(v.pokemon.name).then((p) => setPokemonVariant(p))}
+                          onClick={() => api.pokemon.getPokemonByName(v.pokemon.name).then((p) => dispatch(setCurrentVariant(p)))}
                           style={selected ? {backgroundColor: TYPE_DATA[pokemonVariant?.types[0].type.name]?.color} : {}}
                         />
                       )

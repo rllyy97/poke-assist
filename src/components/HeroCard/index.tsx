@@ -8,6 +8,7 @@ import TypeDot from "../TypeDot"
 import AbilityChip from "../AbilityChip"
 import ChipRow from "../ChipRow"
 import { IdFromUrl } from "../../utilities/stringManipulation"
+import ShinyButton from "../ShinyButton";
 
 interface HeroCardProps {
   isLoading?: boolean
@@ -48,6 +49,9 @@ const HeroCard = (props: HeroCardProps) => {
               <AbilityChip key={a.ability.name} name={a.ability.name} isHiddenAbility={a.is_hidden} />
             ))}
           </ChipRow>
+          <div style={{position: 'absolute', right: '12px', bottom: '12px'}}>
+            <ShinyButton />
+          </div>
         </>
       )}
       {content}

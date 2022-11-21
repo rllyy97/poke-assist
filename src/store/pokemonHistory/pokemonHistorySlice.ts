@@ -1,5 +1,6 @@
 
 import { createSlice } from '@reduxjs/toolkit'
+import { PokemonSpecies } from 'pokenode-ts'
 import { PokemonHistoryState } from './pokemonHistoryInterfaces'
 
 
@@ -13,7 +14,7 @@ const pokemonHistorySlice = createSlice({
   initialState,
   reducers: {
     setCurrentPokemon(state: PokemonHistoryState, action: any) {
-      const pokemon = action.payload
+      const pokemon: PokemonSpecies = action.payload
       const newHistory = state.history?.filter(p => p.name !== pokemon.name)
       newHistory.unshift(pokemon)
       if (newHistory.length > 9) newHistory.pop()

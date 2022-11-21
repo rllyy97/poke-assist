@@ -1,4 +1,5 @@
 import { Tooltip, Chip, Badge } from "@mui/material"
+import { useState } from "react"
 import { useQuery } from "react-query"
 import { useApi } from "../../store/api/apiSelectors"
 
@@ -14,6 +15,8 @@ const AbilityChip = (props: any) => {
     { staleTime: 1000 * 60 * 60 * 24 }
   )
 
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false)
+
   if (abilityQuery.isLoading)
     return (
       <Chip 
@@ -24,18 +27,22 @@ const AbilityChip = (props: any) => {
     )
 
   return (
-    <Tooltip
-      arrow
-      title={abilityQuery.data.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}
-    >
-      <Badge color="primary" variant="dot" invisible={!isHiddenAbility}>
+    <Badge color="primary" variant="dot" invisible={!isHiddenAbility}>
+      <Tooltip
+        arrow
+        title={abilityQuery.data.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}
+        onClose={() => setIsTooltipOpen(false)}
+        onOpen={() => setIsTooltipOpen(true)}
+        open={isTooltipOpen}
+      >
         <Chip 
           key={name} 
           style={{textTransform: 'capitalize'}} 
-          label={abilityQuery.data.name} 
+          label={abilityQuery.data.name}
+          onClick={() => setIsTooltipOpen(!isTooltipOpen)}
         />
-      </Badge>
-    </Tooltip>
+      </Tooltip>
+    </Badge>
   )
 }
 

@@ -1,9 +1,9 @@
-import { IconButton } from '@mui/material'
+import { Dialog, IconButton } from '@mui/material'
 import AppIcon from '../../images/logo192.png'
 
 import AppsIcon from '@mui/icons-material/Apps';
 import TypeGrid from '../TypeGrid';
-import { TGComponentContainer, TypeGridArrow, TypeGridButtonContainer, TypeGridContainer } from './styles';
+import { TypeGridButtonContainer } from './styles';
 import { useState } from 'react';
 
 const Header = () => {
@@ -21,13 +21,14 @@ const Header = () => {
           <IconButton onClick={() => setShowTypeGrid(!showTypeGrid)}><AppsIcon /></IconButton>
         </TypeGridButtonContainer>
       </div>
-      <TGComponentContainer show={showTypeGrid}>
-        <TypeGridArrow />
-        <TypeGridContainer>
+      <Dialog
+        open={showTypeGrid}
+        onClose={() => setShowTypeGrid(false)}
+      >
+        <div style={{padding: '8px'}}>
           <TypeGrid />
-        </TypeGridContainer>
-        <div style={{height: '16px'}} />
-      </TGComponentContainer>
+        </div>
+      </Dialog>
     </div>
   )
 }
