@@ -42,7 +42,10 @@ const SpeciesSearchBox = () => {
       disabled={apiStatus !== 'connected'}
       options={allNames}
       onChange={(e: any, newValue: any) => {
-        if (newValue?.name) dispatch(setSelectedPokemon(newValue?.name))
+        if (newValue?.name) {
+          dispatch(setSelectedPokemon(newValue?.name));
+          (document.activeElement as HTMLElement).blur();
+        }
       }}
       getOptionLabel={(option) => CapitalizeFirstLetter(option?.name)}
       renderInput={(params) => (

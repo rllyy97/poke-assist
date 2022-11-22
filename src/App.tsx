@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Avatar, CssBaseline, Divider, ThemeProvider } from '@mui/material'
+import { Avatar, Chip, CssBaseline, Divider, ThemeProvider, Typography } from '@mui/material'
 
 import { HistoryContainer, HistoryTile, SiteWrapper, VariantChip } from './styles'
 import { theme } from './Theme'
@@ -9,8 +9,6 @@ import { PokemonSpecies } from 'pokenode-ts'
 import Header from './components/Header'
 import HeroCard from './components/HeroCard'
 import StatGroup from './components/DetailGroups/StatGroup'
-
-
 
 import { CapitalizeFirstLetter, IdFromPokemonUrl, SpriteUrlFromId } from './utilities/stringManipulation'
 import { TYPE_DATA } from './typeData'
@@ -26,6 +24,7 @@ import SpeciesSearchBox from './components/SpeciesSearchBox'
 import { useApi } from './store/api/apiSelectors'
 import { setCurrentPokemon, setCurrentVariant } from './store/pokemonHistory/pokemonHistorySlice'
 import { useCurrentPokemon, useCurrentPokemonVariant, usePokemonHistory } from './store/pokemonHistory/pokemonHistorySelectors'
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 
 function App() {
@@ -89,7 +88,7 @@ function App() {
             <Header />
             <SpeciesSearchBox />
 
-            {pokemon && (
+            {pokemon ? (
               <>
                 <HeroCard isLoading={isLoading} pokemon={pokemonVariant} speciesName={pokemon.name} />
 
@@ -126,6 +125,12 @@ function App() {
                 ))}
                 <Divider style={{width: '100%'}} />
               </>
+            ) : (
+              // Startup hint
+              <div style={{margin: '0px auto', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <ArrowDropUpIcon style={{fill: 'rgba(255, 255, 255, 0.16)', transform: 'translate(0px, 10px)'}} />
+                <Chip label="Select a Pokemon to get started" />
+              </div>
             )}
 
             <HistoryContainer>

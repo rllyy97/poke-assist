@@ -1,9 +1,10 @@
 import { Dialog, IconButton } from '@mui/material'
 import AppIcon from '../../images/logo192.png'
 
+import GitHubIcon from '@mui/icons-material/GitHub';
 import AppsIcon from '@mui/icons-material/Apps';
 import TypeGrid from '../TypeGrid';
-import { TypeGridButtonContainer } from './styles';
+import { GithubButtonContainer, TypeGridButtonContainer } from './styles';
 import { useState } from 'react';
 
 const Header = () => {
@@ -17,6 +18,9 @@ const Header = () => {
         <h1 style={{marginBottom: '0px'}}>
           PokeAssist
         </h1>
+        <GithubButtonContainer href="https://github.com/rllyy97/poke-assist" target="_blank">
+          <IconButton><GitHubIcon /></IconButton>
+        </GithubButtonContainer>
         <TypeGridButtonContainer>
           <IconButton onClick={() => setShowTypeGrid(!showTypeGrid)}><AppsIcon /></IconButton>
         </TypeGridButtonContainer>
