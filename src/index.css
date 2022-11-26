@@ -35,6 +35,10 @@ div.left {
   text-align: left; 
 }
 
+div.fullwidth {
+  width: 100%;
+}
+
 .MuiDivider-fullWidth {
   width: 100%;
 }

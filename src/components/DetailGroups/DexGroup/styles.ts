@@ -3,7 +3,7 @@ import { COLORS } from "../../../colors";
 
 export const SubstatBlock = styled('div')`
   padding: 10px 16px;
-  border-radius: 16px;
+  border-radius: 8px;
   background: ${COLORS.card};
   text-align: center;
   min-width: 96px;

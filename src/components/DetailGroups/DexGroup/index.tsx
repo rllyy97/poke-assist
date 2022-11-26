@@ -1,18 +1,20 @@
-import { Tooltip, SvgIcon, Typography, Divider } from "@mui/material"
+import { Tooltip, SvgIcon, Typography, Chip } from "@mui/material"
 import { Pokemon, PokemonSpecies } from "pokenode-ts"
 import { useState, useMemo } from "react"
-import { FormatString } from "../../../utilities/stringManipulation"
+import { CapitalizeFirstLetter, FormatString } from "../../../utilities/stringManipulation"
 import EvolutionGroup from "../EvolutionGroup"
 import { FGenderBar, GenderGroup, MGenderBar, SubstatBlock } from "./styles"
 
-import MaleIcon from '@mui/icons-material/Male';
-import FemaleIcon from '@mui/icons-material/Female';
-import ExpIcon from '@mui/icons-material/AutoGraph';
+import MaleIcon from '@mui/icons-material/Male'
+import FemaleIcon from '@mui/icons-material/Female'
+import ExpIcon from '@mui/icons-material/AutoGraph'
 
+import { ReactComponent as EggIcon } from '../../../icons/egg.svg'
 import { ReactComponent as KgIcon } from '../../../icons/weight-kg.svg'
 import { ReactComponent as LbIcon } from '../../../icons/weight-lb.svg'
 import { ReactComponent as HeightIcon } from '../../../icons/height.svg'
 import { ReactComponent as PercentCircleIcon } from '../../../icons/percent-circle.svg'
+import { CustomDivider } from "../../../GlobalComponents"
 
 interface DexGroupProps {
   pokemon: Pokemon
@@ -58,46 +60,46 @@ const DexGroup = (props: DexGroupProps) => {
   }
 
   return (
-    <div>
+    <div className="flex col">
       <EvolutionGroup pokemon={species} />
       
-      <div className="flex row" style={{marginTop: '16px', gap: '8px'}}>
-        {/* CAPTURE RATE */}
+      <div className="flex row" style={{margin: '16px 0px', gap: '8px'}}>
+
         <Tooltip title="Capture Rate">
           <SubstatBlock>
             <SvgIcon component={PercentCircleIcon} />
-            <h3>{captureRate}</h3>
+            <h4>{captureRate}</h4>
           </SubstatBlock>
         </Tooltip>
-
-        {/* EGG GROUPS */}
-        {/* <SubstatBlock>
-          <CustomSvgIcon src={EggIcon} />
-          <h3>{species?.egg_groups.map((g) => g.name + ', ')}</h3>
-        </SubstatBlock> */}
 
         <Tooltip title="Weight">
           <SubstatBlock onClick={() => setIsMetric(!isMetric)}>
             <SvgIcon component={isMetric ? KgIcon : LbIcon} />
-            <h3>{weight}</h3>
+            <h4>{weight}</h4>
           </SubstatBlock>
         </Tooltip>      
 
         <Tooltip title="Height">
           <SubstatBlock onClick={() => setIsMetric(!isMetric)}>
             <SvgIcon component={HeightIcon} />
-            <h3>{height}</h3>
+            <h4>{height}</h4>
           </SubstatBlock>
         </Tooltip>
         
         <Tooltip title="Growth Rate">
           <SubstatBlock style={{textTransform: 'capitalize'}}>
             <ExpIcon />
-            <h3>{FormatString(species?.growth_rate.name)}</h3>
+            <h4>{FormatString(species?.growth_rate.name)}</h4>
           </SubstatBlock>
         </Tooltip>
 
       </div>
+
+      <CustomDivider icon={<SvgIcon component={EggIcon} />} text="Egg Groups" />
+      <div className="flex row">
+        {species?.egg_groups.map((g) => <Chip label={CapitalizeFirstLetter(g?.name)}/>)}
+      </div>
+
       <div style={{marginTop: '16px', width: '100%'}}>
         <GenderStat />
       </div>

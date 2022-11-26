@@ -57,7 +57,7 @@ const EvolutionGroup = (props: EvolutionGroupProps) => {
   }
 
   return (
-    <div className="flex col">
+    <div className="flex col fullwidth">
       <CustomDivider icon={<EvoIcon />} text={'EVOLUTION'} />
       {GenerateEvo(evoChain)}
       <Divider />

@@ -5,10 +5,9 @@ import MovePool from './movePool'
 import { IconButton, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
-import EggIcon from './../../../icons/egg.svg'
-import DiscIcon from './../../../icons/minidisc.svg'
-import { SvgIcon } from '../../../GlobalComponents'
-import { SvgIcon as MuiSvgIcon } from '@mui/material';
+import { ReactComponent as EggIcon } from './../../../icons/egg.svg'
+import { ReactComponent as DiscIcon } from './../../../icons/minidisc.svg'
+import { SvgIcon } from '@mui/material';
 import { useQueries, useQuery } from 'react-query';
 
 import { ReactComponent as PhysicalIcon } from '../../../icons/moveTypes/physical-move.svg'
@@ -35,7 +34,7 @@ const MoveGroup = (props: MoveGroupProps) => {
 
   const api = useApi()
 
-  const isShowing = useSelector(getSelectedTabIndex) === 4
+  const isShowing = useSelector(getSelectedTabIndex) === 3
 
   /////////////////////////////////////////////////////////////////////////////
   // Finding Version
@@ -193,13 +192,13 @@ const MoveGroup = (props: MoveGroupProps) => {
           disabled={movesQuery.some(result => result.isLoading)}
         />
         <IconButton onClick={() => setPhysicalMovesEnabled(!physicalMovesEnabled)}>
-          <MuiSvgIcon component={PhysicalIcon} color={physicalMovesEnabled ? 'error' : 'disabled' } />
+          <SvgIcon component={PhysicalIcon} color={physicalMovesEnabled ? 'error' : 'disabled' } />
         </IconButton>
         <IconButton onClick={() => setSpecialMovesEnabled(!specialMovesEnabled)}>
-          <MuiSvgIcon component={SpecialIcon} color={specialMovesEnabled ? 'info' : 'disabled' } />
+          <SvgIcon component={SpecialIcon} color={specialMovesEnabled ? 'info' : 'disabled' } />
         </IconButton>
         <IconButton onClick={() => setStatusMovesEnabled(!statusMovesEnabled)}> 
-          <MuiSvgIcon component={StatusIcon} color={statusMovesEnabled ? 'action' : 'disabled' } />
+          <SvgIcon component={StatusIcon} color={statusMovesEnabled ? 'action' : 'disabled' } />
         </IconButton>
       </Paper>
       <div>
@@ -211,13 +210,13 @@ const MoveGroup = (props: MoveGroupProps) => {
         />
         <MovePool 
           method={'egg'}
-          icon={<SvgIcon src={EggIcon} />} 
+          icon={<SvgIcon component={EggIcon} />} 
           title="By Egg" 
           moves={eggMoves} 
         />
         <MovePool 
           method={'machine'}
-          icon={<SvgIcon src={DiscIcon} />}
+          icon={<SvgIcon component={DiscIcon} />}
           title="By Machine" 
           moves={sortedTmMoves} 
         />
