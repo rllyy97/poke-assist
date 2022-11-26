@@ -3,7 +3,6 @@ import { getSelectedTabIndex } from "../../store/appStatus/appStatusSelectors"
 import { setSelectedTabIndex } from "../../store/appStatus/appStatusSlice"
 
 import { ReactComponent as SwordIcon } from '../../icons/sword.svg'
-import { ReactComponent as StatsIcon } from '../../icons/stats.svg'
 import { ReactComponent as MovesIcon } from '../../icons/moveTypes/physical-move.svg'
 import { SvgIcon as MuiSvgIcon, Tab, Tabs } from '@mui/material'
 
@@ -20,12 +19,10 @@ const PokemonTabs = () => {
     <Tabs 
       value={tabIndex} 
       onChange={handleTabChange} 
-      style={{marginTop: '-16px'}}
       scrollButtons="auto"
       variant="fullWidth"
     >
       <Tab icon={<MuiSvgIcon component={SwordIcon} />} />
-      <Tab icon={<MuiSvgIcon component={StatsIcon} />} />
       <Tab icon={<MuiSvgIcon component={TextSnippetIcon} />} />
       <Tab icon={<MuiSvgIcon component={MovesIcon} />} />
     </Tabs>

@@ -17,4 +17,5 @@ export const EvoSprite = styled.img`
 
   &:hover {
     background: ${COLORS.card}
+  }
 `

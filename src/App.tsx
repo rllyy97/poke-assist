@@ -109,12 +109,11 @@ function App() {
                   </div>
                 )}
 
-                <Divider style={{width: '100%'}} />
+                {/* <Divider /> */}
                 
                 <PokemonTabs />
                 {[
                   <TypeEffGroup pokemon={pokemonVariant} />,
-                  <StatGroup pokemon={pokemonVariant} species={species} />,
                   <DexGroup pokemon={pokemonVariant} species={species} />,
                   <MoveGroup pokemon={pokemonVariant} />,
                 ].map((c, i) => (

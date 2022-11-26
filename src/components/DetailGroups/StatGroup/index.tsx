@@ -77,7 +77,7 @@ const StatGroup = (props: StatGroupProps) => {
   )
 
   return (
-    <div className="flex col card">
+    <div className="flex col card fullwidth">
       <StatTotal />
       <StatBarsContainer className="flex col">
         {pokemon?.stats.map((stat) => (

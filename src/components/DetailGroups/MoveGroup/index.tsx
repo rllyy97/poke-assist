@@ -34,7 +34,7 @@ const MoveGroup = (props: MoveGroupProps) => {
 
   const api = useApi()
 
-  const isShowing = useSelector(getSelectedTabIndex) === 3
+  const isShowing = useSelector(getSelectedTabIndex) === 2
 
   /////////////////////////////////////////////////////////////////////////////
   // Finding Version

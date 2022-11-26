@@ -5,7 +5,7 @@ import { COLORS } from "./colors";
 export const SiteWrapper = styled('div')`
   max-width: 502px;
   margin: 0px auto 64px;
-  padding: 32px 16px 80px;
+  padding: 16px 16px 80px;
   display: flex;
   flex-direction: column;
   gap: 16px;

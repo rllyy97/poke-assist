@@ -9,7 +9,6 @@ import EvoDetail from "./EvoDetail";
 import EvoIcon from '@mui/icons-material/SwipeUpAlt';
 import { EvoSprite, Flex } from "./styles";
 import { CustomDivider } from "../../../GlobalComponents";
-import { Divider } from "@mui/material";
 
 
 interface EvolutionGroupProps {
@@ -57,10 +56,9 @@ const EvolutionGroup = (props: EvolutionGroupProps) => {
   }
 
   return (
-    <div className="flex col fullwidth">
-      <CustomDivider icon={<EvoIcon />} text={'EVOLUTION'} />
+    <div className="card fullwidth" style={{padding: '8px 0px'}}>
+      {/* <CustomDivider icon={<EvoIcon />} text={'EVOLUTION'} /> */}
       {GenerateEvo(evoChain)}
-      <Divider />
     </div>
   )
 }

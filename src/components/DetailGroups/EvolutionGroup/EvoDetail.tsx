@@ -25,10 +25,10 @@ interface EvoDetailProps {
 }
 
 const DetailDiv = styled.div`
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   margin: 4px;
-  padding: 16px 16px 16px 4px;
+  padding: 16px 8px 16px 0px;
   font-size: 11px;
   font-weight: bold;
 
@@ -40,6 +40,7 @@ const DetailDiv = styled.div`
   align-items: center;
   text-align: center;
   position: relative;
+  z-index: 1;
 `
 
 const BackgroundArrow = styled.img`
@@ -48,6 +49,7 @@ const BackgroundArrow = styled.img`
   height: 100%;
   z-index: -1;
   left: 0px;
+  filter: brightness(0.7);
 `
 
 const PokeImg = styled.img`
@@ -81,7 +83,7 @@ const EvoDetail = ({ detail }: EvoDetailProps) => {
     const displayName = props?.name?.replace('-', ' ');
     return (
       <Tooltip title={displayName}>
-        <img alt='' src={ItemSpriteFromName(props?.name)} />
+        <img alt='' src={ItemSpriteFromName(props?.name)} style={{margin: '-4px'}} />
       </Tooltip>
     )
   }

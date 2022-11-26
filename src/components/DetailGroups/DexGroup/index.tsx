@@ -15,6 +15,8 @@ import { ReactComponent as LbIcon } from '../../../icons/weight-lb.svg'
 import { ReactComponent as HeightIcon } from '../../../icons/height.svg'
 import { ReactComponent as PercentCircleIcon } from '../../../icons/percent-circle.svg'
 import { CustomDivider } from "../../../GlobalComponents"
+import StatGroup from "../StatGroup"
+import { COLORS } from "../../../colors"
 
 interface DexGroupProps {
   pokemon: Pokemon
@@ -60,15 +62,19 @@ const DexGroup = (props: DexGroupProps) => {
   }
 
   return (
-    <div className="flex col">
-      <EvolutionGroup pokemon={species} />
-      
-      <div className="flex row" style={{margin: '16px 0px', gap: '8px'}}>
+    <div className="flex col fullwidth" style={{gap: '16px'}}>
+      <StatGroup pokemon={pokemon} species={species} />
 
-        <Tooltip title="Capture Rate">
-          <SubstatBlock>
-            <SvgIcon component={PercentCircleIcon} />
-            <h4>{captureRate}</h4>
+      <EvolutionGroup pokemon={species} />
+
+      <GenderStat />
+      
+      <div className="card flex row fullwidth" style={{justifyContent: 'space-evenly'}}>
+
+        <Tooltip title="Height">
+          <SubstatBlock onClick={() => setIsMetric(!isMetric)}>
+            <SvgIcon component={HeightIcon} />
+            <h4>{height}</h4>
           </SubstatBlock>
         </Tooltip>
 
@@ -79,13 +85,13 @@ const DexGroup = (props: DexGroupProps) => {
           </SubstatBlock>
         </Tooltip>      
 
-        <Tooltip title="Height">
-          <SubstatBlock onClick={() => setIsMetric(!isMetric)}>
-            <SvgIcon component={HeightIcon} />
-            <h4>{height}</h4>
+        <Tooltip title="Capture Rate">
+          <SubstatBlock>
+            <SvgIcon component={PercentCircleIcon} />
+            <h4>{captureRate}</h4>
           </SubstatBlock>
         </Tooltip>
-        
+
         <Tooltip title="Growth Rate">
           <SubstatBlock style={{textTransform: 'capitalize'}}>
             <ExpIcon />
@@ -95,13 +101,12 @@ const DexGroup = (props: DexGroupProps) => {
 
       </div>
 
-      <CustomDivider icon={<SvgIcon component={EggIcon} />} text="Egg Groups" />
-      <div className="flex row">
-        {species?.egg_groups.map((g) => <Chip label={CapitalizeFirstLetter(g?.name)}/>)}
-      </div>
-
-      <div style={{marginTop: '16px', width: '100%'}}>
-        <GenderStat />
+      <div className="card flex row fullwidth" style={{justifyContent: 'flex-start', padding: '16px', }}>
+        <div className="flex" style={{marginRight: '16px'}}>
+          <SvgIcon component={EggIcon} />
+          <h4>Egg Groups</h4>
+        </div>
+        {species?.egg_groups.map((g) => <Chip label={CapitalizeFirstLetter(g?.name)} style={{backgroundColor: COLORS.background}} />)}
       </div>
     </div>
   )
