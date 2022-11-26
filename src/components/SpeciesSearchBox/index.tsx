@@ -39,6 +39,7 @@ const SpeciesSearchBox = () => {
 
   return (
     <Autocomplete
+      id="species-search-box"
       disabled={apiStatus !== 'connected'}
       options={allNames}
       onChange={(e: any, newValue: any) => {

@@ -5,7 +5,11 @@ import { useApi } from "../../../store/api/apiSelectors";
 import { setSelectedPokemon } from "../../../store/appStatus/appStatusSlice";
 import { IdFromSpeciesUrl, IdFromUrl, SpriteUrlFromId } from "../../../utilities/stringManipulation";
 import EvoDetail from "./EvoDetail";
-import { EvolutionGroupWrapper, EvoSprite, Flex } from "./styles";
+
+import EvoIcon from '@mui/icons-material/SwipeUpAlt';
+import { EvoSprite, Flex } from "./styles";
+import { CustomDivider } from "../../../GlobalComponents";
+import { Divider } from "@mui/material";
 
 
 interface EvolutionGroupProps {
@@ -26,6 +30,8 @@ const EvolutionGroup = (props: EvolutionGroupProps) => {
     api.evolution.getEvolutionChainById(parseInt(evoId)).then((ec) => setEvoChain(ec.chain))
   }, [api, pokemon]);
 
+  if (evoChain?.evolves_to.length === 0) return null
+
   const GenerateEvo = (evo: ChainLink): JSX.Element => {
     if (!evo) return
     const id = IdFromSpeciesUrl(evo.species.url)
@@ -42,7 +48,6 @@ const EvolutionGroup = (props: EvolutionGroupProps) => {
             alt={name}
             onClick={() => dispatch(setSelectedPokemon(name))}
           />
-          {/* {name} */}
         </Flex>
         <Flex dir='column'>
           {evo.evolves_to.map((e) => GenerateEvo(e))}
@@ -52,10 +57,11 @@ const EvolutionGroup = (props: EvolutionGroupProps) => {
   }
 
   return (
-    <EvolutionGroupWrapper>
-      {/* Evolution: {pokemon.evolution_chain.url} */}
+    <div className="flex col">
+      <CustomDivider icon={<EvoIcon />} text={'EVOLUTION'} />
       {GenerateEvo(evoChain)}
-    </EvolutionGroupWrapper>
+      <Divider />
+    </div>
   )
 }
 

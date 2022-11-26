@@ -1,7 +1,11 @@
+import { Divider } from "@mui/material"
 import { Type } from "pokenode-ts"
 import { useState, useEffect } from "react"
 import { EffGroupData, getEffAtt } from "../../../utilities/typeCalc"
 import TypeDefCard from "./TypeDefCard"
+
+import { SvgIcon as MuiSvgIcon } from "@mui/material"
+import ShieldIcon from '@mui/icons-material/Shield';
 
 interface TypeEffDefGroupProps {
   pokemonName: string
@@ -13,7 +17,7 @@ const TypeEffDefGroup = (props: TypeEffDefGroupProps) => {
 
   const { pokemonName, type1, type2 } = props
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
   /// EFFECTIVENESS
 
   const [effGroup1, setEffGroup1] = useState<EffGroupData>({ strong: [], weak: [], immune: [] })
@@ -24,13 +28,13 @@ const TypeEffDefGroup = (props: TypeEffDefGroupProps) => {
     setEffGroup2(getEffAtt(type2))
   }, [type1, type2])
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
 
   return (
-    <div className="flex column left">
+    <>
       <TypeDefCard type={type1} effGroup={effGroup1} pokemonName={pokemonName} />
       <TypeDefCard type={type2} effGroup={effGroup2} pokemonName={pokemonName} />
-    </div>
+    </>
   )
 }
 

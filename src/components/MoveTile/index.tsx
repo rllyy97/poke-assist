@@ -1,5 +1,3 @@
-import { useMemo } from "react"
-import { useQuery } from "react-query";
 import styled from "styled-components";
 import { Chip, SvgIcon } from "@mui/material"
 
@@ -10,7 +8,7 @@ import TypeDot from "../TypeDot"
 import { ReactComponent as PhysicalIcon } from '../../icons/moveTypes/physical-move.svg'
 import { ReactComponent as SpecialIcon } from '../../icons/moveTypes/special-move.svg'
 import { ReactComponent as StatusIcon } from '../../icons/moveTypes/status-move.svg'
-import { useApi } from "../../store/api/apiSelectors";
+
 import { Move } from "pokenode-ts";
 
 const MoveTileContainer = styled.div`

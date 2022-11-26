@@ -1,5 +1,6 @@
-import { Icon } from '@mui/material'
+import { Divider, Icon } from '@mui/material'
 import styled from 'styled-components'
+import { DividerContent, DividerText } from './styles'
 
 const CustomIcon = styled(Icon)`
   /* line-height: 1; */
@@ -21,7 +22,16 @@ interface IconProps {
   color?: "inherit" | "action" | "disabled" | "primary" | "secondary" | "error" | "info" | "success" | "warning",
 }
 export const SvgIcon = (props: IconProps) => (
-    <CustomIcon color={props.color}>
-        <CustomImg alt="" src={props.src} />
-    </CustomIcon>
+  <CustomIcon color={props.color}>
+      <CustomImg alt="" src={props.src} />
+  </CustomIcon>
+)
+
+export const CustomDivider = (props: any) => (
+  <Divider>
+    <DividerContent>
+      {props?.icon}
+      {props?.text && <DividerText>{props.text}</DividerText>}
+    </DividerContent>
+  </Divider>
 )

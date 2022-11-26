@@ -1,12 +1,5 @@
 import styled from "styled-components";
-
-export const EvolutionGroupWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-transform: capitalize;
-`
+import { COLORS } from "../../../colors";
 
 export const Flex = styled.div<{ dir: 'row' | 'column' }>`
   display: flex;
@@ -18,4 +11,10 @@ export const Flex = styled.div<{ dir: 'row' | 'column' }>`
 export const EvoSprite = styled.img`
   width: 96px;
   height: 96px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: ${COLORS.card}
 `

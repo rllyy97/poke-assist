@@ -1,5 +1,5 @@
 import { Pokemon, PokemonAbility } from "pokenode-ts"
-import { PokeImg } from "../../styles"
+import { PokeImg, PokeImgSmall } from "../../styles"
 import { TYPE_DATA } from "../../typeData"
 import { HeroCardWrapper, PsuedoBorder, SpeciesName, TypeContainer, VariantName } from "./styles"
 import CircularProgress from '@mui/material/CircularProgress';
@@ -14,6 +14,9 @@ import { IconButton } from "@mui/material";
 import { SvgIcon as MuiSvgIcon } from '@mui/material';
 import { ReactComponent as ShinyIcon } from '../../icons/shiny.svg';
 import ReplayIcon from '@mui/icons-material/Replay';
+import { useHeroSize } from "../../store/appStatus/appStatusSelectors";
+import { setHeroSize } from "../../store/appStatus/appStatusSlice";
+import { useDispatch } from "react-redux";
 
 interface HeroCardProps {
   isLoading?: boolean
@@ -25,8 +28,10 @@ interface HeroCardProps {
 const HeroCard = (props: HeroCardProps) => {
   const { isLoading, pokemon, content, speciesName } = props
 
-  const variantName = pokemon?.name.split(`${speciesName}-`)[1] ?? ''
+  const dispatch = useDispatch();
+  const heroSize = useHeroSize()
 
+  const variantName = pokemon?.name.split(`${speciesName}-`)[1] ?? ''
   const variantNum = pokemon?.id
 
   const [showArt, setShowArt] = useState(true)
@@ -49,28 +54,33 @@ const HeroCard = (props: HeroCardProps) => {
         c1={TYPE_DATA?.[pokemon?.types?.[0]?.type?.name]?.color}
         c2={TYPE_DATA?.[pokemon?.types?.[1]?.type?.name]?.color}
       />
+      {heroSize === 'small' && <PokeImgSmall src={currentHeroImage} onClick={() => dispatch(setHeroSize('default'))} />}
       {pokemon && (
-        <>
-          <SpeciesName className="float">
+        <div className="flex col left" style={{width: '100%', position: 'relative'}}>
+          <SpeciesName>
             {speciesName}
           </SpeciesName>
           <VariantName>
             #{IdFromUrl(pokemon.species.url)}{variantName && ` - ${variantName}`}
           </VariantName>
-          {/* <Divider style={{width: '100%'}} /> */}
-          <TypeContainer className="float">
+          <TypeContainer>
             {pokemon.types?.[0] && <TypeDot type={pokemon.types?.[0]?.type.name} /> }
             {pokemon.types?.[1] && <TypeDot type={pokemon.types?.[1]?.type.name} /> }
           </TypeContainer>
           {isLoading && <CircularProgress /> }
           
-          <PokeImg className="float fMore" src={currentHeroImage} />
+          {heroSize === 'default' ? (
+            <PokeImg src={currentHeroImage} onClick={() => dispatch(setHeroSize('small'))} /> 
+          ) : (
+            <div style={{width: '20px', height: '16px'}} />
+          )}
           <ChipRow>
             {pokemon?.abilities?.map((a: PokemonAbility) => (
               <AbilityChip key={a.ability.name} name={a.ability.name} isHiddenAbility={a.is_hidden} />
             ))}
           </ChipRow>
-          <div style={{position: 'absolute', right: '12px', bottom: '12px', display: 'flex', gap: '4px'}}>
+
+          <div style={{position: 'absolute', right: '-4px', bottom: '-4px', display: 'flex', gap: '4px'}}>
             {!showArt && <IconButton onClick={() => {
                 setShowShiny(false)
                 setShowArt(true)
@@ -85,7 +95,7 @@ const HeroCard = (props: HeroCardProps) => {
               <MuiSvgIcon component={ShinyIcon} />
             </IconButton>
           </div>
-        </>
+        </div>
       )}
       {content}
     </HeroCardWrapper>

@@ -2,14 +2,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { getSelectedTabIndex } from "../../store/appStatus/appStatusSelectors"
 import { setSelectedTabIndex } from "../../store/appStatus/appStatusSlice"
 
-import SwordIcon from '../../icons/sword.svg'
-import StatsIcon from '../../icons/stats.svg'
+import { ReactComponent as SwordIcon } from '../../icons/sword.svg'
+import { ReactComponent as StatsIcon } from '../../icons/stats.svg'
 import { ReactComponent as MovesIcon } from '../../icons/moveTypes/physical-move.svg'
-import { SvgIcon } from '../../GlobalComponents'
 import { SvgIcon as MuiSvgIcon, Tab, Tabs } from '@mui/material'
 
-import ShieldIcon from '@mui/icons-material/Shield';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 
 const PokemonTabs = () => {
 
@@ -26,11 +24,9 @@ const PokemonTabs = () => {
       scrollButtons="auto"
       variant="fullWidth"
     >
-      <Tab icon={<SvgIcon src={SwordIcon} />} />
-      <Tab icon={<ShieldIcon style={{fill: 'white'}} />} aria-label="types-def-effectiveness" />
-      <Tab icon={<SvgIcon src={StatsIcon} />} />
-      <Tab icon={<ArrowCircleUpIcon style={{fill: 'white'}} />} />
-      {/* <Tab icon={<FightIcon style={{fill: 'white'}} />} /> */}
+      <Tab icon={<MuiSvgIcon component={SwordIcon} />} />
+      <Tab icon={<MuiSvgIcon component={StatsIcon} />} />
+      <Tab icon={<MuiSvgIcon component={TextSnippetIcon} />} />
       <Tab icon={<MuiSvgIcon component={MovesIcon} />} />
     </Tabs>
   )

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Avatar, Chip, CssBaseline, Divider, ThemeProvider, Typography } from '@mui/material'
-
+import { Avatar, Chip, CssBaseline, Divider, Fab, ThemeProvider } from '@mui/material'
 import { HistoryContainer, HistoryTile, SiteWrapper, VariantChip } from './styles'
 import { theme } from './Theme'
 
@@ -13,7 +12,6 @@ import StatGroup from './components/DetailGroups/StatGroup'
 import { CapitalizeFirstLetter, IdFromPokemonUrl, SpriteUrlFromId } from './utilities/stringManipulation'
 import { TYPE_DATA } from './typeData'
 import TypeEffGroup from './components/DetailGroups/TypeEffGroup'
-import EvolutionGroup from './components/DetailGroups/EvolutionGroup'
 import { getSelectedPokemonName, getSelectedTabIndex } from './store/appStatus/appStatusSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedPokemon } from './store/appStatus/appStatusSlice'
@@ -25,20 +23,22 @@ import { useApi } from './store/api/apiSelectors'
 import { setCurrentPokemon, setCurrentVariant } from './store/pokemonHistory/pokemonHistorySlice'
 import { useCurrentPokemon, useCurrentPokemonVariant, usePokemonHistory } from './store/pokemonHistory/pokemonHistorySelectors'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import DexGroup from './components/DetailGroups/DexGroup'
+
+import SearchIcon from '@mui/icons-material/Search';
 
 
 function App() {
   
   const queryClient = new QueryClient()
-  
   const dispatch = useDispatch()
   const api = useApi()
   
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
   /// HISTORY
   
   const pokemonHistory = usePokemonHistory()
-  const pokemon = useCurrentPokemon();
+  const species = useCurrentPokemon();
   const [isLoading, setIsLoading] = useState(false)
   
   const selectPokeByName = useCallback((name: string) => {
@@ -54,18 +54,17 @@ function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => selectPokeByName(selectedPokemon), [selectedPokemon])
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
   /// POKEMON VARIANTS
 
-  // const [pokemonVariant, setPokemonVariant] = useState<Pokemon>()
   const pokemonVariant = useCurrentPokemonVariant()
   useEffect(() => {
     console.log('pokemonVariant changed')
-    api.pokemon.getPokemonByName(pokemon?.varieties?.find((p) => p.is_default).pokemon.name)
+    api.pokemon.getPokemonByName(species?.varieties?.find((p) => p.is_default).pokemon.name)
       .then((pokemon) => dispatch(setCurrentVariant(pokemon)))
-  }, [api.pokemon, dispatch, pokemon])
+  }, [api.pokemon, dispatch, species])
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
   /// UI COMPONENTS
 
   const HistoryPokemon = (props: {pokemonSpecies: PokemonSpecies}) => (
@@ -74,7 +73,7 @@ function App() {
     </HistoryTile>
   )
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
   /// RENDER
 
   const tabIndex = useSelector(getSelectedTabIndex)
@@ -88,21 +87,20 @@ function App() {
             <Header />
             <SpeciesSearchBox />
 
-            {pokemon ? (
+            {species ? (
               <>
-                <HeroCard isLoading={isLoading} pokemon={pokemonVariant} speciesName={pokemon.name} />
+                <HeroCard isLoading={isLoading} pokemon={pokemonVariant} speciesName={species.name} />
 
-                {pokemon.varieties?.length > 1 && (
+                {species.varieties?.length > 1 && (
                   <div style={{display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
-                    {pokemon.varieties.map((v) => {
+                    {species.varieties.map((v) => {
                       const selected = v.pokemon?.name === pokemonVariant?.name
                       return (
                         <VariantChip
                           clickable={!selected}
                           key={v.pokemon?.name}
                           avatar={<Avatar alt={v.pokemon.name} src={SpriteUrlFromId(IdFromPokemonUrl(v.pokemon.url))} />}
-                          label={CapitalizeFirstLetter(v.pokemon.name.split(`${pokemon.name}-`)[1] ?? 'Default')}
-                          // color={selected ? 'primary' : 'default'}
+                          label={CapitalizeFirstLetter(v.pokemon.name.split(`${species.name}-`)[1] ?? 'Default')}
                           onClick={() => api.pokemon.getPokemonByName(v.pokemon.name).then((p) => dispatch(setCurrentVariant(p)))}
                           style={selected ? {backgroundColor: TYPE_DATA[pokemonVariant?.types[0].type.name]?.color} : {}}
                         />
@@ -115,10 +113,9 @@ function App() {
                 
                 <PokemonTabs />
                 {[
-                  <TypeEffGroup pokemon={pokemonVariant} direction={'att'} />,
-                  <TypeEffGroup pokemon={pokemonVariant} direction={'def'} />,
-                  <StatGroup pokemon={pokemonVariant} />,
-                  <EvolutionGroup pokemon={pokemon} />,
+                  <TypeEffGroup pokemon={pokemonVariant} />,
+                  <StatGroup pokemon={pokemonVariant} species={species} />,
+                  <DexGroup pokemon={pokemonVariant} species={species} />,
                   <MoveGroup pokemon={pokemonVariant} />,
                 ].map((c, i) => (
                   <div key={i} style={{display: tabIndex === i ? 'contents' : 'none'}}>{c}</div>
@@ -136,6 +133,10 @@ function App() {
             <HistoryContainer>
               {pokemonHistory?.slice(1, pokemonHistory.length)?.map((p, i) => <HistoryPokemon pokemonSpecies={p} key={i} />)}
             </HistoryContainer>
+
+            <Fab color="primary" style={{position: 'fixed', bottom: '32px', right: '32px'}} onClick={() => document.getElementById('species-search-box').focus()}>
+              <SearchIcon/>
+            </Fab>
 
           </SiteWrapper>
         </div>

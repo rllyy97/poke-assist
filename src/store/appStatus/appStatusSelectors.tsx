@@ -11,6 +11,8 @@ export const getSelectedTabIndex = createSelector(getAppStatusData, data => data
 export const getTypeGridHoverX = createSelector(getAppStatusData, data => data.typeGridHoverX)
 export const getTypeGridHoverY = createSelector(getAppStatusData, data => data.typeGridHoverY)
 
+export const useHeroSize = () => useSelector(createSelector(getAppStatusData, data => data.heroSize))
+
 export const useIsTypeHovered = (typeNameX: string, typeNameY: string) => (
   useSelector(createSelector(getAppStatusData, (state: AppStatusState) => (
     state.typeGridHoverX === typeNameX || state.typeGridHoverY === typeNameY

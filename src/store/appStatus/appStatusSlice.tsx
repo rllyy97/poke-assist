@@ -6,6 +6,7 @@ import { AppStatusState } from './appStatusInterfaces'
 const initialState: AppStatusState = {
   selectedPokemon: undefined,
   selectedTabIndex: 0,
+  heroSize: 'default',
   typeGridHoverX: '',
   typeGridHoverY: '',
 }
@@ -24,8 +25,11 @@ const appStatusSlice = createSlice({
       state.typeGridHoverX = action.payload.x
       state.typeGridHoverY = action.payload.y
     },
+    setHeroSize(state: AppStatusState, action: any) {
+      state.heroSize = action.payload
+    }
   }
 })
 
-export const { setSelectedPokemon, setSelectedTabIndex, setTypeGridHover } = appStatusSlice.actions
+export const { setSelectedPokemon, setSelectedTabIndex, setHeroSize, setTypeGridHover } = appStatusSlice.actions
 export const { name, actions, reducer } = appStatusSlice

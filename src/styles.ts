@@ -1,10 +1,11 @@
 import { Chip } from "@mui/material";
 import styled from "styled-components";
+import { COLORS } from "./colors";
 
 export const SiteWrapper = styled('div')`
-  max-width: 534px;
+  max-width: 502px;
   margin: 0px auto;
-  padding: 32px;
+  padding: 32px 16px 80px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -23,6 +24,11 @@ export const PokeImg = styled('img')`
   ;
 `
 
+export const PokeImgSmall = styled('img')`
+  max-width: 112px;
+  margin: -6px -8px -8px -8px;
+`
+
 export const HistoryContainer = styled('div')`
   display: flex;
   flex-direction: row;
@@ -36,9 +42,10 @@ export const HistoryTile = styled('div')`
   height: 96px;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.2s;
 
   &:hover {
-    background-color: #ffffff10;
+    background-color: ${COLORS.card};
   }
 `;
 
@@ -50,4 +57,18 @@ export const AutocompleteImg = styled('img')`
 
 export const VariantChip = styled(Chip)`
   transition: background-color 0.3s;
+`
+
+export const DividerContent = styled('div')`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  opacity: 0.5;
+  gap: 8px;
+  margin: 6px 6px;
+`
+
+export const DividerText = styled('div')`
+  font-size: 14px;
+  font-weight: bold;
 `

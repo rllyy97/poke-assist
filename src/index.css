@@ -28,9 +28,17 @@ div.flex {
 }
 
 div.row { flex-direction: row; }
-div.column { flex-direction: column; }
+div.col { flex-direction: column; }
 div.left { 
   justify-content: flex-start; 
   align-items: flex-start;
   text-align: left; 
+}
+
+.MuiDivider-fullWidth {
+  width: 100%;
+}
+
+:root {
+  color-scheme: dark;
 }

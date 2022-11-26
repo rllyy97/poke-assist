@@ -1,20 +1,25 @@
 import { Pokemon, Type } from "pokenode-ts"
 import { useState, useEffect } from "react"
 import { useApi } from "../../../store/api/apiSelectors"
-import TypeEffAttGroup from "./TypeEffAttGroup"
+import MatchupAttCard from "./MatchupAttCard"
 import TypeEffDefGroup from "./TypeEffDefGroup"
+
+import { SvgIcon as MuiSvgIcon } from "@mui/material"
+
+import { ReactComponent as SwordIcon } from "../../../icons/sword.svg"
+import ShieldIcon from '@mui/icons-material/Shield'
+import { CustomDivider } from "../../../GlobalComponents"
 
 interface TypeEffGroupProps {
   pokemon: Pokemon
-  direction?: 'att' | 'def'
 }
 
 const TypeEffGroup = (props: TypeEffGroupProps) => {
-  const { pokemon, direction = 'att' } = props
+  const { pokemon } = props
 
   const api = useApi()
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
   /// TYPES
 
   const [type1, setType1] = useState<Type>()
@@ -33,9 +38,14 @@ const TypeEffGroup = (props: TypeEffGroupProps) => {
     }
   }, [api.pokemon, pokemon])
 
-  return direction === 'att'
-    ? <TypeEffAttGroup type1={type1} type2={type2} /> 
-    : <TypeEffDefGroup type1={type1} type2={type2} pokemonName={pokemon?.name} />
+  return (
+    <div className="flex col" style={{gap: '16px'}}>
+      <CustomDivider icon={<MuiSvgIcon component={SwordIcon} />} text={'ATTACKING'} />
+      <MatchupAttCard type1={type1} type2={type2} pokemonName={pokemon?.name} />
+      <CustomDivider icon={<MuiSvgIcon component={ShieldIcon} />} text={'DEFENDING'} />
+      <TypeEffDefGroup type1={type1} type2={type2} pokemonName={pokemon?.name} />
+    </div>
+  )
 }
 
 export default TypeEffGroup
