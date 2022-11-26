@@ -5,7 +5,6 @@ const cardPadding = '32px'
 
 export const HeroCardWrapper = styled<any>('div')`
   position: relative;
-  /* margin: 0px auto; */
   display: flex;
   flex-direction: row;
   align-items: start;

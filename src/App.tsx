@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Avatar, Chip, CssBaseline, Divider, Fab, ThemeProvider } from '@mui/material'
-import { HistoryContainer, HistoryTile, SiteWrapper, VariantChip } from './styles'
+import { HistoryContainer, HistoryTile, HistoryTiles, SiteWrapper, VariantChip } from './styles'
 import { theme } from './Theme'
 
 import { PokemonSpecies } from 'pokenode-ts'
@@ -120,7 +120,6 @@ function App() {
                 ].map((c, i) => (
                   <div key={i} style={{display: tabIndex === i ? 'contents' : 'none'}}>{c}</div>
                 ))}
-                <Divider style={{width: '100%'}} />
               </>
             ) : (
               // Startup hint
@@ -131,12 +130,14 @@ function App() {
             )}
 
             <HistoryContainer>
-              {pokemonHistory?.slice(1, pokemonHistory.length)?.map((p, i) => <HistoryPokemon pokemonSpecies={p} key={i} />)}
+              <HistoryTiles>
+                {pokemonHistory?.slice(1, pokemonHistory.length)?.map((p, i) => <HistoryPokemon pokemonSpecies={p} key={i} />)}
+              </HistoryTiles>
             </HistoryContainer>
 
-            <Fab color="primary" style={{position: 'fixed', bottom: '32px', right: '32px'}} onClick={() => document.getElementById('species-search-box').focus()}>
+            {/* <Fab color="primary" style={{position: 'fixed', bottom: '32px', right: '32px'}} onClick={() => document.getElementById('species-search-box').focus()}>
               <SearchIcon/>
-            </Fab>
+            </Fab> */}
 
           </SiteWrapper>
         </div>

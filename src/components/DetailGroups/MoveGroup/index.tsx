@@ -2,7 +2,7 @@ import { Move, Pokemon, PokemonMove, PokemonMoveVersion } from 'pokenode-ts'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import MovePool from './movePool'
 
-import { IconButton, InputBase, Paper } from '@mui/material';
+import { CircularProgress, IconButton, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import { ReactComponent as EggIcon } from './../../../icons/egg.svg'
@@ -175,6 +175,8 @@ const MoveGroup = (props: MoveGroupProps) => {
 
   /////////////////////////////////////////////////////////////////////////////
 
+  if (isLoading) return <CircularProgress style={{margin: '16px auto'}} />
+
   return (
     <div>
       <Paper
@@ -201,6 +203,7 @@ const MoveGroup = (props: MoveGroupProps) => {
           <SvgIcon component={StatusIcon} color={statusMovesEnabled ? 'action' : 'disabled' } />
         </IconButton>
       </Paper>
+      
       <div>
         <MovePool 
           method={'level-up'}

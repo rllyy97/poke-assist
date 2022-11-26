@@ -34,11 +34,6 @@ const MovePool = (props: MovePoolProps) => {
 
   const [isExpanded, setIsExpanded] = useState(false)
   const expandCallback = useCallback((e: any, expanded: boolean) => setIsExpanded(expanded), [])
-  useEffect(() => {
-    if (moves.length === 0) setIsExpanded(false)
-    else if (!isExpanded) setIsExpanded(true)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [moves])
 
   return (
     <Accordion disabled={moves.length === 0} expanded={isExpanded} onChange={expandCallback}>

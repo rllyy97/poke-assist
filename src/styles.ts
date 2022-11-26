@@ -4,7 +4,7 @@ import { COLORS } from "./colors";
 
 export const SiteWrapper = styled('div')`
   max-width: 502px;
-  margin: 0px auto;
+  margin: 0px auto 64px;
   padding: 32px 16px 80px;
   display: flex;
   flex-direction: column;
@@ -30,22 +30,41 @@ export const PokeImgSmall = styled('img')`
 `
 
 export const HistoryContainer = styled('div')`
+  z-index: 10;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  background: ${COLORS.card};
+  border-top: 1px solid ${COLORS.border};
+  padding: 8px;
+  overflow-x: auto;
+`
+
+export const HistoryTiles = styled('div')`
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   gap: 8px;
-  justify-content: center;
+  justify-content: left;
+  width: fit-content;
+  margin: 0px auto;
 `
 
 export const HistoryTile = styled('div')`
-  width: 96px;
-  height: 96px;
+  width: 64px;
+  height: 64px;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: ${COLORS.card};
+    background-color: ${COLORS.background};
+  }
+
+  & > img {
+    width: 100%;
+    height: 100%;t
   }
 `;
 

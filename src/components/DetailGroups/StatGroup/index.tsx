@@ -1,8 +1,7 @@
-import { Badge, Chip } from '@mui/material'
+import { Badge } from '@mui/material'
 import { Pokemon, PokemonSpecies } from 'pokenode-ts'
-import { COLORS } from '../../../colors'
 import statBarBackground from '../../../images/stat_bars.png'
-import { StatBar } from './styles'
+import { StatBar, StatBarsContainer, StatTotalContainer } from './styles'
 
 import { HIGHEST_STATS } from './statData'
 import { useMemo } from 'react'
@@ -10,7 +9,6 @@ import { useMemo } from 'react'
 import CircleIcon from '@mui/icons-material/Circle'
 import StatsIcon from '@mui/icons-material/BarChart';
 import { usePrimaryColor } from '../../../store/pokemonHistory/pokemonHistorySelectors'
-import { CustomDivider } from '../../../GlobalComponents'
 
 
 const StatRow = (props) => {
@@ -19,7 +17,7 @@ const StatRow = (props) => {
   const color = usePrimaryColor()
 
   const value = stat?.base_stat ?? 0
-  const effort = stat?.effort
+  const effort = stat?.effort ?? 0
 
   const topPlace = useMemo(() => 
     Object.entries(HIGHEST_STATS?.[statName?.replace('-', '')] ?? {}).find(([key,]) => key === pokeName)?.[1]
@@ -38,7 +36,7 @@ const StatRow = (props) => {
       </h4>
       <h6 style={{width: '24px', height: '24px', lineHeight: '24px'}}>{value}</h6>
       <div  className="flex row left" style={{width: '260px', position: 'relative'}}>
-        <img src={statBarBackground} alt='' style={{position: 'absolute', left: '0', zIndex: -1}} />
+        <img src={statBarBackground} alt='' style={{position: 'absolute', filter: 'brightness(150%)'}} />
         <EffortDots />
         <Badge color="primary" badgeContent={`#${topPlace}`} invisible={!topPlace}>
           <StatBar style={{width: `${value}px`, backgroundColor: color}} />
@@ -68,22 +66,20 @@ const StatGroup = (props: StatGroupProps) => {
   const color = usePrimaryColor()
 
   const StatTotal = () => (
-    <Chip
+    <StatTotalContainer
       id="total-stat-count"
-      label={pokemon?.stats.reduce((pv, cv) => pv + cv.base_stat, 0) ?? '...'}
-      style={{
-        margin: '16px auto 0px',
-        backgroundColor: color,
-        color: COLORS.background,
-        fontWeight: 'bold',
-      }}
-    />
+      className="flex row"
+      style={{backgroundColor: color}}
+    >
+      <StatsIcon fontSize='small' />
+      <h4>{pokemon?.stats.reduce((pv, cv) => pv + cv.base_stat, 0) ?? '...'}</h4>
+    </StatTotalContainer>
   )
 
   return (
-    <div className="flex col">
-      <CustomDivider icon={<StatsIcon />} text="BASE STATS" />
-      <div className="flex col" style={{gap: '2px', marginTop: '8px'}}>
+    <div className="flex col card">
+      <StatTotal />
+      <StatBarsContainer className="flex col">
         {pokemon?.stats.map((stat) => (
           <StatRow 
             key={stat.stat.name} 
@@ -96,10 +92,7 @@ const StatGroup = (props: StatGroupProps) => {
             {STAT_NAMES.map((name, i) => (<StatRow key={i} statName={name} />))}
           </div>
         )}
-      </div>
-
-      <StatTotal />
-      
+      </StatBarsContainer>
     </div>
   )
 }

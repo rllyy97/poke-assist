@@ -39,6 +39,14 @@ div.fullwidth {
   width: 100%;
 }
 
+div.card {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #1E1E1E;
+  position: relative;
+  overflow: hidden;
+}
+
 .MuiDivider-fullWidth {
   width: 100%;
 }
