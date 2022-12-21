@@ -20,9 +20,10 @@ const CustomImg = styled('img')`
 interface IconProps {
   src: string,
   color?: "inherit" | "action" | "disabled" | "primary" | "secondary" | "error" | "info" | "success" | "warning",
+  style?: any
 }
 export const SvgIcon = (props: IconProps) => (
-  <CustomIcon color={props.color}>
+  <CustomIcon color={props.color} style={props.style}>
       <CustomImg alt="" src={props.src} />
   </CustomIcon>
 )

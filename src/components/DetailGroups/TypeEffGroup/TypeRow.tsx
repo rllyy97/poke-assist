@@ -8,18 +8,21 @@ const DamageNumber = styled.h3`
   text-align: center;
 `
 
-const TypeRow = (props) => (
-  <>
-    {props.types.length > 0 &&
-      <div className="flex" style={{margin: '4px 0px'}}>
-        <DamageNumber style={{background: COLORS[props.num]}}>{props.num}</DamageNumber>
-        <DamageNumber>×</DamageNumber>
-        <div className="flex left" style={{flex: '1 1 0%'}}>
-          {props.types.map((t) => <TypeDot key={t} type={t} />)}
+const TypeRow = (props) => {
+
+  return (
+    <>
+      {props.types.length > 0 &&
+        <div className="flex" style={{margin: '4px 0px'}}>
+          <DamageNumber style={{background: COLORS[props.value]}}>{props.label}</DamageNumber>
+          <DamageNumber>×</DamageNumber>
+          <div className="flex left" style={{flex: '1 1 0%'}}>
+            {props.types.map((t) => <TypeDot key={t} type={t} />)}
+          </div>
         </div>
-      </div>
-    }
-  </>
-)
+      }
+    </>
+  )
+}
 
 export default TypeRow

@@ -20,7 +20,7 @@ const MatchupCardContent = styled.div`
 
 const MatchupAttCard = (props: any) => {
 
-  const { type1, type2 } = props;
+  const { type1, type2, teraType } = props;
 
   /////////////////////////////////////////////////////////////////////////////
   /// EFFECTIVENESS
@@ -33,7 +33,7 @@ const MatchupAttCard = (props: any) => {
   const [eff0, setEff0] = useState<string[]>([])
 
   useEffect(() => {
-    const typeEffRecords = getDoubleEffDef(type1, type2)
+    const typeEffRecords = getDoubleEffDef(teraType ?? type1, teraType ? undefined : type2)
     const entries = Object.entries(typeEffRecords)
     setEff4(entries.filter(([, v]) => v === 4).map(([k]) => k))
     setEff2(entries.filter(([, v]) => v === 2).map(([k]) => k))
@@ -41,19 +41,19 @@ const MatchupAttCard = (props: any) => {
     setEffHalf(entries.filter(([, v]) => v === 0.5).map(([k]) => k))
     setEffQuarter(entries.filter(([, v]) => v === 0.25).map(([k]) => k))
     setEff0(entries.filter(([, v]) => v === 0).map(([k]) => k))
-  }, [type1, type2])
+  }, [type1, type2, teraType])
 
   if (!type1) return <></>
 
   return (
     <MatchupCardContainer>
       <MatchupCardContent>
-        <TypeRow num='4' types={eff4} />
-        <TypeRow num='2' types={eff2} />
-        {/* <TypeRow num='1' types={eff1} /> */}
-        <TypeRow num='½' types={effHalf} />
-        <TypeRow num='¼' types={effQuarter} />
-        <TypeRow num='0' types={eff0} />
+        <TypeRow value={4} label='4' types={eff4} />
+        <TypeRow value={2} label='2' types={eff2} />
+        {/* <TypeRow value={1} types={eff1} /> */}
+        <TypeRow value={0.5} label='½' types={effHalf} />
+        <TypeRow value={0.25} label='¼' types={effQuarter} />
+        <TypeRow value={0} label='0' types={eff0} />
       </MatchupCardContent>
     </MatchupCardContainer>
   )

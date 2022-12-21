@@ -2,7 +2,7 @@ import { SvgIcon } from "../../GlobalComponents"
 import { TYPE_DATA } from "../../typeData"
 
 const TypeDot = (props) => {
-  const { size = 'medium' } = props
+  const { size = 'medium', onClick } = props
   
   const type = TYPE_DATA[props.type]
   const pxSize =
@@ -24,8 +24,10 @@ const TypeDot = (props) => {
         height: pxSize,
         borderRadius: '50%',
         padding,
-        ...props.style
+        cursor: onClick ? 'pointer' : 'default',
+        ...props.style,
       }}
+      onClick={onClick}
     >
       <SvgIcon src={type.icon} />
     </div>

@@ -6,20 +6,23 @@ export interface EffGroupData {
   strong: string[]
   weak: string[]
   immune: string[]
+  normal: string[]
 }
 
 export const getEffAtt = (type?: Type): EffGroupData => {
   const strong = type?.damage_relations?.double_damage_to?.map(t => t.name) ?? []
   const weak = type?.damage_relations?.half_damage_to?.map(t => t.name) ?? []
   const immune = type?.damage_relations?.no_damage_to?.map(t => t.name) ?? []
-  return { strong, weak, immune }
+  const normal = Object.keys(TYPE_DATA).filter(t => !strong.includes(t) && !weak.includes(t) && !immune.includes(t))
+  return { strong, weak, immune, normal }
 }
 
 export const getEffDef = (type?: Type): EffGroupData => {
   const strong = type?.damage_relations?.double_damage_from?.map(t => t.name) ?? []
   const weak = type?.damage_relations?.half_damage_from?.map(t => t.name) ?? []
   const immune = type?.damage_relations?.no_damage_from?.map(t => t.name) ?? []
-  return { strong, weak, immune }
+  const normal = Object.keys(TYPE_DATA).filter(t => !strong.includes(t) && !weak.includes(t) && !immune.includes(t))
+  return { strong, weak, immune, normal }
 }
 
 export const getDoubleEffDef = (type1: Type, type2: Type): Record<string, number> => {
