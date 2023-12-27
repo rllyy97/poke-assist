@@ -1,15 +1,15 @@
-import styled from "styled-components";
+import styled from "styled-components"
 import { Chip, SvgIcon } from "@mui/material"
 
-import PercentIcon from '@mui/icons-material/Percent';
-import FastForwardIcon from '@mui/icons-material/FastForward';
+import PercentIcon from '@mui/icons-material/Percent'
+import FastForwardIcon from '@mui/icons-material/FastForward'
 
 import TypeDot from "../TypeDot"
-import { ReactComponent as PhysicalIcon } from '../../icons/moveTypes/physical-move.svg'
-import { ReactComponent as SpecialIcon } from '../../icons/moveTypes/special-move.svg'
-import { ReactComponent as StatusIcon } from '../../icons/moveTypes/status-move.svg'
+import PhysicalIcon from '../../icons/moveTypes/physical-move.svg?react'
+import SpecialIcon from '../../icons/moveTypes/special-move.svg?react'
+import StatusIcon from '../../icons/moveTypes/status-move.svg?react'
 
-import { Move } from "pokenode-ts";
+import { Move } from "pokenode-ts"
 
 const MoveTileContainer = styled.div`
   display: flex;

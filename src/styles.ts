@@ -1,6 +1,6 @@
-import { Chip } from "@mui/material";
-import styled from "styled-components";
-import { COLORS } from "./colors";
+import { Chip } from "@mui/material"
+import styled from "styled-components"
+import { COLORS } from "./colors"
 
 export const SiteWrapper = styled('div')`
   max-width: 502px;
@@ -50,23 +50,6 @@ export const HistoryTiles = styled('div')`
   width: fit-content;
   margin: 0px auto;
 `
-
-export const HistoryTile = styled('div')`
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: ${COLORS.background};
-  }
-
-  & > img {
-    width: 100%;
-    height: 100%;t
-  }
-`;
 
 export const AutocompleteImg = styled('img')`
   width: 32px;

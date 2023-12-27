@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-import { NamedAPIResource, Type } from 'pokenode-ts';
-import { EffDotContainer, TypeRowContainer } from "./styles";
-import { TypeEffectiveness, TYPE_EFF } from "../../types";
-import { TYPE_DATA } from "../../typeData";
-import TypeDot from "../TypeDot";
-import EffDot from "./effDot";
-import { useSelector } from "react-redux";
-import { getTypeGridHoverX, getTypeGridHoverY } from "../../store/appStatus/appStatusSelectors";
+import { useEffect, useState } from "react"
+import { NamedAPIResource, Type } from 'pokenode-ts'
+import { EffDotContainer, TypeRowContainer } from "./styles"
+import { TypeEffectiveness, TYPE_EFF } from "../../types"
+import { TYPE_DATA } from "../../typeData"
+import TypeDot from "../TypeDot"
+import EffDot from "./effDot"
+import { useTypeGridHoverX, useTypeGridHoverY } from "../../store/appStatus/appStatusSelectors"
 
 interface TypeRowProps {
   typeName: string;
@@ -16,8 +15,8 @@ interface TypeRowProps {
 const TypeRow = (props: TypeRowProps) => {
   const { typeName, hoverCallback } = props;
 
-  const hoverX = useSelector(getTypeGridHoverX);
-  const hoverY = useSelector(getTypeGridHoverY);
+  const hoverX = useTypeGridHoverX();
+  const hoverY = useTypeGridHoverY();
 
   const [typeEff, setTypeEff] = useState<Record<string, TypeEffectiveness>>({});
 

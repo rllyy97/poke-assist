@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { COLORS } from "../../../colors";
+import styled from "styled-components"
+import { COLORS } from "../../../colors"
 
 export const SubstatBlock = styled('div')`
   padding: 10px 16px;

@@ -4,17 +4,17 @@ import { useDispatch } from "react-redux"
 import { useApiStatus } from "../../store/api/apiSelectors"
 import { setApiStatus } from "../../store/api/apiSlice"
 import { setSelectedPokemon } from "../../store/appStatus/appStatusSlice"
-import { useCurrentPokemon } from "../../store/pokemonHistory/pokemonHistorySelectors"
 import { AutocompleteImg } from "../../styles"
 import { CapitalizeFirstLetter, IdFromSpeciesUrl, SpriteUrlFromId } from "../../utilities/stringManipulation"
+import { useSelectedSpecies } from "../../store/appStatus/appStatusSelectors"
 
 
 const SpeciesSearchBox = () => {
 
   const dispatch = useDispatch()
   const apiStatus = useApiStatus()
-  const pokemon = useCurrentPokemon()
-
+  const { data: pokemon } = useSelectedSpecies()
+  
   const [allNames, setAllNames] = useState<{name: string, id: string}[]>([])
 
   useEffect(() => {
@@ -22,14 +22,10 @@ const SpeciesSearchBox = () => {
       .then((r) => r.json())
       .then((data) => {
         dispatch(setApiStatus('connected'))
-        setAllNames(data.results
-          .map((p) => {
-            const id = IdFromSpeciesUrl(p.url)
-            const img = new Image();
-            img.src = SpriteUrlFromId(id);
-            return {name: p.name, id}
-          })
-        )
+        setAllNames(data.results.map((p) => ({
+          name: p.name, 
+          id: IdFromSpeciesUrl(p.url)
+        })))
       })
       .catch((e) => {
         console.error(e)

@@ -1,17 +1,17 @@
-import { useDispatch, useSelector } from "react-redux"
-import { getSelectedTabIndex } from "../../store/appStatus/appStatusSelectors"
+import { useDispatch } from "react-redux"
+import { useSelectedTabIndex } from "../../store/appStatus/appStatusSelectors"
 import { setSelectedTabIndex } from "../../store/appStatus/appStatusSlice"
 
-import { ReactComponent as SwordIcon } from '../../icons/sword.svg'
-import { ReactComponent as MovesIcon } from '../../icons/moveTypes/physical-move.svg'
+import SwordIcon from '../../icons/sword.svg?react'
+import MovesIcon from '../../icons/moveTypes/physical-move.svg?react'
 import { SvgIcon as MuiSvgIcon, Tab, Tabs } from '@mui/material'
 
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet'
 
 const PokemonTabs = () => {
 
   const dispatch = useDispatch()
-  const tabIndex = useSelector(getSelectedTabIndex)
+  const tabIndex = useSelectedTabIndex()
   
   const handleTabChange = (_e: any, i: number) => dispatch(setSelectedTabIndex(i))
 

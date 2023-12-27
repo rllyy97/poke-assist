@@ -1,11 +1,11 @@
 import { Dialog, IconButton } from '@mui/material'
 import AppIcon from '../../images/logo192.png'
 
-import GitHubIcon from '@mui/icons-material/GitHub';
-import AppsIcon from '@mui/icons-material/Apps';
-import TypeGrid from '../TypeGrid';
-import { GithubButtonContainer, TypeGridButtonContainer } from './styles';
-import { useState } from 'react';
+import GitHubIcon from '@mui/icons-material/GitHub'
+import AppsIcon from '@mui/icons-material/Apps'
+import TypeGrid from '../TypeGrid'
+import { GithubButtonContainer, TypeGridButtonContainer } from './styles'
+import { useState } from 'react'
 
 const Header = () => {
 

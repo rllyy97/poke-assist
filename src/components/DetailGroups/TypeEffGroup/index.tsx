@@ -6,9 +6,9 @@ import TypeEffDefGroup from "./TypeEffDefGroup"
 
 import { Chip, Dialog, SvgIcon as MuiSvgIcon } from "@mui/material"
 
-import { ReactComponent as SwordIcon } from "../../../icons/sword.svg"
-import { ReactComponent as TeraIcon } from "../../../icons/teraIcon.svg"
-import { ReactComponent as TeraEndcap } from "../../../icons/teraEndcap.svg"
+import SwordIcon from "../../../icons/sword.svg?react"
+import TeraIcon from "../../../icons/teraIcon.svg?react"
+import TeraEndcap from "../../../icons/teraEndcap.svg?react"
 import ShieldIcon from '@mui/icons-material/Shield'
 import { CustomDivider, SvgIcon } from "../../../GlobalComponents"
 import { TYPE_DATA } from "../../../typeData"
@@ -100,8 +100,8 @@ const TypeEffGroup = (props: TypeEffGroupProps) => {
         </div>
         <div className="flex row" style={{gap: '12px'}}>
           {/* Icon buttons for each type, when clicked it sets the tera type */}
-          {Object.keys(TYPE_DATA).map((type) => (
-            <TypeDot type={type} onClick={() => teraCallback(type)}>{type}</TypeDot>
+          {Object.keys(TYPE_DATA).map((type, i) => (
+            <TypeDot key={i} type={type} onClick={() => teraCallback(type)}>{type}</TypeDot>
           ))}
           <Chip label={'None'} onClick={() => teraCallback()} />
         </div>

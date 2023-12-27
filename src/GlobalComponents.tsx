@@ -24,7 +24,7 @@ interface IconProps {
 }
 export const SvgIcon = (props: IconProps) => (
   <CustomIcon color={props.color} style={props.style}>
-      <CustomImg alt="" src={props.src} />
+    <CustomImg alt="" src={props.src} />
   </CustomIcon>
 )
 
