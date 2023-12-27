@@ -1,7 +1,7 @@
 
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { MainClient } from 'pokenode-ts'
-import { ApiState } from './apiInterfaces'
+import { ApiState, ApiStatus } from './apiInterfaces'
 
 
 const initialState: ApiState = {
@@ -16,7 +16,7 @@ const apiSlice = createSlice({
     setApi(state: ApiState, action: any) {
       state.api = action.payload
     },
-    setApiStatus(state: ApiState, action: any) {
+    setApiStatus(state: ApiState, action: PayloadAction<ApiStatus>) {
       state.status = action.payload
     }
   }

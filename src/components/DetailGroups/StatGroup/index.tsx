@@ -25,7 +25,9 @@ const StatRow = (props) => {
 
   const EffortDots = () => (
     <div style={{position: 'absolute', left: '0', zIndex: 5, color: 'black', fontSize: '6px', padding: '4px', display: 'flex', gap: '1px'}}>
-      {new Array(effort).fill(0).map(() => <CircleIcon fontSize="inherit"/>)}
+      {new Array(effort).fill(0).map((_, i) => (
+        <CircleIcon key={i} fontSize="inherit" />
+      ))}
     </div>
   )
 

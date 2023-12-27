@@ -1,15 +1,17 @@
-import styled from "styled-components";
+import styled from "styled-components"
 import { Chip, SvgIcon } from "@mui/material"
 
-import PercentIcon from '@mui/icons-material/Percent';
-import FastForwardIcon from '@mui/icons-material/FastForward';
+import PercentIcon from '@mui/icons-material/Percent'
+import FastForwardIcon from '@mui/icons-material/FastForward'
 
 import TypeDot from "../TypeDot"
-import { ReactComponent as PhysicalIcon } from '../../icons/moveTypes/physical-move.svg'
-import { ReactComponent as SpecialIcon } from '../../icons/moveTypes/special-move.svg'
-import { ReactComponent as StatusIcon } from '../../icons/moveTypes/status-move.svg'
+import PhysicalIcon from '../../icons/moveTypes/physical-move.svg?react'
+import SpecialIcon from '../../icons/moveTypes/special-move.svg?react'
+import StatusIcon from '../../icons/moveTypes/status-move.svg?react'
 
-import { Move } from "pokenode-ts";
+import { Move } from "pokenode-ts"
+import { setSelectedMove } from "../../store/appStatus/appStatusSlice"
+import { useDispatch } from "react-redux"
 
 const MoveTileContainer = styled.div`
   display: flex;
@@ -26,6 +28,8 @@ interface MoveTileProps {
 
 const MoveTile = (props: MoveTileProps) => {
   const { name, move, style } = props
+
+  const dispatch = useDispatch()
 
   if (!move) return <p>Could not find: {name}</p>
 
@@ -55,7 +59,7 @@ const MoveTile = (props: MoveTileProps) => {
   return (
     <MoveTileContainer style={style}>
       <TypeDot type={move.type.name} size={'24px'} />
-      <h4 onClick={() => console.log(move)} style={{textTransform: 'capitalize'}}>
+      <h4 onClick={() => dispatch(setSelectedMove(move))} style={{textTransform: 'capitalize'}}>
         {move.name.replace('-', ' ')}
       </h4>
        {/* Spacer */} <div style={{flexGrow: 1}} /> {/* Spacer */}

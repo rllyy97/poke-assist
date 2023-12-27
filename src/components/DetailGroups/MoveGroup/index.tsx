@@ -1,29 +1,23 @@
-import { Move, Pokemon, PokemonMove, PokemonMoveVersion } from 'pokenode-ts'
+import { Pokemon, PokemonMove } from 'pokenode-ts'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import MovePool from './movePool'
 
-import { CircularProgress, IconButton, InputBase, Paper } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import UpgradeIcon from '@mui/icons-material/Upgrade';
-import { ReactComponent as EggIcon } from './../../../icons/egg.svg'
-import { ReactComponent as DiscIcon } from './../../../icons/minidisc.svg'
-import { SvgIcon } from '@mui/material';
-import { useQueries, useQuery } from 'react-query';
+import { CircularProgress, Dialog, IconButton, InputBase, Paper } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+import UpgradeIcon from '@mui/icons-material/Upgrade'
+import EggIcon from './../../../icons/egg.svg?react'
+import DiscIcon from './../../../icons/minidisc.svg?react'
+import { SvgIcon } from '@mui/material'
+import { useQueries, useQuery } from 'react-query'
 
-import { ReactComponent as PhysicalIcon } from '../../../icons/moveTypes/physical-move.svg'
-import { ReactComponent as SpecialIcon } from '../../../icons/moveTypes/special-move.svg'
-import { ReactComponent as StatusIcon } from '../../../icons/moveTypes/status-move.svg'
-import { useApi } from '../../../store/api/apiSelectors';
-import { useSelector } from 'react-redux';
-import { getSelectedTabIndex } from '../../../store/appStatus/appStatusSelectors';
+import PhysicalIcon from '../../../icons/moveTypes/physical-move.svg?react'
+import SpecialIcon from '../../../icons/moveTypes/special-move.svg?react'
+import StatusIcon from '../../../icons/moveTypes/status-move.svg?react'
+import { useApi } from '../../../store/api/apiSelectors'
+import { useSelectedTabIndex } from '../../../store/appStatus/appStatusSelectors'
+import { CustomMoveData } from '../../../types'
+import MoveDialog from '../../MoveDialog'
 
-
-export interface CustomMoveData {
-  name: string
-  versionGroupDetails?: PokemonMoveVersion
-  machineName?: string
-  data?: Move
-}
 
 interface MoveGroupProps {
   pokemon: Pokemon
@@ -34,7 +28,7 @@ const MoveGroup = (props: MoveGroupProps) => {
 
   const api = useApi()
 
-  const isShowing = useSelector(getSelectedTabIndex) === 2
+  const isShowing = useSelectedTabIndex() === 2
 
   /////////////////////////////////////////////////////////////////////////////
   // Finding Version
@@ -147,10 +141,14 @@ const MoveGroup = (props: MoveGroupProps) => {
   // Machine Extras
 
   const getMachineName = useCallback(async (name: string) => {
-    const move = await api.move.getMoveByName(name)
-    const machineId = move?.machines?.[move?.machines.length-1]?.machine.url.split('machine/')[1].split('/')[0]
-    const machine = await api.machine.getMachineById(~~machineId)
-    return machine?.item?.name
+    try {
+      const move = await api.move.getMoveByName(name)
+      const machineId = move?.machines?.[move?.machines.length-1]?.machine.url.split('machine/')[1].split('/')[0]
+      const machine = await api.machine.getMachineById(~~machineId)
+      return machine?.item?.name ?? ' '
+    } catch {
+      return ' '
+    }
   }, [api.machine, api.move]);
 
   const machineNames = useQuery(
@@ -171,7 +169,7 @@ const MoveGroup = (props: MoveGroupProps) => {
     return tmMoves
       .map(m => ({...m, machineName: machineNames.data[m.name]}))
       .sort((a, b) => a.machineName.localeCompare(b.machineName))
-  }, [machineNames.data, machineNames.isLoading, tmMoves])
+  }, [machineNames?.data, machineNames.isLoading, tmMoves])
 
   /////////////////////////////////////////////////////////////////////////////
 
@@ -224,6 +222,8 @@ const MoveGroup = (props: MoveGroupProps) => {
           moves={sortedTmMoves} 
         />
       </div>
+
+      <MoveDialog />
     </div>
   )
 }

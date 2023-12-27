@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
-const backgroundColor = '#222';
+const backgroundColor = '#222'
 
 export const TypeGridContainer = styled.div`
   display: flex;

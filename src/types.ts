@@ -1,3 +1,4 @@
+import { Move, PokemonMoveVersion } from "pokenode-ts"
 
 export const TYPE_EFF: Record<string, string> = {
   REGULAR: 'REGULAR',
@@ -6,4 +7,11 @@ export const TYPE_EFF: Record<string, string> = {
   IMMUNE: 'IMMUNE',
 }
 
-export type TypeEffectiveness = keyof typeof TYPE_EFF;
+export type TypeEffectiveness = keyof typeof TYPE_EFF
+
+export interface CustomMoveData {
+  name: string
+  versionGroupDetails?: PokemonMoveVersion
+  machineName?: string
+  data?: Move
+}

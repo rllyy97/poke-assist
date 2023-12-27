@@ -25,8 +25,8 @@ const SpeciesSearchBox = () => {
         setAllNames(data.results
           .map((p) => {
             const id = IdFromSpeciesUrl(p.url)
-            const img = new Image();
-            img.src = SpriteUrlFromId(id);
+            // const img = new Image();
+            // img.src = SpriteUrlFromId(id);
             return {name: p.name, id}
           })
         )

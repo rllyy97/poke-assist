@@ -12,7 +12,6 @@ import StatGroup from './components/DetailGroups/StatGroup'
 import { CapitalizeFirstLetter, IdFromPokemonUrl, SpriteUrlFromId } from './utilities/stringManipulation'
 import { TYPE_DATA } from './typeData'
 import TypeEffGroup from './components/DetailGroups/TypeEffGroup'
-import { getSelectedPokemonName, getSelectedTabIndex } from './store/appStatus/appStatusSelectors'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedPokemon } from './store/appStatus/appStatusSlice'
 import MoveGroup from './components/DetailGroups/MoveGroup'
@@ -26,6 +25,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import DexGroup from './components/DetailGroups/DexGroup'
 
 import SearchIcon from '@mui/icons-material/Search';
+import { useSelectedPokemonName, useSelectedTabIndex } from './store/appStatus/appStatusSelectors'
 
 
 function App() {
@@ -50,7 +50,7 @@ function App() {
     })
   }, [api.pokemon, dispatch])
   
-  const selectedPokemon = useSelector(getSelectedPokemonName);
+  const selectedPokemon = useSelectedPokemonName();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => selectPokeByName(selectedPokemon), [selectedPokemon])
 
@@ -76,7 +76,7 @@ function App() {
   /////////////////////////////////////////////////////////////////////////////
   /// RENDER
 
-  const tabIndex = useSelector(getSelectedTabIndex)
+  const tabIndex = useSelectedTabIndex()
 
   return (
     <QueryClientProvider client={queryClient}>

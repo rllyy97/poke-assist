@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { COLORS } from "../../../colors";
+import styled from "styled-components"
+import { COLORS } from "../../../colors"
 
 export const StatBarsContainer = styled('div')`
   gap: 2px !important;

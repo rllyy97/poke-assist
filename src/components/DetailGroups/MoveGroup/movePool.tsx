@@ -1,10 +1,12 @@
 import { Accordion, AccordionSummary, Typography, AccordionDetails } from "@mui/material"
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-import { CustomMoveData } from "."
 import MoveTile from "../../MoveTile"
-import { useCallback, useEffect, useState } from "react";
-import styled from "styled-components";
+import { useCallback, useEffect, useState } from "react"
+import styled from "styled-components"
+import { useDispatch } from "react-redux"
+import { setSelectedMove } from "../../../store/appStatus/appStatusSlice"
+import { CustomMoveData } from "../../../types"
 
 const MovePoolMoveContainer = styled.div`
   display: flex;
@@ -32,8 +34,14 @@ type LearnMethods = "machine" | "egg" | "level-up"
 const MovePool = (props: MovePoolProps) => {
   const { method, icon, title, moves } = props
 
+  const dispatch = useDispatch()
+
   const [isExpanded, setIsExpanded] = useState(false)
   const expandCallback = useCallback((e: any, expanded: boolean) => setIsExpanded(expanded), [])
+
+  const showMoveDialog = useCallback((move: CustomMoveData) => {
+    dispatch(setSelectedMove(move))
+  }, [])
 
   return (
     <Accordion disabled={moves.length === 0} expanded={isExpanded} onChange={expandCallback}>
@@ -44,7 +52,7 @@ const MovePool = (props: MovePoolProps) => {
       <AccordionDetails>
         <div>
           {moves.map((m) => (
-            <MovePoolMoveContainer key={m.name} onClick={() => console.log(m)}>
+            <MovePoolMoveContainer key={m.name} onClick={() => showMoveDialog(m)}>
 
               {/* Level Up */}
               {method === 'level-up' && (

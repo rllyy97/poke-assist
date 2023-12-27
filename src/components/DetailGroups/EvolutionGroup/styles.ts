@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { COLORS } from "../../../colors";
+import styled from "styled-components"
+import { COLORS } from "../../../colors"
 
 export const Flex = styled.div<{ dir: 'row' | 'column' }>`
   display: flex;
@@ -16,6 +16,6 @@ export const EvoSprite = styled.img`
   transition: background-color 0.2s;
 
   &:hover {
-    background: ${COLORS.card}
+    background: ${COLORS.cardHover}
   }
 `
