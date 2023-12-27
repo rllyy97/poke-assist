@@ -1,6 +1,6 @@
-import { Chip } from "@mui/material";
-import styled from "styled-components";
-import { COLORS } from "./colors";
+import { Chip } from "@mui/material"
+import styled from "styled-components"
+import { COLORS } from "./colors"
 
 export const SiteWrapper = styled('div')`
   max-width: 502px;
@@ -42,15 +42,6 @@ export const HistoryContainer = styled('div')`
   overflow-x: auto;
 `
 
-export const HistoryTiles = styled('div')`
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  justify-content: left;
-  width: fit-content;
-  margin: 0px auto;
-`
-
 export const HistoryTile = styled('div')`
   width: 64px;
   height: 64px;
@@ -66,7 +57,16 @@ export const HistoryTile = styled('div')`
     width: 100%;
     height: 100%;t
   }
-`;
+`
+
+export const HistoryTiles = styled('div')`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: left;
+  width: fit-content;
+  margin: 0px auto;
+`
 
 export const AutocompleteImg = styled('img')`
   width: 32px;

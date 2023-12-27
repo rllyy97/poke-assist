@@ -7,7 +7,7 @@ import { HIGHEST_STATS } from './statData'
 import { useMemo } from 'react'
 
 import CircleIcon from '@mui/icons-material/Circle'
-import StatsIcon from '@mui/icons-material/BarChart';
+import StatsIcon from '@mui/icons-material/BarChart'
 import { usePrimaryColor } from '../../../store/pokemonHistory/pokemonHistorySelectors'
 
 

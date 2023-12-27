@@ -1,10 +1,7 @@
-import { PokemonSpecies } from "pokenode-ts"
-import { useDispatch } from "react-redux"
-import { setSelectedPokemon } from "../../store/appStatus/appStatusSlice"
-import { IdFromPokemonUrl, IdFromSpeciesUrl, SpriteUrlFromId } from "../../utilities/stringManipulation"
+
+import { IdFromPokemonUrl, SpriteUrlFromId } from "../../utilities/stringManipulation"
 import styled from "styled-components"
 import { COLORS } from "../../colors"
-import { useSpecies } from "../../hooks/query"
 
 const PokeTileDiv = styled('div')`
   width: 64px;

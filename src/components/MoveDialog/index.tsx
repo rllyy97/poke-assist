@@ -145,8 +145,6 @@ const DialogContent = (props: { move: Move}) => {
           </AccordionDetails>
         </Accordion>
       </div>
-      
-      
 
     </MoveDialogContainer>
   )
