@@ -47,6 +47,8 @@ const HeroCard = (props: HeroCardProps) => {
       : (showShiny) ? shinyHomeImgSrc
       : defaultHomeImgSrc
   }, [pokemon?.sprites, showArt, showShiny, variantNum])
+
+  const id = IdFromUrl(pokemon?.species?.url).padStart(4, '0')
   
   return (
     <HeroCardWrapper>
@@ -61,7 +63,7 @@ const HeroCard = (props: HeroCardProps) => {
             {speciesName}
           </SpeciesName>
           <VariantName>
-            #{IdFromUrl(pokemon.species.url)}{variantName && ` - ${variantName}`}
+            #{id}{variantName && ` - ${variantName}`}
           </VariantName>
           <TypeContainer>
             {pokemon.types?.[0] && <TypeDot type={pokemon.types?.[0]?.type.name} /> }

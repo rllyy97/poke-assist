@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Chip, SvgIcon } from "@mui/material"
+import { Chip, SvgIcon, Typography } from "@mui/material"
 
 import PercentIcon from '@mui/icons-material/Percent'
 import FastForwardIcon from '@mui/icons-material/FastForward'
@@ -59,9 +59,9 @@ const MoveTile = (props: MoveTileProps) => {
   return (
     <MoveTileContainer style={style}>
       <TypeDot type={move.type.name} size={'24px'} />
-      <h4 onClick={() => dispatch(setSelectedMove(move))} style={{textTransform: 'capitalize'}}>
+      <Typography onClick={() => dispatch(setSelectedMove(move))} style={{textTransform: 'capitalize'}}>
         {move.name.replace('-', ' ')}
-      </h4>
+      </Typography>
        {/* Spacer */} <div style={{flexGrow: 1}} /> {/* Spacer */}
       {move.priority !> 0 && <Chip size="small" icon={<FastForwardIcon />} label={move.priority} style={cStyle} />}
       {move.power !> 0 && <Chip size="small" label={powerString} style={cStyle} />}

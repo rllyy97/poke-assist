@@ -1,28 +1,27 @@
-import styled from "styled-components"
-import { Accordion, AccordionDetails, AccordionSummary, Chip, Dialog, Divider, SvgIcon, Typography } from "@mui/material"
+import { Dialog, SvgIcon, Typography } from "@mui/material"
 
 import PercentIcon from '@mui/icons-material/Percent'
 import FastForwardIcon from '@mui/icons-material/FastForward'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-
-import PhysicalIcon from '../../icons/moveTypes/physical-move.svg?react'
-import SpecialIcon from '../../icons/moveTypes/special-move.svg?react'
-import StatusIcon from '../../icons/moveTypes/status-move.svg?react'
 
 import { useCallback } from "react"
 import { useDispatch } from "react-redux"
 import { useSelectedMove } from "../../store/appStatus/appStatusSelectors"
-import { setSelectedPokemon, setSelectedMove } from "../../store/appStatus/appStatusSlice"
-import TypeChip from "../TypeChip"
-import PokeTile from "../PokeTile"
+import { setSelectedMove } from "../../store/appStatus/appStatusSlice"
 import { Move } from "pokenode-ts"
-import { useApi } from "../../store/api/apiSelectors"
-import { setCurrentPokemon } from "../../store/pokemonHistory/pokemonHistorySlice"
+import MoveClassChip from "../MoveClassChip"
+import { MoveDialogContainer, MovePropertyContainer, PropertiesContainer } from "./styles"
 
-const MoveDialogContainer = styled.div`
-  padding: 24px 16px;
-  min-width: 300px;
-`
+import PhysicalIcon from '../../icons/moveTypes/physical-move.svg?react'
+import CircleIcon from '@mui/icons-material/Circle'
+import { FormatString } from "../../utilities/stringManipulation"
+import TypeDot from "../TypeDot"
+import TargettingAccordion from "./targettingAccordion"
+import LearnedByAccordion from "./learnedByAccordion"
+import StatChangeAccordion from "./statChangeAccordion"
+import StatChangeChips from "./statChangeChips"
+import TargettingCard from "./targettingCard"
+import EffectsCard from "./effectsCard"
+
 
 const MoveDialog = () => {
 
@@ -41,114 +40,73 @@ const MoveDialog = () => {
 const DialogContent = (props: { move: Move}) => {
   const { move } = props
 
-  const api = useApi()
-  const dispatch = useDispatch()
-
   if (!move) return <></>
 
   const { 
-    power, 
+    power,
+    accuracy,
     damage_class, 
     meta, 
     effect_entries, 
     effect_chance, 
-    learned_by_pokemon
+    learned_by_pokemon,
+    stat_changes,
+    pp,
+    priority,
+    name,
+    type,
   } = move
 
   const numHitsString = meta?.max_hits > 1 ? ` * ${meta?.min_hits}-${meta?.max_hits}` : ''
-  const powerString = `${power}${numHitsString} BP`
+  const powerString = power ? `${power}${numHitsString}` : `0`
+  const accuracyString = accuracy ? `${accuracy}%` : '--'
 
   const effectString = effect_entries[0]?.effect.replaceAll('$effect_chance', effect_chance?.toString())
-
-  const moveCategories = {
-    physical: {
-      text: 'Physical',
-      icon: PhysicalIcon,
-      color: 'error'
-    },
-    special: {
-      text: 'Special',
-      icon: SpecialIcon,
-      color: 'info'
-    },
-    status: {
-      text: 'Status',
-      icon: StatusIcon,
-      color: 'disabled'
-    }
-  }
-
-  const moveCategory = moveCategories[damage_class.name] ?? moveCategories.status
-
-  const cStyle: any = {
-    textTransform: 'capitalize',
-    minWidth: '56px'
-  }
 
   console.log("### MOVE", move)
 
   return (
-    <MoveDialogContainer className={"flex col left"}>
-      <h2 style={{textTransform: 'capitalize'}}>
-        {move.name.replace('-', ' ')}
-      </h2>
-      <TypeChip type={move.type.name} />
-      <div>
-        <SvgIcon component={moveCategory.icon} color={moveCategory.color} />
-        <span>{moveCategory.text}</span>
+    <MoveDialogContainer className={"flex col stretch"}>
+
+
+      <div className={"flex row"} style={{ gap: '8px', width: '100%' }}>
+        <h1 style={{textTransform: 'capitalize', flexGrow: 1}}>
+          {FormatString(name)}
+        </h1>
+        <TypeDot type={type.name} />
+        <MoveClassChip className={damage_class.name} />
       </div>
 
-      <Divider />
+      <Typography style={{ marginBottom: '16px' }}>{effectString}</Typography>
 
-      {move.priority !> 0 && <Chip icon={<FastForwardIcon />} label={move.priority} style={cStyle} />}
-      {move.power !> 0 && <Chip label={powerString} style={cStyle} />}
-      {move.accuracy !> 0 && <Chip icon={<PercentIcon />} label={move.accuracy} style={cStyle} />}
-      {move?.pp !> 0 && <Chip label={move.pp + ' PP'} />}
-      {/* {move.effect_entries?.length > 0 && (
-        <p style={{fontSize: '12px'}}>
-          
-        </p>
-      )} */}
-      <Divider />
+      <PropertiesContainer>
+        <MoveProperty icon={<SvgIcon component={PhysicalIcon} />} name="Power" value={powerString} fade={!power} />
+        <MoveProperty icon={<CircleIcon />} name="PP" value={pp} subValue={`(${pp * 1.6})`}/>
+        <MoveProperty icon={<PercentIcon />} name="Accuracy" value={accuracyString} fade={!accuracy} />
+        <MoveProperty icon={<FastForwardIcon />} name="Priority" value={priority} fade={priority == 0} />
+
+        <TargettingCard target={move?.target?.name} />
+        <EffectsCard move={move} />
+      </PropertiesContainer>
+
       <div>
-        <Accordion style={{ background: 'none', border: 'none', boxShadow: 'none' }}>
-          <AccordionSummary
-            id="panel1a-header"
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-          >
-            <Typography>Learned by</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className={"flex row left"}>
-              {learned_by_pokemon?.map((p, i) => (
-                // These are variants, NOT species
-                <PokeTile
-                  key={i}
-                  name={p.name} 
-                  url={p.url}
-                  onClick={async () => {
-                    dispatch(setSelectedMove(undefined))
-                    // get species from pokemon
-                    const variant = await api.pokemon.getPokemonByName(p.name)
-                    const species = await api.pokemon.getPokemonSpeciesByName(variant.species.name)
-                    
-                    dispatch(setSelectedPokemon(species.name))
-                    dispatch(setCurrentPokemon(species))
-
-                    // This gets overriden by our defaulting logic
-                    // dispatch(setCurrentVariant(variant))
-                  }}
-                />
-              ))}
-            </div>
-          </AccordionDetails>
-        </Accordion>
+        <LearnedByAccordion pokemon={learned_by_pokemon} />
       </div>
 
     </MoveDialogContainer>
   )
+}
 
+export const MoveProperty = ({icon, name, value = undefined, subValue = undefined, fade = false}) => {
+
+  return (
+    <MovePropertyContainer style={fade ? { opacity: 0.5 } : {}}>
+      {icon}
+      <Typography style={{ flexGrow: 1 }}>{name}</Typography>
+      <Typography style={{ fontWeight: 'bold' }}>{value}</Typography>
+      {subValue && <Typography style={{ opacity: 0.5, fontSize: '12px' }}>{subValue}</Typography>}
+    </MovePropertyContainer>
+  )
 }
 
 export default MoveDialog

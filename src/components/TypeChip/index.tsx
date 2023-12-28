@@ -2,21 +2,23 @@ import { Chip } from "@mui/material"
 import { SvgIcon } from "../../GlobalComponents"
 import { TYPE_DATA } from "../../typeData"
 
-const TypeChip = (props) => {
-  const { onClick } = props
+const TypeChip = ({ 
+  size = 'medium', 
+  onClick = () => {}, 
+  type, 
+}) => {
   
-  const type = TYPE_DATA[props.type]
+  const { icon, name, color } = TYPE_DATA[type]
 
   return (
     <Chip 
-      icon={<SvgIcon src={type.icon} style={{padding: '2px'}} />} 
-      label={type.name}
+      size={size as any}
+      icon={<SvgIcon src={icon} style={{padding: '2px'}} />} 
+      label={name}
       onClick={onClick}
       style={{
-        backgroundColor: type.color,
+        backgroundColor: color,
         paddingLeft: '6px',
-        textTransform: 'capitalize',
-        fontWeight: 'bold',
       }}
     />
   )

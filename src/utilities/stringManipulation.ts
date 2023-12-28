@@ -10,6 +10,7 @@ export const statDict = {
 
 export const FormatString = (s?: string): string => 
   CapitalizeFirstLetter(s?.replace(/[ -.]/g, ' '))
+  
 export const FormatStatString = (stat: string): string => 
   statDict[stat.replace(/[ -.]/g, '')]
 
