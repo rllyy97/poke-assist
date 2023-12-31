@@ -7,7 +7,7 @@ import { HIGHEST_STATS } from './statData'
 import { useMemo } from 'react'
 
 import CircleIcon from '@mui/icons-material/Circle'
-import StatsIcon from '@mui/icons-material/BarChart';
+import StatsIcon from '@mui/icons-material/BarChart'
 import { usePrimaryColor } from '../../../store/pokemonHistory/pokemonHistorySelectors'
 
 
@@ -25,7 +25,9 @@ const StatRow = (props) => {
 
   const EffortDots = () => (
     <div style={{position: 'absolute', left: '0', zIndex: 5, color: 'black', fontSize: '6px', padding: '4px', display: 'flex', gap: '1px'}}>
-      {new Array(effort).fill(0).map(() => <CircleIcon fontSize="inherit"/>)}
+      {new Array(effort).fill(0).map((_, i) => (
+        <CircleIcon key={i} fontSize="inherit" />
+      ))}
     </div>
   )
 
@@ -34,7 +36,7 @@ const StatRow = (props) => {
       <h4 style={{width: '80px', textAlign: 'right'}}>
         {statName?.replace('special-attack', 'sp. atk').replace('special-defense', 'sp. def')}
       </h4>
-      <h6 style={{width: '24px', height: '24px', lineHeight: '24px'}}>{value}</h6>
+      <h6 style={{width: '24px', height: '24px', lineHeight: '24px', fontFamily: 'monospace'}}>{value}</h6>
       <div  className="flex row left" style={{width: '260px', position: 'relative'}}>
         <img src={statBarBackground} alt='' style={{position: 'absolute', filter: 'brightness(150%)'}} />
         <EffortDots />

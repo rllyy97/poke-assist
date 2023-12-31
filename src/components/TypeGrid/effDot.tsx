@@ -1,8 +1,8 @@
-import { TypeEffectiveness, TYPE_EFF } from '../../types';
+import { TypeEffectiveness, TYPE_EFF } from '../../types'
 
-import TripOriginIcon from '@mui/icons-material/TripOrigin';
-import CloseIcon from '@mui/icons-material/Close';
-import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory';
+import TripOriginIcon from '@mui/icons-material/TripOrigin'
+import CloseIcon from '@mui/icons-material/Close'
+import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory'
 
 const EffDot = (props: { eff: TypeEffectiveness}) => {
   const { eff } = props;

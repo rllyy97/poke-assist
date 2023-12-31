@@ -1,14 +1,12 @@
-import { ChainLink, EvolutionDetail, PokemonSpecies } from "pokenode-ts";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useApi } from "../../../store/api/apiSelectors";
-import { setSelectedPokemon } from "../../../store/appStatus/appStatusSlice";
-import { IdFromSpeciesUrl, IdFromUrl, SpriteUrlFromId } from "../../../utilities/stringManipulation";
-import EvoDetail from "./EvoDetail";
+import { ChainLink, EvolutionDetail, PokemonSpecies } from "pokenode-ts"
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { useApi } from "../../../store/api/apiSelectors"
+import { CapitalizeFirstLetter, FormatString, IdFromSpeciesUrl, IdFromUrl, SpriteUrlFromId } from "../../../utilities/stringManipulation"
+import EvoDetail from "./EvoDetail"
 
-import EvoIcon from '@mui/icons-material/SwipeUpAlt';
-import { EvoSprite, Flex } from "./styles";
-import { CustomDivider } from "../../../GlobalComponents";
+import { EvoSprite, Flex } from "./styles"
+import { setSelectedPokemon } from "../../../store/appStatus/appStatusSlice"
 
 
 interface EvolutionGroupProps {
@@ -35,11 +33,23 @@ const EvolutionGroup = (props: EvolutionGroupProps) => {
     if (!evo) return
     const id = IdFromSpeciesUrl(evo.species.url)
     const name = evo.species.name
-    const imgUrl = SpriteUrlFromId(id) 
+    const imgUrl = SpriteUrlFromId(id)
+    const evoDetails = (evo as any).evolution_details
+
+    const locations = evoDetails
+      .map((d: EvolutionDetail) => FormatString(d?.location?.name))
+      .filter((l) => l)
+    let parsedEvoDetails = evoDetails.filter((d: EvolutionDetail) => !d?.location)
+    if (locations.length !== 0) {
+      parsedEvoDetails.push({ location: { name: locations.join(', ') } })
+    }
+
     return (
       <Flex dir='row' key={evo.species.name}>
-        <Flex dir='column'>
-          {(evo as any).evolution_details.map((d: EvolutionDetail) => <EvoDetail detail={d} key={evo.species.name} />)}
+        <Flex dir='column' style={{margin: '8px 0px'}}>
+          {parsedEvoDetails.map((d: EvolutionDetail) => (
+            <EvoDetail detail={d} key={evo.species.name} />
+          ))}
         </Flex>
         <Flex dir='column'>
           <EvoSprite

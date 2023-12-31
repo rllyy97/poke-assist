@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { COLORS } from "../../../colors";
-import { getDoubleEffDef } from "../../../utilities/typeCalc";
-import TypeRow from "./TypeRow";
+import { useState, useEffect } from "react"
+import styled from "styled-components"
+import { COLORS } from "../../../colors"
+import { getDoubleEffDef } from "../../../utilities/typeCalc"
+import TypeRow from "./TypeRow"
 
 const MatchupCardContainer = styled.div`
   width: 100%;

@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { COLORS } from "../../../colors";
-import { TYPE_DATA } from "../../../typeData";
-import TypeDot from "../../TypeDot";
-import TypeRow from "./TypeRow";
+import styled from "styled-components"
+import { COLORS } from "../../../colors"
+import { TYPE_DATA } from "../../../typeData"
+import TypeDot from "../../TypeDot"
+import TypeRow from "./TypeRow"
 
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import ShieldIcon from '@mui/icons-material/Shield';
-import { ReactComponent as TeraIcon } from "../../../icons/teraIcon.svg"
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import ShieldIcon from '@mui/icons-material/Shield'
+import TeraIcon from "../../../icons/teraIcon.svg?react"
 
 const MatchupCardContainer = styled.div`
   width: 100%;

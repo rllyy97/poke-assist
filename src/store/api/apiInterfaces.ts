@@ -1,6 +1,8 @@
-import { MainClient } from "pokenode-ts";
+import { MainClient } from "pokenode-ts"
 
 export interface ApiState {
   api: MainClient
-  status: 'loading' | 'connected' | 'disconnected'
+  status: ApiStatus
 }
+
+export type ApiStatus = 'loading' | 'connected' | 'disconnected'

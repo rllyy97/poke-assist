@@ -2,21 +2,21 @@ import { Pokemon, PokemonAbility } from "pokenode-ts"
 import { PokeImg, PokeImgSmall } from "../../styles"
 import { TYPE_DATA } from "../../typeData"
 import { HeroCardWrapper, PsuedoBorder, SpeciesName, TypeContainer, VariantName } from "./styles"
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress'
 
 import TypeDot from "../TypeDot"
 import AbilityChip from "../AbilityChip"
 import ChipRow from "../ChipRow"
 import { IdFromUrl } from "../../utilities/stringManipulation"
-import { useMemo, useState } from "react";
-import { IconButton } from "@mui/material";
+import { useMemo, useState } from "react"
+import { IconButton } from "@mui/material"
 
-import { SvgIcon as MuiSvgIcon } from '@mui/material';
-import { ReactComponent as ShinyIcon } from '../../icons/shiny.svg';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { useHeroSize } from "../../store/appStatus/appStatusSelectors";
-import { setHeroSize } from "../../store/appStatus/appStatusSlice";
-import { useDispatch } from "react-redux";
+import { SvgIcon as MuiSvgIcon } from '@mui/material'
+import ShinyIcon from '../../icons/shiny.svg?react'
+import ReplayIcon from '@mui/icons-material/Replay'
+import { useHeroSize } from "../../store/appStatus/appStatusSelectors"
+import { setHeroSize } from "../../store/appStatus/appStatusSlice"
+import { useDispatch } from "react-redux"
 
 interface HeroCardProps {
   isLoading?: boolean
@@ -47,6 +47,8 @@ const HeroCard = (props: HeroCardProps) => {
       : (showShiny) ? shinyHomeImgSrc
       : defaultHomeImgSrc
   }, [pokemon?.sprites, showArt, showShiny, variantNum])
+
+  const id = IdFromUrl(pokemon?.species?.url).padStart(4, '0')
   
   return (
     <HeroCardWrapper>
@@ -61,7 +63,7 @@ const HeroCard = (props: HeroCardProps) => {
             {speciesName}
           </SpeciesName>
           <VariantName>
-            #{IdFromUrl(pokemon.species.url)}{variantName && ` - ${variantName}`}
+            #{id}{variantName && ` - ${variantName}`}
           </VariantName>
           <TypeContainer>
             {pokemon.types?.[0] && <TypeDot type={pokemon.types?.[0]?.type.name} /> }

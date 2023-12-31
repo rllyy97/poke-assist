@@ -1,33 +1,33 @@
-import { EvolutionDetail } from "pokenode-ts";
-import styled from "styled-components";
+import { EvolutionDetail } from "pokenode-ts"
+import styled from "styled-components"
 
-import MaleIcon from '@mui/icons-material/Male';
-import FemaleIcon from '@mui/icons-material/Female';
-import ScreenRotationIcon from '@mui/icons-material/ScreenRotation';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
-import PlaceIcon from '@mui/icons-material/Place';
-import GroupIcon from '@mui/icons-material/Group';
+import MaleIcon from '@mui/icons-material/Male'
+import FemaleIcon from '@mui/icons-material/Female'
+import ScreenRotationIcon from '@mui/icons-material/ScreenRotation'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import LightbulbIcon from '@mui/icons-material/Lightbulb'
+import PlaceIcon from '@mui/icons-material/Place'
+import GroupIcon from '@mui/icons-material/Group'
 
-import ArrowBlock from "../../../icons/arrow-block.svg"
-import TradeIcon from "../../../icons/trade.svg"
-import RainIcon from "../../../icons/rain.svg"
+import ArrowBlock from '../../../icons/arrow-block.svg'
+import TradeIcon from '../../../icons/trade.svg'
+import RainIcon from '../../../icons/rain.svg'
 
-import { ItemSpriteFromName, PokeSpriteFromUrl } from "../../../utilities/stringManipulation";
-import { SvgIcon } from "../../../GlobalComponents";
-import TypeDot from "../../TypeDot";
+import { FormatString, ItemSpriteFromName, PokeSpriteFromUrl } from '../../../utilities/stringManipulation'
+import { SvgIcon } from '../../../GlobalComponents'
+import TypeDot from '../../TypeDot'
 
-import { Chip, Tooltip } from "@mui/material"
+import { Chip, Tooltip, Typography } from '@mui/material'
 
 interface EvoDetailProps {
-  detail: EvolutionDetail;
+  detail: EvolutionDetail
 }
 
 const DetailDiv = styled.div`
   width: 64px;
   height: 64px;
-  margin: 4px;
+  margin: -6px 4px;
   padding: 16px 8px 16px 0px;
   font-size: 11px;
   font-weight: bold;
@@ -79,14 +79,11 @@ const EvoDetail = ({ detail }: EvoDetailProps) => {
     turn_upside_down,
   } = detail;
 
-  const Item = (props: any) => {
-    const displayName = props?.name?.replace('-', ' ');
-    return (
-      <Tooltip title={displayName}>
-        <img alt='' src={ItemSpriteFromName(props?.name)} style={{margin: '-4px'}} />
-      </Tooltip>
-    )
-  }
+  const Item = (props: any) => (
+    <Tooltip title={FormatString(props?.name)}>
+      <img alt='' src={ItemSpriteFromName(props?.name)} style={{margin: '-4px'}} />
+    </Tooltip>
+  )
 
   const Text = (props: any) => <span>{props.t.replace('-', ' ')}</span>
 
@@ -117,31 +114,27 @@ const EvoDetail = ({ detail }: EvoDetailProps) => {
       {min_beauty && <Text t={`Beauty ${min_beauty}`} />}
       {min_happiness && <Text t={`${min_happiness} ❤`} />}
       {min_affection && <Text t={`${min_affection} 💖`} />}
-      {party_species && (
-        <>
-          <GroupIcon />
-          <PokeImg alt='' src={PokeSpriteFromUrl(party_species?.url)} />
-        </>
-      )}
-      {party_type && (
-        <>
-          <GroupIcon />
-          <TypeDot type={party_type?.name} size="small" />
-        </>
-      )}
+      {party_species && <>
+        <GroupIcon />
+        <PokeImg alt='' src={PokeSpriteFromUrl(party_species?.url)} />
+      </>}
+      {party_type && <>
+        <GroupIcon />
+        <TypeDot type={party_type?.name} size="small" />
+      </>}
       {needs_overworld_rain && <SvgIcon src={RainIcon} />}
       {(time_of_day as string) === 'day' ? <LightModeIcon />
         : (time_of_day as string) === 'night' ? <DarkModeIcon />
         : null
       }
-      {relative_physical_stats && (
+      {relative_physical_stats != undefined && (
         <Chip size="small" label={
           relative_physical_stats === 1 ? '+ ATK'
           : relative_physical_stats === -1 ? '+ DEF'
           : 'A = D'
         } />
       )}
-      {trigger?.name === 'shed' && <Text t='shed' />}
+      {trigger?.name === 'shed' && <Text t='Shed' />}
       {trigger?.name === 'trade' && <SvgIcon src={TradeIcon} />}
       {trade_species && <PokeImg src={PokeSpriteFromUrl(trade_species?.url)} />}
       {turn_upside_down && <ScreenRotationIcon />}

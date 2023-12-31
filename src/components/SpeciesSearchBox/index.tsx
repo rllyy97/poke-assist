@@ -3,10 +3,10 @@ import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useApiStatus } from "../../store/api/apiSelectors"
 import { setApiStatus } from "../../store/api/apiSlice"
-import { setSelectedPokemon } from "../../store/appStatus/appStatusSlice"
-import { useCurrentPokemon } from "../../store/pokemonHistory/pokemonHistorySelectors"
 import { AutocompleteImg } from "../../styles"
 import { CapitalizeFirstLetter, IdFromSpeciesUrl, SpriteUrlFromId } from "../../utilities/stringManipulation"
+import { useCurrentPokemon } from "../../store/pokemonHistory/pokemonHistorySelectors"
+import { setSelectedPokemon } from "../../store/appStatus/appStatusSlice"
 
 
 const SpeciesSearchBox = () => {
@@ -25,8 +25,8 @@ const SpeciesSearchBox = () => {
         setAllNames(data.results
           .map((p) => {
             const id = IdFromSpeciesUrl(p.url)
-            const img = new Image();
-            img.src = SpriteUrlFromId(id);
+            // const img = new Image();
+            // img.src = SpriteUrlFromId(id);
             return {name: p.name, id}
           })
         )

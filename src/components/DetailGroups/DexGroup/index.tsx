@@ -9,12 +9,11 @@ import MaleIcon from '@mui/icons-material/Male'
 import FemaleIcon from '@mui/icons-material/Female'
 import ExpIcon from '@mui/icons-material/AutoGraph'
 
-import { ReactComponent as EggIcon } from '../../../icons/egg.svg'
-import { ReactComponent as KgIcon } from '../../../icons/weight-kg.svg'
-import { ReactComponent as LbIcon } from '../../../icons/weight-lb.svg'
-import { ReactComponent as HeightIcon } from '../../../icons/height.svg'
-import { ReactComponent as PercentCircleIcon } from '../../../icons/percent-circle.svg'
-import { CustomDivider } from "../../../GlobalComponents"
+import EggIcon from '../../../icons/egg.svg?react'
+import KgIcon from '../../../icons/weight-kg.svg?react'
+import LbIcon from '../../../icons/weight-lb.svg?react'
+import HeightIcon from '../../../icons/height.svg?react'
+import PercentCircleIcon from '../../../icons/percent-circle.svg?react'
 import StatGroup from "../StatGroup"
 import { COLORS } from "../../../colors"
 
@@ -106,7 +105,9 @@ const DexGroup = (props: DexGroupProps) => {
           <SvgIcon component={EggIcon} />
           <h4>Egg Groups</h4>
         </div>
-        {species?.egg_groups.map((g) => <Chip label={CapitalizeFirstLetter(g?.name)} style={{backgroundColor: COLORS.background}} />)}
+        {species?.egg_groups.map((g) => (
+          <Chip key={g.name} label={CapitalizeFirstLetter(g?.name)} style={{backgroundColor: COLORS.background}} />
+        ))}
       </div>
     </div>
   )
