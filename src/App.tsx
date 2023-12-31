@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Avatar, Chip, CssBaseline, ThemeProvider } from '@mui/material'
-import { HistoryContainer, HistoryTile, HistoryTiles, SiteWrapper, VariantChip } from './styles'
+import { SiteWrapper, VariantChip } from './styles'
 import { theme } from './Theme'
 
 import { PokemonSpecies } from 'pokenode-ts'
@@ -22,9 +22,10 @@ import DexGroup from './components/DetailGroups/DexGroup'
 
 import SearchIcon from '@mui/icons-material/Search';
 import { useSelectedPokemonName, useSelectedTabIndex } from './store/appStatus/appStatusSelectors'
-import { useCurrentPokemon, useCurrentPokemonVariant, usePokemonHistory } from './store/pokemonHistory/pokemonHistorySelectors'
+import { useCurrentPokemon, useCurrentPokemonVariant } from './store/pokemonHistory/pokemonHistorySelectors'
 import { useApi } from './store/api/apiSelectors'
 import { setCurrentPokemon, setCurrentVariant } from './store/pokemonHistory/pokemonHistorySlice'
+import PokeHistory from './components/PokeHistory'
 
 
 function App() {
@@ -49,7 +50,6 @@ const Content = () => {
   /////////////////////////////////////////////////////////////////////////////
   /// HISTORY
   
-  const pokemonHistory = usePokemonHistory()
   const species = useCurrentPokemon();
   const [isLoading, setIsLoading] = useState(false)
   
@@ -74,15 +74,6 @@ const Content = () => {
     api.pokemon.getPokemonByName(species?.varieties?.find((p) => p.is_default).pokemon.name)
       .then((pokemon) => dispatch(setCurrentVariant(pokemon)))
   }, [api.pokemon, dispatch, species])
-
-  /////////////////////////////////////////////////////////////////////////////
-  /// UI COMPONENTS
-
-  const HistoryPokemon = (props: {pokemonSpecies: PokemonSpecies}) => (
-    <HistoryTile onClick={() => dispatch(setSelectedPokemon(props.pokemonSpecies.name))}>
-      <img alt={props.pokemonSpecies.name} src={SpriteUrlFromId(props.pokemonSpecies.id)} />
-    </HistoryTile>
-  )
 
   /////////////////////////////////////////////////////////////////////////////
   /// RENDER
@@ -134,11 +125,7 @@ const Content = () => {
           </div>
         )}
 
-        <HistoryContainer>
-          <HistoryTiles>
-            {pokemonHistory?.slice(1, pokemonHistory.length)?.map((p, i) => <HistoryPokemon pokemonSpecies={p} key={i} />)}
-          </HistoryTiles>
-        </HistoryContainer>
+        <PokeHistory />
 
       </SiteWrapper>
     </div>

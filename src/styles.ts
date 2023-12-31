@@ -29,45 +29,6 @@ export const PokeImgSmall = styled('img')`
   margin: -6px -8px -8px -8px;
 `
 
-export const HistoryContainer = styled('div')`
-  z-index: 10;
-  position: fixed;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  width: 100%;
-  background: ${COLORS.card};
-  border-top: 1px solid ${COLORS.border};
-  padding: 8px;
-  overflow-x: auto;
-`
-
-export const HistoryTile = styled('div')`
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: ${COLORS.background};
-  }
-
-  & > img {
-    width: 100%;
-    height: 100%;t
-  }
-`
-
-export const HistoryTiles = styled('div')`
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  justify-content: left;
-  width: fit-content;
-  margin: 0px auto;
-`
-
 export const AutocompleteImg = styled('img')`
   width: 32px;
   height: 32px;

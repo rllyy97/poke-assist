@@ -15,6 +15,7 @@ const StatChangeChips = ({ statChance, statChanges = [], target }) => {
     'special-defense': 'SpD',
     'speed': 'Spe',
     'evasion': 'Eva',
+    'accuracy': 'Acc',
   }
 
   const disabled = statChanges.length === 0

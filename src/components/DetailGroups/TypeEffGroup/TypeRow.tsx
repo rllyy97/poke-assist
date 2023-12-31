@@ -6,6 +6,7 @@ const DamageNumber = styled.h3`
   width: 28px;
   border-radius: 4px;
   text-align: center;
+  font-family: monospace;
 `
 
 const TypeRow = (props) => {

@@ -14,13 +14,10 @@ import { MoveDialogContainer, MovePropertyContainer, PropertiesContainer } from 
 import PhysicalIcon from '../../icons/moveTypes/physical-move.svg?react'
 import CircleIcon from '@mui/icons-material/Circle'
 import { FormatString } from "../../utilities/stringManipulation"
-import TypeDot from "../TypeDot"
-import TargettingAccordion from "./targettingAccordion"
 import LearnedByAccordion from "./learnedByAccordion"
-import StatChangeAccordion from "./statChangeAccordion"
-import StatChangeChips from "./statChangeChips"
 import TargettingCard from "./targettingCard"
 import EffectsCard from "./effectsCard"
+import TypeChip from "../TypeChip"
 
 
 const MoveDialog = () => {
@@ -50,7 +47,6 @@ const DialogContent = (props: { move: Move}) => {
     effect_entries, 
     effect_chance, 
     learned_by_pokemon,
-    stat_changes,
     pp,
     priority,
     name,
@@ -68,16 +64,16 @@ const DialogContent = (props: { move: Move}) => {
   return (
     <MoveDialogContainer className={"flex col stretch"}>
 
+      <h1 style={{textTransform: 'capitalize', flexGrow: 1}}>
+        {FormatString(name)}
+      </h1>
 
-      <div className={"flex row"} style={{ gap: '8px', width: '100%' }}>
-        <h1 style={{textTransform: 'capitalize', flexGrow: 1}}>
-          {FormatString(name)}
-        </h1>
-        <TypeDot type={type.name} />
+      <Typography>{effectString}</Typography>
+
+      <div className={"flex row left"} style={{ margin: '8px 0 16px' }}>
+        <TypeChip type={type.name} />
         <MoveClassChip className={damage_class.name} />
       </div>
-
-      <Typography style={{ marginBottom: '16px' }}>{effectString}</Typography>
 
       <PropertiesContainer>
         <MoveProperty icon={<SvgIcon component={PhysicalIcon} />} name="Power" value={powerString} fade={!power} />
@@ -103,8 +99,12 @@ export const MoveProperty = ({icon, name, value = undefined, subValue = undefine
     <MovePropertyContainer style={fade ? { opacity: 0.5 } : {}}>
       {icon}
       <Typography style={{ flexGrow: 1 }}>{name}</Typography>
-      <Typography style={{ fontWeight: 'bold' }}>{value}</Typography>
-      {subValue && <Typography style={{ opacity: 0.5, fontSize: '12px' }}>{subValue}</Typography>}
+      <Typography style={{ fontWeight: 'bold', fontFamily: 'monospace' }}>
+        {value}
+        </Typography>
+      {subValue && <Typography style={{ opacity: 0.5, fontSize: '12px', fontFamily: 'monospace' }}>
+        {subValue}
+      </Typography>}
     </MovePropertyContainer>
   )
 }

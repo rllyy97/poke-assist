@@ -36,7 +36,7 @@ const StatRow = (props) => {
       <h4 style={{width: '80px', textAlign: 'right'}}>
         {statName?.replace('special-attack', 'sp. atk').replace('special-defense', 'sp. def')}
       </h4>
-      <h6 style={{width: '24px', height: '24px', lineHeight: '24px'}}>{value}</h6>
+      <h6 style={{width: '24px', height: '24px', lineHeight: '24px', fontFamily: 'monospace'}}>{value}</h6>
       <div  className="flex row left" style={{width: '260px', position: 'relative'}}>
         <img src={statBarBackground} alt='' style={{position: 'absolute', filter: 'brightness(150%)'}} />
         <EffortDots />

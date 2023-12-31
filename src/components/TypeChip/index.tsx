@@ -19,6 +19,7 @@ const TypeChip = ({
       style={{
         backgroundColor: color,
         paddingLeft: '6px',
+        fontWeight: 'bold',
       }}
     />
   )
