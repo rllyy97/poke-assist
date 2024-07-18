@@ -38,7 +38,6 @@ const DexGroup = (props: DexGroupProps) => {
   const captureRate = useMemo(() => species?.capture_rate, [species?.capture_rate])
   const genderRate = useMemo(() => 1-(species?.gender_rate/8), [species])
 
-
   const GenderStat = () => {
     return genderRate > 1 ? (
       <SubstatBlock style={{width: '100%', padding: '6px'}}>

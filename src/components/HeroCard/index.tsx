@@ -17,6 +17,7 @@ import ReplayIcon from '@mui/icons-material/Replay'
 import { useHeroSize } from "../../store/appStatus/appStatusSelectors"
 import { setHeroSize } from "../../store/appStatus/appStatusSlice"
 import { useDispatch } from "react-redux"
+import CryButton from "../CryButton"
 
 interface HeroCardProps {
   isLoading?: boolean
@@ -112,6 +113,7 @@ const HeroCard = (props: HeroCardProps) => {
             }}>
               <MuiSvgIcon component={ShinyIcon} />
             </IconButton>
+						<CryButton pokemon={pokemon} />
           </div>
         </div>
       )}
