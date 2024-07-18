@@ -16,6 +16,7 @@ import HeightIcon from '../../../icons/height.svg?react'
 import PercentCircleIcon from '../../../icons/percent-circle.svg?react'
 import StatGroup from "../StatGroup"
 import { COLORS } from "../../../colors"
+import SmogonButton from "../../SmogonButton"
 
 interface DexGroupProps {
   pokemon: Pokemon
@@ -108,6 +109,10 @@ const DexGroup = (props: DexGroupProps) => {
           <Chip key={g.name} label={CapitalizeFirstLetter(g?.name)} style={{backgroundColor: COLORS.background}} />
         ))}
       </div>
+
+			<div className="flex col fullwidth" style={{gap: '16px'}}>
+				<SmogonButton pokemon={pokemon} />
+			</div>
     </div>
   )
 }
