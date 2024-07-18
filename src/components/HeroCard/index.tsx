@@ -49,6 +49,17 @@ const HeroCard = (props: HeroCardProps) => {
   }, [pokemon?.sprites, showArt, showShiny, variantNum])
 
   const id = IdFromUrl(pokemon?.species?.url).padStart(4, '0')
+
+	const abilities = useMemo(() => {
+		if (!pokemon) return []
+		let abilities = pokemon?.abilities
+		// The abilities array sometimes includes the same ability twice, with the second instance being hidden
+		// This filters out the hidden ability
+		let hiddenName = abilities?.find((a: PokemonAbility) => a.is_hidden)?.ability.name
+		let hiddenCount = abilities?.filter((a: PokemonAbility) => a.ability.name === hiddenName).length
+		if (hiddenCount > 1) abilities = abilities?.filter((a: PokemonAbility) => !a.is_hidden)
+		return abilities
+	}, [pokemon])
   
   return (
     <HeroCardWrapper>
@@ -77,8 +88,13 @@ const HeroCard = (props: HeroCardProps) => {
             <div style={{width: '20px', height: '16px'}} />
           )}
           <ChipRow>
-            {pokemon?.abilities?.map((a: PokemonAbility) => (
-              <AbilityChip key={a.ability.name} name={a.ability.name} isHiddenAbility={a.is_hidden} />
+            {abilities?.map((a: PokemonAbility) => (
+              <AbilityChip 
+								key={a.ability.name} 
+								id={a.ability.url.split('/')?.at(-2)} 
+								name={a.ability.name} 
+								isHiddenAbility={a.is_hidden} 
+							/>
             ))}
           </ChipRow>
 

@@ -1,23 +1,33 @@
 import { Tooltip, Chip, Badge } from "@mui/material"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useQuery } from "react-query"
 import { useApi } from "../../store/api/apiSelectors"
 
 
 const AbilityChip = (props: any) => {
-  const { name, isHiddenAbility = false } = props
+  const { id, name, isHiddenAbility = false } = props
 
   const api = useApi()
 
-  const abilityQuery = useQuery(
-    ['abilities', name],
-    () => api.pokemon.getAbilityByName(name.replace(' ', '-')),
+  const {
+		data,
+		isFetching,
+	} = useQuery(
+    ['abilities', id],
+    () => api.pokemon.getAbilityById(id),
     { staleTime: 1000 * 60 * 60 * 24 }
   )
 
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 
-  if (abilityQuery.isLoading)
+	const effectString = useMemo(() => {
+		if (!data) return ''
+		const effect = data.effect_entries.find((entry) => entry.language.name === 'en')?.short_effect
+		const flavor = data.flavor_text_entries.find((entry) => entry.language.name === 'en')?.flavor_text
+		return effect ?? flavor;
+	}, [data]);
+
+  if (isFetching)
     return (
       <Chip 
         key={name} 
@@ -30,7 +40,7 @@ const AbilityChip = (props: any) => {
     <Badge color="primary" variant="dot" invisible={!isHiddenAbility}>
       <Tooltip
         arrow
-        title={abilityQuery.data.effect_entries.find((entry) => entry?.language.name === 'en')?.short_effect}
+        title={effectString}
         onClose={() => setIsTooltipOpen(false)}
         onOpen={() => setIsTooltipOpen(true)}
         open={isTooltipOpen}
@@ -38,7 +48,7 @@ const AbilityChip = (props: any) => {
         <Chip 
           key={name} 
           style={{textTransform: 'capitalize'}} 
-          label={abilityQuery.data.name}
+          label={name}
           onClick={() => setIsTooltipOpen(!isTooltipOpen)}
         />
       </Tooltip>
