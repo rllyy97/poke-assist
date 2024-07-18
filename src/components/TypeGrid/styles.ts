@@ -26,11 +26,16 @@ export const EffDotContainer = styled.div<{hover?: boolean, typeColorX?: string,
   min-width: 24px;
   height: 24px;
   flex: 0 0 auto;
+	border-top: 1px solid #ffffff00;
+	border-left: 1px solid #ffffff00;
+	border-bottom: 1px solid #ffffff10;
+	border-right: 1px solid #ffffff10;
+
   ${props => props.hover && `
     background: ${backgroundColor};
-    border-top: 1px solid ${props.typeColorX ?? '#ffffff00'};
-    border-left: 1px solid ${props.typeColorY ?? '#ffffff00'};
-    border-bottom: 1px solid ${props.typeColorX ?? '#ffffff00'};
-    border-right: 1px solid ${props.typeColorY ?? '#ffffff00'};
+    border-top: 1px solid ${props.typeColorX ?? '#ffffff10'};
+    border-left: 1px solid ${props.typeColorY ?? '#ffffff10'};
+    border-bottom: 1px solid ${props.typeColorX ?? '#ffffff10'};
+    border-right: 1px solid ${props.typeColorY ?? '#ffffff10'};
   `}
 `

@@ -56,4 +56,5 @@ export const VariantName = styled.h4`
   top: 40px;
   left: 8px;
   text-transform: capitalize;
+	font-family: monospace;
 `
