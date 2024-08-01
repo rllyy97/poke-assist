@@ -1,7 +1,7 @@
 {
   "homepage": "https://www.pokeassist.xyz",
   "name": "poke-assist",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "private": true,
   "scripts": {
     "start": "vite",
