@@ -23,12 +23,11 @@ export const IdFromUrl = (url?: string) => {
   return x[x.length - 2]
 }
 
+export const IdFromSpeciesUrl = (url: string): number =>
+  url ? parseInt(url.split('https://pokeapi.co/api/v2/pokemon-species/')[1].split('/')[0]) : 0
 
-export const IdFromSpeciesUrl = (url: string): string =>
-  url ? url.split('https://pokeapi.co/api/v2/pokemon-species/')[1].split('/')[0] : ''
-
-export const IdFromPokemonUrl = (url: string): string =>
-  url ? url.split('https://pokeapi.co/api/v2/pokemon/')[1].split('/')[0] : ''
+export const IdFromPokemonUrl = (url: string): number =>
+  url ? parseInt(url.split('https://pokeapi.co/api/v2/pokemon/')[1].split('/')[0]) : 0
 
 export const SpriteUrlFromId = (id?: string | number): string =>
   id ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png` : ''

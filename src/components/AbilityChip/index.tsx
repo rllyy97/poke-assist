@@ -1,22 +1,15 @@
 import { Tooltip, Chip, Badge } from "@mui/material"
 import { useMemo, useState } from "react"
-import { useQuery } from "react-query"
-import { useApi } from "../../store/api/apiSelectors"
+import { useAbility } from "../../hooks/query"
 
 
 const AbilityChip = (props: any) => {
   const { id, name, isHiddenAbility = false } = props
 
-  const api = useApi()
-
   const {
 		data,
 		isFetching,
-	} = useQuery(
-    ['abilities', id],
-    () => api.pokemon.getAbilityById(id),
-    { staleTime: 1000 * 60 * 60 * 24 }
-  )
+	} = useAbility(id)
 
   const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 

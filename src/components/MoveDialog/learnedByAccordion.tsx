@@ -1,6 +1,5 @@
 import { Accordion, AccordionSummary, Typography, AccordionDetails } from "@mui/material"
 import { setSelectedMove, setSelectedPokemon } from "../../store/appStatus/appStatusSlice"
-import { setCurrentPokemon } from "../../store/pokemonHistory/pokemonHistorySlice"
 import PokeTile from "../PokeTile"
 import { useDispatch } from "react-redux"
 import { useApi } from "../../store/api/apiSelectors"
@@ -30,11 +29,7 @@ const LearnedByAccordion = ({pokemon}) => {
                 const variant = await api.pokemon.getPokemonByName(p.name)
                 const species = await api.pokemon.getPokemonSpeciesByName(variant.species.name)
                 
-                dispatch(setSelectedPokemon(species.name))
-                dispatch(setCurrentPokemon(species))
-
-                // This gets overriden by our defaulting logic
-                // dispatch(setCurrentVariant(variant))
+                dispatch(setSelectedPokemon(species.id))
               }}
             />
           ))}

@@ -5,15 +5,15 @@ import { useApiStatus } from "../../store/api/apiSelectors"
 import { setApiStatus } from "../../store/api/apiSlice"
 import { AutocompleteImg } from "../../styles"
 import { CapitalizeFirstLetter, IdFromSpeciesUrl, SpriteUrlFromId } from "../../utilities/stringManipulation"
-import { useCurrentPokemon } from "../../store/pokemonHistory/pokemonHistorySelectors"
 import { setSelectedPokemon } from "../../store/appStatus/appStatusSlice"
+import { useCurrentPokemonSpecies } from "../../hooks/query"
 
 
 const SpeciesSearchBox = () => {
 
   const dispatch = useDispatch()
   const apiStatus = useApiStatus()
-  const pokemon = useCurrentPokemon()
+  const { data: pokemon } = useCurrentPokemonSpecies()
 
   const [allNames, setAllNames] = useState<{name: string, id: string}[]>([])
 
@@ -42,9 +42,9 @@ const SpeciesSearchBox = () => {
       id="species-search-box"
       disabled={apiStatus !== 'connected'}
       options={allNames}
-      onChange={(e: any, newValue: any) => {
-        if (newValue?.name) {
-          dispatch(setSelectedPokemon(newValue?.name));
+      onChange={(_e: any, newValue: any) => {
+        if (newValue?.id) {
+          dispatch(setSelectedPokemon(newValue?.id));
           (document.activeElement as HTMLElement).blur();
         }
       }}

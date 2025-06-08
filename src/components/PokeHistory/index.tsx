@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { COLORS } from "../../colors"
 import { useDispatch } from "react-redux"
-import { usePokemonHistory } from "../../store/pokemonHistory/pokemonHistorySelectors"
+import { usePokemonHistory } from "../../store/appStatus/appStatusSelectors"
 import { setSelectedPokemon } from "../../store/appStatus/appStatusSlice"
 import { SpriteUrlFromId } from "../../utilities/stringManipulation"
 
@@ -48,16 +48,16 @@ export const HistoryTiles = styled('div')`
 const PokeHistory = () => {
 
   const dispatch = useDispatch()
-  const pokemonHistory = usePokemonHistory()
+  const speciesIdHistory = usePokemonHistory()
 
-  if (pokemonHistory.length <= 1) return <></>
+  if (speciesIdHistory.length <= 1) return <></>
 
   return (
     <HistoryContainer>
       <HistoryTiles>
-        {pokemonHistory?.slice(1, pokemonHistory.length)?.map((p) => (
-          <HistoryTile key={p.id} onClick={() => dispatch(setSelectedPokemon(p.name))}>
-            <img alt={p.name} src={SpriteUrlFromId(p.id)} />
+        {speciesIdHistory?.slice(1, speciesIdHistory.length)?.map((p) => (
+          <HistoryTile key={p} onClick={() => dispatch(setSelectedPokemon(p))}>
+            <img alt={p.toString()} src={SpriteUrlFromId(p)} />
           </HistoryTile>
         ))}
       </HistoryTiles>

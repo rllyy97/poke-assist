@@ -12,7 +12,6 @@ import { CapitalizeFirstLetter, IdFromPokemonUrl, SpriteUrlFromId } from './util
 import { TYPE_DATA } from './typeData'
 import TypeEffGroup from './components/DetailGroups/TypeEffGroup'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSelectedPokemon } from './store/appStatus/appStatusSlice'
 import MoveGroup from './components/DetailGroups/MoveGroup'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import PokemonTabs from './components/PokemonTabs'
@@ -20,12 +19,10 @@ import SpeciesSearchBox from './components/SpeciesSearchBox'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import DexGroup from './components/DetailGroups/DexGroup'
 
-import SearchIcon from '@mui/icons-material/Search';
-import { useSelectedPokemonName, useSelectedTabIndex } from './store/appStatus/appStatusSelectors'
-import { useCurrentPokemon, useCurrentPokemonVariant } from './store/pokemonHistory/pokemonHistorySelectors'
-import { useApi } from './store/api/apiSelectors'
-import { setCurrentPokemon, setCurrentVariant } from './store/pokemonHistory/pokemonHistorySlice'
+import { useSelectedTabIndex } from './store/appStatus/appStatusSelectors'
 import PokeHistory from './components/PokeHistory'
+import { useCurrentPokemonSpecies, useCurrentPokemonVariant } from './hooks/query'
+import { setSelectedVariant } from './store/appStatus/appStatusSlice'
 
 
 function App() {
@@ -45,35 +42,17 @@ function App() {
 const Content = () => {
   
   const dispatch = useDispatch()
-  const api = useApi()
   
-  /////////////////////////////////////////////////////////////////////////////
-  /// HISTORY
-  
-  const species = useCurrentPokemon();
-  const [isLoading, setIsLoading] = useState(false)
-  
-  const selectPokeByName = useCallback((name: string) => {
-    setIsLoading(true)
-    dispatch(setCurrentVariant(undefined))
-    api.pokemon.getPokemonSpeciesByName(name).then((pokemon) => {
-      dispatch(setCurrentPokemon(pokemon))
-      setIsLoading(false)
-    })
-  }, [api.pokemon, dispatch])
-  
-  const selectedPokemon = useSelectedPokemonName();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => selectPokeByName(selectedPokemon), [selectedPokemon])
+	const {
+		isFetching,
+		data: species,
+	} = useCurrentPokemonSpecies()
 
-  /////////////////////////////////////////////////////////////////////////////
-  /// POKEMON VARIANTS
+	useEffect(() => {
+		dispatch(setSelectedVariant(IdFromPokemonUrl(species?.varieties?.find((p) => p.is_default).pokemon.url)))
+	}, [species, dispatch])
 
-  const pokemon = useCurrentPokemonVariant()
-  useEffect(() => {
-    api.pokemon.getPokemonByName(species?.varieties?.find((p) => p.is_default).pokemon.name)
-      .then((pokemon) => dispatch(setCurrentVariant(pokemon)))
-  }, [api.pokemon, dispatch, species])
+  const { data: pokemon } = useCurrentPokemonVariant()
 
   /////////////////////////////////////////////////////////////////////////////
   /// RENDER
@@ -88,7 +67,7 @@ const Content = () => {
 
         {species ? (
           <>
-            <HeroCard isLoading={isLoading} pokemon={pokemon} speciesName={species.name} />
+            <HeroCard isLoading={isFetching} pokemon={pokemon} speciesName={species.name} />
 
             {species.varieties?.length > 1 && (
               <div style={{display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
@@ -100,7 +79,7 @@ const Content = () => {
                       avatar={<Avatar alt={v.pokemon.name} src={SpriteUrlFromId(IdFromPokemonUrl(v.pokemon.url))} />}
                       label={CapitalizeFirstLetter(v.pokemon.name.split(`${species.name}-`)[1] ?? 'Default')}
                       clickable={!selected}
-                      onClick={() => api.pokemon.getPokemonByName(v.pokemon.name).then((p) => dispatch(setCurrentVariant(p)))}
+                      onClick={() => dispatch(setSelectedVariant(IdFromPokemonUrl(v.pokemon.url)))}
                       style={selected ? {backgroundColor: TYPE_DATA[pokemon?.types[0].type.name]?.color} : {}}
                     />
                   )

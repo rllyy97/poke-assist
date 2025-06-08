@@ -1,12 +1,8 @@
 import { Accordion, AccordionDetails, AccordionSummary, Chip, Typography } from "@mui/material"
-import { setSelectedMove, setSelectedPokemon } from "../../store/appStatus/appStatusSlice"
-import { setCurrentPokemon } from "../../store/pokemonHistory/pokemonHistorySlice"
-import PokeTile from "../PokeTile"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { COLORS } from "../../colors"
 
 
 const StatChangeAccordion = ({ statChance, statChanges = [], target = undefined }) => {

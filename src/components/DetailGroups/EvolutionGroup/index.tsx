@@ -45,17 +45,17 @@ const EvolutionGroup = (props: EvolutionGroupProps) => {
     }
 
     return (
-      <Flex dir='row' key={evo.species.name}>
+      <Flex dir='row' key={id}>
         <Flex dir='column' style={{margin: '8px 0px'}}>
           {parsedEvoDetails.map((d: EvolutionDetail) => (
-            <EvoDetail detail={d} key={evo.species.name} />
+            <EvoDetail detail={d} key={id} />
           ))}
         </Flex>
         <Flex dir='column'>
           <EvoSprite
             src={imgUrl}
             alt={name}
-            onClick={() => dispatch(setSelectedPokemon(name))}
+            onClick={() => dispatch(setSelectedPokemon(id))}
           />
         </Flex>
         <Flex dir='column'>
