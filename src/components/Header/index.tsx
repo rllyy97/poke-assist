@@ -15,7 +15,7 @@ const Header = () => {
     <div>
       <div className='flex' style={{marginBottom: '8px', position: 'relative'}}>
         <img alt='' src={AppIcon} style={{height: '52px'}} />
-        <h1 style={{marginBottom: '0px'}}>
+        <h1 style={{marginBottom: '0px'}} title={import.meta.env.VITE_REACT_APP_VERSION}>
           PokéAssist
         </h1>
         <GithubButtonContainer href="https://github.com/rllyy97/poke-assist" target="_blank">

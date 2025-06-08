@@ -23,12 +23,7 @@ const SpeciesSearchBox = () => {
       .then((data) => {
         dispatch(setApiStatus('connected'))
         setAllNames(data.results
-          .map((p) => {
-            const id = IdFromSpeciesUrl(p.url)
-            // const img = new Image();
-            // img.src = SpriteUrlFromId(id);
-            return {name: p.name, id}
-          })
+          .map((p) => ({name: p.name, id: IdFromSpeciesUrl(p.url)}))
         )
       })
       .catch((e) => {
