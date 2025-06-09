@@ -22,7 +22,6 @@ const appStatusSlice = createSlice({
     setSelectedPokemon(state: AppStatusState, action: PayloadAction<number>) {
 			const speciesId = action.payload
       state.selectedPokemon = speciesId
-			console.log('#> setSelectedPokemon', speciesId)
 			addIdToHistory(state, speciesId)
     },
 		setSelectedVariant(state: AppStatusState, action: PayloadAction<number | undefined>) {
