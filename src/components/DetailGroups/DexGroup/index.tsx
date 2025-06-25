@@ -1,6 +1,6 @@
 import { Tooltip, SvgIcon, Typography, Chip, Button, ButtonGroup, ToggleButton } from "@mui/material"
 import { Pokemon, PokemonSpecies } from "pokenode-ts"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { CapitalizeFirstLetter, FormatString } from "../../../utilities/stringManipulation"
 import EvolutionGroup from "../EvolutionGroup"
 import { FGenderBar, GenderGroup, MGenderBar, SubstatBlock } from "./styles"
@@ -61,7 +61,16 @@ const DexGroup = (props: DexGroupProps) => {
 		return g;
 	}, [species?.flavor_text_entries])
 
-	const [selectedGeneration, setSelectedGeneration] = useState<number>(1)
+	const [selectedGeneration, setSelectedGeneration] = useState<number>(0)
+
+	useEffect(() => {
+		if (generations.length > 0) {
+			const firstNonEmptyIndex = generations.findIndex(g => Object.keys(g).length > 0);
+			if (firstNonEmptyIndex !== -1) {
+				setSelectedGeneration(firstNonEmptyIndex);
+			}
+		}
+	}, [generations]);
 
 	const FlavorTextEntries = () => (
 		<SubstatBlock style={{padding: '16px', gap: '12px', flexDirection: "column", textAlign: "left" }}>
