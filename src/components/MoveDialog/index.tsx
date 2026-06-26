@@ -57,9 +57,7 @@ const DialogContent = (props: { move: Move}) => {
   const powerString = power ? `${power}${numHitsString}` : `0`
   const accuracyString = accuracy ? `${accuracy}%` : '--'
 
-  const effectString = effect_entries[0]?.effect.replaceAll('$effect_chance', effect_chance?.toString())
-
-  console.log("### MOVE", move)
+  const effectString = effect_entries.find(e => e.language.name === 'en')?.effect?.replaceAll('$effect_chance', effect_chance?.toString())
 
   return (
     <MoveDialogContainer className={"flex col stretch"}>

@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { COLORS } from "../../colors"
 import { useDispatch } from "react-redux"
-import { usePokemonHistory } from "../../store/appStatus/appStatusSelectors"
+import { usePokemonHistory, useSelectedPokemonId } from "../../store/appStatus/appStatusSelectors"
 import { setSelectedPokemon } from "../../store/appStatus/appStatusSlice"
 import { SpriteUrlFromId } from "../../utilities/stringManipulation"
 
@@ -20,8 +20,8 @@ export const HistoryContainer = styled('div')`
 `
 
 export const HistoryTile = styled('div')`
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -32,7 +32,8 @@ export const HistoryTile = styled('div')`
 
   & > img {
     width: 100%;
-    height: 100%;t
+    height: 100%;
+    image-rendering: pixelated;
   }
 `
 
@@ -48,14 +49,18 @@ export const HistoryTiles = styled('div')`
 const PokeHistory = () => {
 
   const dispatch = useDispatch()
+  const selectedId = useSelectedPokemonId()
   const speciesIdHistory = usePokemonHistory()
 
-  if (speciesIdHistory.length <= 1) return <></>
+  // When a Pokemon is selected, skip it in history (it's shown as current)
+  const displayHistory = selectedId > 0 ? speciesIdHistory.slice(1) : speciesIdHistory
+
+  if (displayHistory.length === 0) return <></>
 
   return (
     <HistoryContainer>
       <HistoryTiles>
-        {speciesIdHistory?.slice(1, speciesIdHistory.length)?.map((p) => (
+        {displayHistory.map((p) => (
           <HistoryTile key={p} onClick={() => dispatch(setSelectedPokemon(p))}>
             <img alt={p.toString()} src={SpriteUrlFromId(p)} />
           </HistoryTile>

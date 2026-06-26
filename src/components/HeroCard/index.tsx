@@ -1,8 +1,9 @@
 import { Pokemon, PokemonAbility } from "pokenode-ts"
-import { PokeImg, PokeImgSmall } from "../../styles"
+import { PokeImg, PokeImgSprite } from "../../styles"
 import { TYPE_DATA } from "../../typeData"
 import { HeroCardWrapper, PsuedoBorder, SpeciesName, TypeContainer, VariantName } from "./styles"
 import CircularProgress from '@mui/material/CircularProgress'
+import Skeleton from '@mui/material/Skeleton'
 
 import TypeDot from "../TypeDot"
 import AbilityChip from "../AbilityChip"
@@ -13,9 +14,9 @@ import { IconButton } from "@mui/material"
 
 import { SvgIcon as MuiSvgIcon } from '@mui/material'
 import ShinyIcon from '../../icons/shiny.svg?react'
-import ReplayIcon from '@mui/icons-material/Replay'
-import { useHeroSize } from "../../store/appStatus/appStatusSelectors"
-import { setHeroSize } from "../../store/appStatus/appStatusSlice"
+import ImageIcon from '@mui/icons-material/Image'
+import PixelateIcon from '@mui/icons-material/GridOn'
+
 import { useDispatch } from "react-redux"
 import CryButton from "../CryButton"
 
@@ -30,24 +31,23 @@ const HeroCard = (props: HeroCardProps) => {
   const { isLoading, pokemon, content, speciesName } = props
 
   const dispatch = useDispatch();
-  const heroSize = useHeroSize()
 
   const variantName = pokemon?.name.split(`${speciesName}-`)[1] ?? ''
   const variantNum = pokemon?.id
 
-  const [showArt, setShowArt] = useState(true)
   const [showShiny, setShowShiny] = useState(false);
+  const [showSprite, setShowSprite] = useState(false);
   
   const currentHeroImage = useMemo(() => {
     if (!pokemon?.sprites) return ''
-    const defaultArt = pokemon.sprites.other['official-artwork'].front_default
-    const defaultHomeImgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${variantNum}.png`
-    const shinyHomeImgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${variantNum}.png`
-
-    return (showArt) ? defaultArt
-      : (showShiny) ? shinyHomeImgSrc
-      : defaultHomeImgSrc
-  }, [pokemon?.sprites, showArt, showShiny, variantNum])
+    if (showSprite) {
+      return showShiny
+        ? (pokemon.sprites.front_shiny ?? pokemon.sprites.front_default)
+        : pokemon.sprites.front_default
+    }
+    const artwork = pokemon.sprites.other['official-artwork']
+    return showShiny ? (artwork.front_shiny ?? artwork.front_default) : artwork.front_default
+  }, [pokemon?.sprites, showShiny, showSprite])
 
   const id = IdFromUrl(pokemon?.species?.url).padStart(4, '0')
 
@@ -65,11 +65,10 @@ const HeroCard = (props: HeroCardProps) => {
   return (
     <HeroCardWrapper>
       <PsuedoBorder
-        c1={TYPE_DATA?.[pokemon?.types?.[0]?.type?.name]?.color}
+        c1={TYPE_DATA?.[pokemon?.types?.[0]?.type?.name]?.color ?? "#383838"}
         c2={TYPE_DATA?.[pokemon?.types?.[1]?.type?.name]?.color}
       />
-      {heroSize === 'small' && <PokeImgSmall src={currentHeroImage} onClick={() => dispatch(setHeroSize('default'))} />}
-      {pokemon && (
+      {pokemon ? (
         <div className="flex col left" style={{width: '100%', position: 'relative'}}>
           <SpeciesName>
             {speciesName}
@@ -83,11 +82,10 @@ const HeroCard = (props: HeroCardProps) => {
           </TypeContainer>
           {isLoading && <CircularProgress /> }
           
-          {heroSize === 'default' ? (
-            <PokeImg src={currentHeroImage} onClick={() => dispatch(setHeroSize('small'))} /> 
-          ) : (
-            <div style={{width: '20px', height: '16px'}} />
-          )}
+          {showSprite
+            ? <PokeImgSprite src={currentHeroImage} />
+            : <PokeImg src={currentHeroImage} />
+          }
           <ChipRow>
             {abilities?.map((a: PokemonAbility) => (
               <AbilityChip 
@@ -99,21 +97,27 @@ const HeroCard = (props: HeroCardProps) => {
             ))}
           </ChipRow>
 
-          <div style={{position: 'absolute', right: '-4px', bottom: '-4px', display: 'flex', gap: '4px'}}>
-            {!showArt && <IconButton onClick={() => {
-                setShowShiny(false)
-                setShowArt(true)
-              }}>
-                <ReplayIcon />
-              </IconButton>
-            }
-            <IconButton color={showShiny ? 'primary' : 'default'} onClick={() => {
-              setShowShiny(!showShiny)
-              setShowArt(false)
-            }}>
+          <div style={{position: 'absolute', right: '-4px', bottom: '-4px', display: 'flex', flexDirection: 'column', gap: '4px'}}>
+            <IconButton size="small" color={showSprite ? 'primary' : 'default'} onClick={() => setShowSprite(!showSprite)}>
+              {showSprite ? <ImageIcon /> : <PixelateIcon />}
+            </IconButton>
+            <IconButton size="small" color={showShiny ? 'primary' : 'default'} onClick={() => setShowShiny(!showShiny)}>
               <MuiSvgIcon component={ShinyIcon} />
             </IconButton>
 						<CryButton pokemon={pokemon} />
+          </div>
+        </div>
+      ) : (
+        <div className="flex col left" style={{width: '100%'}}>
+          <Skeleton variant="text" width="40%" height={40} />
+          {/* <Skeleton variant="text" width="20%" height={24} /> */}
+          <TypeContainer style={{top: '32px', right: '32px', position: 'absolute'}}>
+            <Skeleton variant="rounded" width={32} height={32} sx={{borderRadius: '16px'}} />
+          </TypeContainer>
+          <Skeleton variant="rounded" width="100%" height={290} sx={{maxWidth: 300, margin: '0 auto', borderRadius: '999px', opacity: 1.0}} />
+          <div style={{display: 'flex', gap: '8px', marginTop: '8px'}}>
+            <Skeleton variant="rounded" width={80} height={32} sx={{borderRadius: '16px'}} />
+            <Skeleton variant="rounded" width={80} height={32} sx={{borderRadius: '16px'}} />
           </div>
         </div>
       )}

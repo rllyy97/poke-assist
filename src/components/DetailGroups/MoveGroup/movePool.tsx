@@ -38,7 +38,9 @@ const MovePool = (props: MovePoolProps) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const expandCallback = useCallback((e: any, expanded: boolean) => setIsExpanded(expanded), [])
 
-  
+  useEffect(() => {
+    if (moves.length === 0) setIsExpanded(false)
+  }, [moves.length])
 
   return (
     <Accordion disabled={moves.length === 0} expanded={isExpanded} onChange={expandCallback}>

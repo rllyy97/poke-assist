@@ -13,6 +13,7 @@ export const EvoSprite = styled.img`
   height: 96px;
   cursor: pointer;
   border-radius: 8px;
+  image-rendering: pixelated;
   transition: background-color 0.2s;
 
   &:hover {

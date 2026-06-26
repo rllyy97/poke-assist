@@ -4,8 +4,8 @@ import styled from "styled-components"
 import { COLORS } from "../../colors"
 
 const PokeTileDiv = styled('div')`
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -16,7 +16,8 @@ const PokeTileDiv = styled('div')`
 
   & > img {
     width: 100%;
-    height: 100%;t
+    height: 100%;
+    image-rendering: pixelated;
   }
 `
 

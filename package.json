@@ -1,7 +1,7 @@
 {
   "homepage": "https://www.pokeassist.xyz",
   "name": "poke-assist",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "private": true,
   "scripts": {
     "start": "vite",
@@ -17,7 +17,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.10",
     "@reduxjs/toolkit": "^1.8.3",
-    "pokenode-ts": "^1.13.1",
+    "pokenode-ts": "^1.20.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-lazy-load": "^3.1.14",

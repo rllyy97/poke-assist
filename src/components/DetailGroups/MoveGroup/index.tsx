@@ -5,9 +5,12 @@ import MovePool from './movePool'
 import { CircularProgress, Dialog, IconButton, InputBase, Paper } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import UpgradeIcon from '@mui/icons-material/Upgrade'
+import ClearIcon from '@mui/icons-material/Clear'
 import EggIcon from './../../../icons/egg.svg?react'
 import DiscIcon from './../../../icons/minidisc.svg?react'
 import { SvgIcon } from '@mui/material'
+import { TYPE_DATA } from '../../../typeData'
+import TypeDot from '../../TypeDot'
 import { useQueries, useQuery } from 'react-query'
 
 import PhysicalIcon from '../../../icons/moveTypes/physical-move.svg?react'
@@ -34,14 +37,23 @@ const MoveGroup = (props: MoveGroupProps) => {
   // Finding Version
 
   const versionGroupNumber = useMemo(() => {
-    let version = 0
-    pokemon?.moves?.forEach((move: PokemonMove) => {
-      const highestMoveVersionGroup = move.version_group_details.reduce((current, vg) => (
-        Math.max(current, parseInt(vg.version_group.url.split('version-group/')[1]))
-      ), version)
-      version = highestMoveVersionGroup
+    if (!pokemon?.moves) return 0
+    // Count how many moves each version group has, pick the highest version group
+    // that has the most complete moveset
+    const vgCounts: Record<number, number> = {}
+    pokemon.moves.forEach((move: PokemonMove) => {
+      move.version_group_details.forEach(vg => {
+        const vgNum = parseInt(vg.version_group.url.split('version-group/')[1])
+        vgCounts[vgNum] = (vgCounts[vgNum] || 0) + 1
+      })
     })
-    return version
+    // Find the max move count
+    const maxCount = Math.max(...Object.values(vgCounts))
+    // Among version groups with the most moves, pick the highest numbered one
+    const bestVersions = Object.entries(vgCounts)
+      .filter(([, count]) => count === maxCount)
+      .map(([vg]) => parseInt(vg))
+    return Math.max(...bestVersions)
   }, [pokemon?.moves])
 
   const findValidVersion = useCallback((move: PokemonMove): CustomMoveData | undefined => {
@@ -84,12 +96,14 @@ const MoveGroup = (props: MoveGroupProps) => {
   const [physicalMovesEnabled, setPhysicalMovesEnabled] = useState(true)
   const [specialMovesEnabled, setSpecialMovesEnabled] = useState(true)
   const [statusMovesEnabled, setStatusMovesEnabled] = useState(true)
+  const [selectedMoveTypes, setSelectedMoveTypes] = useState<string[]>([])
 
   useEffect(() => { // Reset filters when pokemon changes
     setSearchValue('')
     setPhysicalMovesEnabled(true)
     setSpecialMovesEnabled(true)
     setStatusMovesEnabled(true)
+    setSelectedMoveTypes([])
   }, [pokemon])
   
   const [searchValue, setSearchValue] = useState('');
@@ -112,9 +126,11 @@ const MoveGroup = (props: MoveGroupProps) => {
       moves = moves.filter((m) => m.data.damage_class.name !== 'special')
     if (!statusMovesEnabled)
       moves = moves.filter((m) => m.data.damage_class.name !== 'status')
+    if (selectedMoveTypes.length > 0)
+      moves = moves.filter((m) => selectedMoveTypes.includes(m.data.type.name))
     return moves
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pokemon, isLoading, physicalMovesEnabled, searchValue, specialMovesEnabled, statusMovesEnabled])
+  }, [pokemon, isLoading, physicalMovesEnabled, searchValue, specialMovesEnabled, statusMovesEnabled, selectedMoveTypes])
 
   /////////////////////////////////////////////////////////////////////////////
   // Partitioning
@@ -201,7 +217,40 @@ const MoveGroup = (props: MoveGroupProps) => {
           <SvgIcon component={StatusIcon} color={statusMovesEnabled ? 'action' : 'disabled' } />
         </IconButton>
       </Paper>
-      
+
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '2px',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: '12px',
+      }}>
+        <IconButton
+          size="small"
+          onClick={() => setSelectedMoveTypes([])}
+          disabled={selectedMoveTypes.length === 0}
+          style={{ opacity: selectedMoveTypes.length === 0 ? 0.25 : 1, marginLeft: '-8px' }}
+        >
+          <ClearIcon fontSize="small" />
+        </IconButton>
+        {Object.keys(TYPE_DATA).map(type => (
+          <div
+            key={type}
+            onClick={() => setSelectedMoveTypes(prev =>
+              prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
+            )}
+            style={{
+              cursor: 'pointer',
+              opacity: selectedMoveTypes.length === 0 || selectedMoveTypes.includes(type) ? 1 : 0.25,
+              transition: 'opacity 0.15s',
+            }}
+          >
+            <TypeDot type={type} size="small" variant="square" />
+          </div>
+        ))}
+      </div>
+
       <div>
         <MovePool 
           method={'level-up'}

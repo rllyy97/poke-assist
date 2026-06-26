@@ -49,7 +49,7 @@ const DexGroup = (props: DexGroupProps) => {
 			const gameId = (t as any).version.name
 			const generationIndex = GENERATIONS.findIndex((v) => v.games.includes(gameId))
 			if (generationIndex == -1) {
-				throw Error("Could not find gameId:", gameId)
+				return
 			}
 			const existingKey = Object.keys(g[generationIndex]).find((k) => k.toLowerCase() == t.flavor_text.toLowerCase())
 			if (!existingKey) {

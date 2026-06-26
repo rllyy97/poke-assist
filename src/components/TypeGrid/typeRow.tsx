@@ -40,10 +40,8 @@ const TypeRow = (props: TypeRowProps) => {
       <EffDotContainer
         onMouseEnter={() => hoverCallback(typeName, '')}
         onMouseLeave={() => hoverCallback(undefined, undefined)}
-        hover={hoverX === typeName}
-        typeColorX={hoverX === typeName && TYPE_DATA[hoverX]?.color}
       >
-        <TypeDot type={typeName} size="small" />
+        <TypeDot type={typeName} size="small" variant="square" />
       </EffDotContainer>
       {
         Object.keys(TYPE_DATA).map((type) => (
@@ -51,11 +49,9 @@ const TypeRow = (props: TypeRowProps) => {
             key={type}
             onMouseEnter={() => hoverCallback(typeName, type)}
             onMouseLeave={() => hoverCallback(undefined, undefined)}
-            hover={hoverY === type || hoverX === typeName}
-            typeColorX={hoverX === typeName && TYPE_DATA[hoverX]?.color}
-            typeColorY={hoverY === type && TYPE_DATA[hoverY]?.color}
+            style={type === typeName ? { background: 'rgba(0,0,0,0.16)' } : undefined}
           >
-            <EffDot eff={typeEff?.[type]} />
+            <EffDot eff={typeEff?.[type]} faded={!!(hoverX || hoverY) && hoverX !== typeName && hoverY !== type} />
           </EffDotContainer>
         ))
       }

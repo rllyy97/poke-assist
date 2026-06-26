@@ -12,8 +12,8 @@ export const SiteWrapper = styled('div')`
 `
 
 export const PokeImg = styled('img')`
-  max-width: 300px;
-  height: 300px;
+  max-width: 288px;
+  height: 288px;
   width: -webkit-fill-available;
   margin: 0px auto;
   filter: 
@@ -24,19 +24,24 @@ export const PokeImg = styled('img')`
   ;
 `
 
-export const PokeImgSmall = styled('img')`
-  max-width: 112px;
-  margin: -6px -8px -8px -8px;
+export const PokeImgSprite = styled(PokeImg)`
+  image-rendering: pixelated;
+  filter: none;
 `
 
 export const AutocompleteImg = styled('img')`
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   margin: -8px 4px;
+  image-rendering: pixelated;
 ` 
 
 export const VariantChip = styled(Chip)`
   transition: background-color 0.3s;
+
+  & .MuiAvatar-img {
+    image-rendering: pixelated;
+  }
 `
 
 export const DividerContent = styled('div')`

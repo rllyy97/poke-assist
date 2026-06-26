@@ -1,10 +1,12 @@
 import styled from "styled-components"
 
-const backgroundColor = '#222'
-
 export const TypeGridContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
+  border: 1px solid #ffffff10;
+  border-radius: 2px;
+
 `
 
 export const TypeRowContainer = styled.div`
@@ -19,23 +21,15 @@ export const TypeRowLabel = styled.div`
   border-right: 1px dotted grey;
 `
 
-export const EffDotContainer = styled.div<{hover?: boolean, typeColorX?: string, typeColorY?: string}>`
+export const EffDotContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 24px;
+  width: 24px;
   height: 24px;
-  flex: 0 0 auto;
-	border-top: 1px solid #ffffff00;
-	border-left: 1px solid #ffffff00;
-	border-bottom: 1px solid #ffffff10;
-	border-right: 1px solid #ffffff10;
-
-  ${props => props.hover && `
-    background: ${backgroundColor};
-    border-top: 1px solid ${props.typeColorX ?? '#ffffff10'};
-    border-left: 1px solid ${props.typeColorY ?? '#ffffff10'};
-    border-bottom: 1px solid ${props.typeColorX ?? '#ffffff10'};
-    border-right: 1px solid ${props.typeColorY ?? '#ffffff10'};
-  `}
+  flex: 0 0 24px;
+  box-sizing: border-box;
+  border: 1px solid #ffffff10;
+  position: relative;
+  z-index: 2;
 `

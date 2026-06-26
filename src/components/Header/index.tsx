@@ -6,15 +6,22 @@ import AppsIcon from '@mui/icons-material/Apps'
 import TypeGrid from '../TypeGrid'
 import { GithubButtonContainer, TypeGridButtonContainer } from './styles'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setSelectedPokemon } from '../../store/appStatus/appStatusSlice'
 
 const Header = () => {
 
+  const dispatch = useDispatch()
   const [showTypeGrid, setShowTypeGrid] = useState(false);
+
+  const goHome = () => {
+    dispatch(setSelectedPokemon(-1))
+  }
 
   return (
     <div>
       <div className='flex' style={{marginBottom: '8px', position: 'relative'}}>
-        <img alt='' src={AppIcon} style={{height: '52px'}} />
+        <img alt='' src={AppIcon} style={{height: '52px', cursor: 'pointer'}} onClick={goHome} />
         <h1 style={{marginBottom: '0px'}} title={import.meta.env.VITE_REACT_APP_VERSION}>
           PokéAssist
         </h1>

@@ -6,9 +6,6 @@ export interface AppStatusState {
   selectedMove: CustomMoveData | undefined
   selectedTabIndex: number
 	selectionHistory: number[]
-  heroSize: HeroSize
   typeGridHoverX: string
   typeGridHoverY: string
 }
-
-export type HeroSize = 'default' | 'small'

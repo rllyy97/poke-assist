@@ -37,7 +37,7 @@ const MoveTile = (props: MoveTileProps) => {
   const numHitsString = meta?.max_hits > 1 ? ` * ${meta?.min_hits}-${meta?.max_hits}` : ''
   const powerString = `${power}${numHitsString} BP`
 
-  const effectString = effect_entries[0]?.effect.replaceAll('$effect_chance', effect_chance?.toString())
+  const effectString = effect_entries?.find(e => e.language.name === 'en')?.effect?.replaceAll('$effect_chance', effect_chance?.toString())
 
   const moveCategoryIcon = damage_class.name === 'physical'
     ? PhysicalIcon

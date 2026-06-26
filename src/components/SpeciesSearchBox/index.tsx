@@ -1,21 +1,26 @@
 import { Autocomplete, TextField } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useApiStatus } from "../../store/api/apiSelectors"
 import { setApiStatus } from "../../store/api/apiSlice"
 import { AutocompleteImg } from "../../styles"
 import { CapitalizeFirstLetter, IdFromSpeciesUrl, SpriteUrlFromId } from "../../utilities/stringManipulation"
 import { setSelectedPokemon } from "../../store/appStatus/appStatusSlice"
-import { useCurrentPokemonSpecies } from "../../hooks/query"
+import { useSelectedPokemonId } from "../../store/appStatus/appStatusSelectors"
 
 
 const SpeciesSearchBox = () => {
 
   const dispatch = useDispatch()
   const apiStatus = useApiStatus()
-  const { data: pokemon } = useCurrentPokemonSpecies()
+  const selectedId = useSelectedPokemonId()
 
-  const [allNames, setAllNames] = useState<{name: string, id: string}[]>([])
+  const [allNames, setAllNames] = useState<{name: string, id: number}[]>([])
+
+  const currentValue = useMemo(() => {
+    if (!selectedId || allNames.length === 0) return null
+    return allNames.find((p) => p.id === selectedId) ?? null
+  }, [selectedId, allNames])
 
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon-species?limit=10000`)
@@ -37,6 +42,8 @@ const SpeciesSearchBox = () => {
       id="species-search-box"
       disabled={apiStatus !== 'connected'}
       options={allNames}
+      value={currentValue}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       onChange={(_e: any, newValue: any) => {
         if (newValue?.id) {
           dispatch(setSelectedPokemon(newValue?.id));
@@ -50,8 +57,8 @@ const SpeciesSearchBox = () => {
           label="Pokemon Name"
           InputProps={{
             ...params.InputProps,
-            startAdornment: pokemon?.id && (
-              <AutocompleteImg alt={''} src={SpriteUrlFromId(pokemon?.id)} />
+            startAdornment: selectedId > 0 && (
+              <AutocompleteImg alt={''} src={SpriteUrlFromId(selectedId)} />
             )
           }}
         />
